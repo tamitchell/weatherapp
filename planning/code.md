@@ -8,3 +8,6 @@ The most challenging part I presume of this project will be converting the latit
 
 I have prepared to base files, one in ```javascript```, which I have experience in, and the other in ```python``` a language I am still learning, that will act as the core drivers in this project. If time is coming fast and I find that still have not progressed as far as I need to in python then I will switch to React.js and run the app from there.
 
+UPDATED: 09/11/2018 Switched React
+
+I switched to react because I am more familiar with the language and this is due in 3 days
