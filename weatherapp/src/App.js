@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Search from "./Search";
-import WeatherHOC from './Weather'
-import LocationHOC from './Location'
+import Weather from './Weather'
+import Location from './Location'
 import "./App.css";
 
 class App extends Component {
@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       userinput: '',
       results: [],
-      weather: []
+      weather: {}
     };
   }
 
@@ -32,7 +32,6 @@ class App extends Component {
     let res = await fetch(proxyurl + url)
     let json = await res.json()
     await this.setState({ weather: json})
-    console.log(this.state.weather)
   }
 
   render() {
@@ -42,11 +41,11 @@ class App extends Component {
         <Search 
         handleSubmit={this.handleSubmit}
         />
-        <LocationHOC 
+        <Location
         result={this.state.results}
         getWeather={this.getWeather}
         />
-        <WeatherHOC
+        <Weather
          data={this.state.weather}
          />
       </div>
