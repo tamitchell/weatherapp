@@ -1,17 +1,33 @@
 import React from "react";
 
-function Location() {
-    return(
-        <div>
-            <h1>Hi I'm the locations!!</h1>
+function Location(props) {
+  let showLocation;
+  if (props.result != null || undefined) {
+    showLocation = props.result.map((obj, i) => {
+        console.log(obj.location.lat, obj.location.lng)
+      return (
+        <div key={i}>
+          <button onClick={props.getWeather(obj.location.lat, obj.location.lng)}>
+            <p>{obj.formatted_address}</p>
+          </button>
         </div>
-    )
+      );
+    });
+  } else {
+      showLocation = <div>No results found</div>
+  }
+  return (
+    <div>
+      {showLocation}
+    </div>
+  );
 }
 
-export default function LocationHOC(lat, lng) {
-    return (
-        <div>
-            <Location />
-        </div>
-    )
+export default function LocationHOC(props) {
+  console.log(props);
+  return (
+    <div>
+      <Location {...props} />
+    </div>
+  );
 }
