@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Search from "./Search";
+import Search from "./Search"
 import Weather from './Weather'
 import Location from './Location'
-import "./App.css";
+import "../sass/App.scss";
 
 class App extends Component {
   constructor() {
