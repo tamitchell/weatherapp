@@ -37,7 +37,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>weather app</h1>
         <Search 
         handleSubmit={this.handleSubmit}
         />

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 export default class Search extends Component {
   constructor() {
     super();
@@ -12,13 +11,13 @@ export default class Search extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="container-fluid search-component">
         <form onSubmit={(e) => this.props.handleSubmit(e, this.state.userinput)} >
           <input
             type="text"
-            name="query"
+            class="browser-default"
             onChange={this.handleChange}
-            placeholder="I'm a searchbar"
+            placeholder="Enter in a city, zipcode, or address"
           />
           <input type="submit"/>
         </form>
