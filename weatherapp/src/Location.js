@@ -7,7 +7,7 @@ function Location(props) {
         console.log(obj.location.lat, obj.location.lng)
       return (
         <div key={i}>
-          <button onClick={props.getWeather(obj.location.lat, obj.location.lng)}>
+          <button onClick={() => props.getWeather(obj.location.lat, obj.location.lng)}>
             <p>{obj.formatted_address}</p>
           </button>
         </div>
@@ -24,7 +24,6 @@ function Location(props) {
 }
 
 export default function LocationHOC(props) {
-  console.log(props);
   return (
     <div>
       <Location {...props} />
