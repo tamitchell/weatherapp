@@ -15,12 +15,12 @@ export default class Search extends Component {
         <form 
         onSubmit={(e) => this.props.handleSubmit(e, this.state.userinput)} >
           <input
-            type="text"
+            type="search"
             className="browser-default"
             onChange={this.handleChange}
             placeholder="Enter in a city, zipcode, or address"
+            results
           />
-          <input type="submit"/>
         </form>
       </div>
     );
