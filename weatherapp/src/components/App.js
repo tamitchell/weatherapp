@@ -33,7 +33,7 @@ class App extends Component {
 
   getWeather = async (lat, lng) => {
     const key = "827cb0f86be6d0f872e35b6151c99e6c";
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const proxyurl = "https://agile-journey-28298.herokuapp.com/";
     const url = `https://api.darksky.net/forecast/${key}/${lat},${lng}`
     let res = await fetch(proxyurl + url)
     let json = await res.json()
