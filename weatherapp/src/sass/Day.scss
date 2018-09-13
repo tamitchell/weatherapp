@@ -1,11 +1,37 @@
 @import "mixins";
-
+.week-container {
+    @include flexbox();
+    flex-flow: column nowrap;
 .days-container {
     max-width: 80vw;
+    min-width: 80vw;
     padding: 1em;
-    @include flexbox();
-    flex-flow: row nowrap;
     background: rgba($color: #29051D, $alpha: 0.15);
     box-shadow: 0 3px 12px 3px rgba($color: #000, $alpha: 0.3);
+    margin: 1em;
     @include zoom();
+    span {
+        @include flexbox();
+        p {
+            padding: 0.3em;
+        }
+    }
+}
+}
+
+@media screen and (min-width: 768px) {
+    .week-container {
+        @include flexbox();
+        flex-flow: row nowrap;
+        border: 1px solid blue;
+        overflow-y: scroll;
+        .days-container {
+            border: 1px solid green;
+            @include flexbox();
+            flex-flow: row wrap;
+            min-width: 20vw;
+            max-width: 20vw;
+            margin: 1em;
+        }
+    }
 }
