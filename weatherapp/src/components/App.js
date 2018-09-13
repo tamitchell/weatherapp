@@ -3,6 +3,8 @@ import Search from "./Search"
 import Weather from './Weather'
 import Location from './Location'
 import "../sass/App.scss";
+import "../sass/Weather.scss"
+import "../sass/Location.scss"
 
 class App extends Component {
   constructor() {
@@ -10,6 +12,7 @@ class App extends Component {
     this.state = {
       userinput: '',
       results: [],
+      icon: '',
       weather: {}
     };
   }

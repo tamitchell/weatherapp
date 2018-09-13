@@ -12,10 +12,11 @@ export default class Search extends Component {
   render() {
     return (
       <div className="container-fluid search-component">
-        <form onSubmit={(e) => this.props.handleSubmit(e, this.state.userinput)} >
+        <form 
+        onSubmit={(e) => this.props.handleSubmit(e, this.state.userinput)} >
           <input
             type="text"
-            class="browser-default"
+            className="browser-default"
             onChange={this.handleChange}
             placeholder="Enter in a city, zipcode, or address"
           />

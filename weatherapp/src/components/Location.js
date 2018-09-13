@@ -5,7 +5,7 @@ export default function Location({...props}) {
   if (props.result != null || undefined) {
     showLocation =  props.result.slice(0, 3).map((obj, i) => {
       return (
-        <div key={i} className="container">
+        <div key={i} className="hoverable">
           <button onClick={() => props.getWeather(obj.location.lat, obj.location.lng)}>
             <p>{obj.formatted_address}</p>
           </button>
@@ -13,11 +13,10 @@ export default function Location({...props}) {
       );
     });
   } else {
-      let date = new Date()
-      showLocation = <div>No results found</div>
+      showLocation = <div className="container">No results found</div>
   }
   return (
-    <div>
+    <div className="container-fluid location-component">
       {showLocation}
     </div>
   );

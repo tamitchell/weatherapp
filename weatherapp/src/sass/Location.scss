@@ -1,0 +1,13 @@
+@import "mixins";
+
+.location-component{
+    @include flexbox();
+    padding: 1em;
+  button {
+    width: 25vw;
+    height: 15vh;
+    border: none;
+    background-color: transparent;
+    margin: 0.3em;
+  }
+}
