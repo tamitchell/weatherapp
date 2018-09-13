@@ -1,0 +1,11 @@
+@import "mixins";
+
+.days-container {
+    max-width: 80vw;
+    padding: 1em;
+    @include flexbox();
+    flex-flow: row nowrap;
+    background: rgba($color: #29051D, $alpha: 0.15);
+    box-shadow: 0 3px 12px 3px rgba($color: #000, $alpha: 0.3);
+    @include zoom();
+}

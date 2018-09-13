@@ -1,4 +1,8 @@
 import React from "react";
+import humidityimg from '../img/humidity.png'
+import umbrella from '../img/umbrella.png'
+import windspeedimg from '../img/windspeed.png'
+import uv from '../img/uv.png'
 
 function Week(props) {
   let obj = props.data;
@@ -6,15 +10,16 @@ function Week(props) {
 }
 
 function Day(props) {
-//   console.log(props.data);
   return (
-    <div>
-      {props.data.summary}
-      {props.data.apparentTemperatureHigh}
+    <div className="row days-container">
       <img
         src={require(`../img/${props.data.icon}.png`)}
         alt={props.data.icon}
       />
+      <p>
+      {props.data.summary}
+      {props.data.apparentTemperatureHigh}
+      </p>
     </div>
   );
 }
@@ -35,10 +40,10 @@ export default function Weather(props) {
       </div>
     );
   } else {
-    console.log(props.location.formatted_address);
     let temp = Math.round(obj.currently.temperature);
-    let percent =
-      parseFloat(obj.currently.precipProbability * 100).toFixed(0) + "%";
+    let windspeed = Math.round(obj.currently.windSpeed)
+    let percent = parseFloat(obj.currently.precipProbability * 100).toFixed(0) + "%";
+    let humidity = parseFloat(obj.currently.humidity * 100).toFixed(0) + "%";
     return (
       <div className="container-fluid">
         <div className="container weather-component">
@@ -48,16 +53,44 @@ export default function Weather(props) {
               className="main-img"
               alt={obj.currently.icon}
             />
-            <p className="temp">{temp}&#8457;</p>
-            <p>{obj.minutely.summary}</p>
+            <p className="temp">
+              {temp}
+              &#8457;
+            </p>
+            <span className="summary">
+              <p>{obj.minutely.summary}</p>
+            </span>
           </div>
-          <p>Humidity: {obj.currently.humidity}</p>
-          <p>
-            WindSpeed: {obj.currently.windSpeed}
-            mph
-          </p>
-          <p>UV : {obj.currently.uvIndex}</p>
-          <p>Precipation Probability: {percent}</p>
+          <span className="weather-details">
+            <p>
+            <img 
+            src={humidityimg}
+            title="Humidity"
+            alt="Humidity icon" />
+            {humidity}</p>
+            <p>
+            <img 
+            src={windspeedimg}
+            title="Wind Speed"
+            alt="Wind Speed icon" />
+             {windspeed}
+              mph
+            </p>
+            
+            <p>
+            <img 
+            src={uv}
+            title="Level of UV Radiation"
+            alt="Level of UV Radiation icon" /> 
+            {obj.currently.uvIndex}
+            </p>
+            <p>
+            <img 
+            src={umbrella}
+            title="Precipation Probability"
+            alt="Precipation Probability icon" />
+             {percent}</p>
+          </span>
         </div>
         <Week data={obj.daily.data} />
       </div>
