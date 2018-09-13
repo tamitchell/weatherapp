@@ -5,8 +5,8 @@ export default function Location({...props}) {
   if (props.result != null || undefined) {
     showLocation =  props.result.slice(0, 3).map((obj, i) => {
       return (
-        <div key={i} className="hoverable">
-          <button onClick={() => props.getWeather(obj.location.lat, obj.location.lng)}>
+        <div key={i}>
+          <button className="waves-effect waves-light" onClick={() => props.getWeather(obj.location.lat, obj.location.lng)}>
             <p>{obj.formatted_address}</p>
           </button>
         </div>

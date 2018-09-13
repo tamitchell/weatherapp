@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Search from "./Search"
 import Weather from './Weather'
 import Location from './Location'
-// import Week from './Week'
 import "../sass/App.scss";
 
 
@@ -15,6 +14,10 @@ class App extends Component {
       icon: '',
       weather: {}
     };
+  }
+
+  componentDidMount() {
+    //get user location automatically
   }
 
   handleSubmit = async (e, input) => {
@@ -35,7 +38,7 @@ class App extends Component {
     let res = await fetch(proxyurl + url)
     let json = await res.json()
     await this.setState({ weather: json})
-  }
+  } 
 
   render() {
     return (
@@ -49,10 +52,8 @@ class App extends Component {
         />
         <Weather
          data={this.state.weather}
+         location={this.state.results}
          />
-         {/* <Week 
-         data={this.state.weather}
-         /> */}
       </div>
     );
   }

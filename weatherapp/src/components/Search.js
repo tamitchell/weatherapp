@@ -19,7 +19,6 @@ export default class Search extends Component {
             className="browser-default"
             onChange={this.handleChange}
             placeholder="Enter in a city, zipcode, or address"
-            results
           />
         </form>
       </div>

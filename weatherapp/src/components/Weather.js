@@ -6,7 +6,7 @@ function Week(props) {
 }
 
 function Day(props) {
-  console.log(props.data);
+//   console.log(props.data);
   return (
     <div>
       {props.data.summary}
@@ -35,21 +35,22 @@ export default function Weather(props) {
       </div>
     );
   } else {
+    console.log(props.location.formatted_address);
     let temp = Math.round(obj.currently.temperature);
     let percent =
       parseFloat(obj.currently.precipProbability * 100).toFixed(0) + "%";
     return (
       <div className="container-fluid">
         <div className="container weather-component">
-          <div className="main-weather center-align">
+          <div className="main-weather">
             <img
               src={require(`../img/${obj.currently.icon}.png`)}
+              className="main-img"
               alt={obj.currently.icon}
             />
-            <p className="temp">{temp}</p>
-            <p>{obj.currently.summary}</p>
+            <p className="temp">{temp}&#8457;</p>
+            <p>{obj.minutely.summary}</p>
           </div>
-          <p>{obj.minutely.summary}</p>
           <p>Humidity: {obj.currently.humidity}</p>
           <p>
             WindSpeed: {obj.currently.windSpeed}
