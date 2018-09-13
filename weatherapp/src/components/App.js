@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Search from "./Search"
 import Weather from './Weather'
 import Location from './Location'
+// import Week from './Week'
 import "../sass/App.scss";
 import "../sass/Weather.scss"
 import "../sass/Location.scss"
@@ -50,6 +51,9 @@ class App extends Component {
         <Weather
          data={this.state.weather}
          />
+         {/* <Week 
+         data={this.state.weather}
+         /> */}
       </div>
     );
   }
