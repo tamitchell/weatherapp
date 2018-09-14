@@ -49,7 +49,6 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "postinstall": "webpack -p"
   },
   "devDependencies": {
     "node-sass": "^4.9.3",
