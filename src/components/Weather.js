@@ -6,32 +6,44 @@ import uv from "../img/uv.png";
 
 function Week(props) {
   let obj = props.data;
-  delete obj[0]
+  delete obj[0];
   return obj.map((instance, i) => <Day key={i} data={instance} />);
 }
 
 function Day(props) {
-  console.log(props.data)
+  console.log(props.data);
   let hitemp = Math.round(props.data.apparentTemperatureHigh);
   let lotemp = Math.round(props.data.apparentTemperatureLow);
-  let date = new Date(props.data.time * 1000)
+  let date = new Date(props.data.time * 1000);
   return (
     <div className=" days-container">
       <span>
-        <img
-          src={require(`../img/${props.data.icon}.png`)}
-          alt={props.data.icon}
-        />
-        <p>{date.toLocaleDateString('us-EN', { weekday: 'long' })}</p>
+        <p>{date.toLocaleDateString("us-EN", { weekday: "short" })}</p>
+        <p>
+          HI {hitemp}
+          &#8457;
+        </p>
+        <p>
+          LO {lotemp}
+          &#8457;
+        </p>
+        <p>
+          <img
+            src={require(`../img/${props.data.icon}.png`)}
+            alt={props.data.icon}
+          />
+        </p>
         <p className="hide-on-med-and-up">{props.data.summary}</p>
-        <p>HI {hitemp}&#8457;</p>
-        <p>LO {lotemp}&#8457;</p>
+      </span>
+      <span>
+
       </span>
     </div>
   );
 }
 
 export default function Weather(props) {
+  console.log(props.location)
   let obj = props.data;
   let date = new Date();
   let options = {
@@ -42,12 +54,17 @@ export default function Weather(props) {
   };
   if (!obj || !Object.getOwnPropertyNames(obj).length) {
     return (
-      <div className="container date flow-text">
-        Today is {date.toLocaleDateString("en-US", options)}
+      <div>
+        <div className="container date flow-text">
+          Today is {date.toLocaleDateString("en-US", options)}
+        </div>
+        <div className="progress">
+          <div className="indeterminate" />
+        </div>
       </div>
     );
   } else {
-    console.log(obj)  
+    console.log(props.address);
     let temp = Math.round(obj.currently.temperature);
     let windspeed = Math.round(obj.currently.windSpeed);
     let percent =
@@ -56,6 +73,7 @@ export default function Weather(props) {
     return (
       <div className="container-fluid">
         <div className="container weather-component">
+        <p>{props.address}</p>
           <div className="main-weather">
             <img
               src={require(`../img/${obj.currently.icon}.png`)}
@@ -104,7 +122,7 @@ export default function Weather(props) {
           </span>
         </div>
         <div className="container-fluid week-container">
-        <Week data={obj.daily.data} />
+          <Week data={obj.daily.data} />
         </div>
       </div>
     );

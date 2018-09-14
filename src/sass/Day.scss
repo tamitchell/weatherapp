@@ -23,10 +23,8 @@
     .week-container {
         @include flexbox();
         flex-flow: row nowrap;
-        border: 1px solid blue;
         overflow-y: scroll;
         .days-container {
-            border: 1px solid green;
             @include flexbox();
             flex-flow: row wrap;
             min-width: 20vw;

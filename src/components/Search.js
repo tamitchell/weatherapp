@@ -13,7 +13,7 @@ export default class Search extends Component {
     return (
       <div className="container-fluid search-component">
         <form 
-        onSubmit={(e) => this.props.handleSubmit(e, this.state.userinput)} >
+        onSubmit={(e) => this.props.getLatLng(e, this.state.userinput)} >
           <input
             type="search"
             className="browser-default"
