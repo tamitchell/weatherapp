@@ -2,4 +2,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background: linear-gradient(217deg, rgba(205, 67, 68, 0.8),rgba(205, 67, 68, 0) 70.71%),
+  linear-gradient(127deg, rgba(39, 4, 27, 0.8), rgba(39, 4, 27, 0) 70.71%),
+  linear-gradient(336deg, rgba(96, 59, 75, 0.8), rgba(96, 59, 75, 0) 70.71%);
+background-repeat: no-repeat;
+background-attachment: fixed;
+color: white;
 }

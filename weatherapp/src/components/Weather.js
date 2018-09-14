@@ -6,21 +6,15 @@ import uv from "../img/uv.png";
 
 function Week(props) {
   let obj = props.data;
+  delete obj[0]
   return obj.map((instance, i) => <Day key={i} data={instance} />);
 }
-
-// function formatdate(props) {
-//     let date = new Date(props.data.time)
-//     let options ={ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-//     return date.toLocaleDateString('us-EN', options)
-// }
 
 function Day(props) {
   console.log(props.data)
   let hitemp = Math.round(props.data.apparentTemperatureHigh);
   let lotemp = Math.round(props.data.apparentTemperatureLow);
-//   let date = new Date(props.data.time)
-//   let options ={ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+  let date = new Date(props.data.time * 1000)
   return (
     <div className=" days-container">
       <span>
@@ -28,7 +22,7 @@ function Day(props) {
           src={require(`../img/${props.data.icon}.png`)}
           alt={props.data.icon}
         />
-        {/* <p>{date.toLocaleDateString('us-EN', options)}</p> */}
+        <p>{date.toLocaleDateString('us-EN', { weekday: 'long' })}</p>
         <p className="hide-on-med-and-up">{props.data.summary}</p>
         <p>HI {hitemp}&#8457;</p>
         <p>LO {lotemp}&#8457;</p>
