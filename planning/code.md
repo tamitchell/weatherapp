@@ -2,7 +2,7 @@ This is a weather app. The purpose of this app is to allow users to query their 
 
 Code
 
-The __backend__ will be handled by python3.6 that will handle the HTTP request to ```GET``` data from the API. For this project, I will be using Dark Sky's Weather API and MapBox for geocoding the latitude and longitude request.
+For this project, I will be using Dark Sky's Weather API and Geocodio for geocoding the latitude and longitude request.
 
 The most challenging part I presume of this project will be converting the latitude and longitude into human readable addresses and vice versa. I also predict that being able to send the request from front end and backend will cause trouble as well
 

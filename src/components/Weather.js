@@ -58,9 +58,12 @@ export default function Weather(props) {
         <div className="container date flow-text">
           Today is {date.toLocaleDateString("en-US", options)}
         </div>
+        <span className="loader-wrapper">
+        <p>Gathering Local Weather Data...</p>
         <div className="progress">
           <div className="indeterminate" />
         </div>
+        </span>
       </div>
     );
   } else {

@@ -6,6 +6,13 @@
     font: $titles;
     margin: 3em;
   }
+  .loader-wrapper {
+    p {
+      margin-top: 30vh;
+      font-size: 16px;
+      text-align: center;
+    }
+  }
 
 .weather-component {
     @include flexbox();
@@ -26,10 +33,11 @@
     .main-img {
       width: 35vw;
       max-width: 200px;
+      min-width: 130px;
       margin: 1em;
     }
     .temp {
-      font-size: 10vh;
+      font-size: 9vh;
       margin: 0.5em;
     }
     .summary {
