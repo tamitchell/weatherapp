@@ -7,8 +7,12 @@
     margin: 3em;
   }
   .loader-wrapper {
+    display: block;
+    margin: auto;
+    text-align: center;
+    margin-top: 25vh;
     p {
-      margin-top: 30vh;
+      margin: 1em;
       font-size: 16px;
       text-align: center;
     }

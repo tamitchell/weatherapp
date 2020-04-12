@@ -1,20 +1,17 @@
-@import "mixins";
+@import "./mixins.scss";
+@import "./variables.scss";
 
 .search-component {
   @include flexbox();
   padding: 2em;
   input[type="search"] {
-    border: 1px solid whitesmoke;
-    color: whitesmoke;
-    background-color: transparent;
-    border-radius: 25px;
-    padding: 1em;
+    border: 1px solid $body-regular-color;
+    color: $body-regular-color;
+    border-radius: 4px;
+    padding: 1em 2em 1em 1em;
     width: 30vw;
     min-width: 380px;
     height:50px;
-    padding-right:25px;   
-    background: url("../img/search.png")  right     no-repeat;
-    background-position: 95%;
   }
 }
 

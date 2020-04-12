@@ -3,6 +3,7 @@ import humidityimg from "../img/humidity.png";
 import umbrella from "../img/umbrella.png";
 import windspeedimg from "../img/windspeed.png";
 import uv from "../img/uv.png";
+import {Loader} from './Loader';
 
 function Week(props) {
   let obj = props.data;
@@ -55,19 +56,13 @@ export default function Weather(props) {
   if (!obj || !Object.getOwnPropertyNames(obj).length) {
     return (
       <div>
-        <div className="container date flow-text">
+        {/* <div className="container date flow-text">
           Today is {date.toLocaleDateString("en-US", options)}
-        </div>
-        <span className="loader-wrapper">
-        <p>Gathering Local Weather Data...</p>
-        <div className="progress">
-          <div className="indeterminate" />
-        </div>
-        </span>
+        </div> */}
+        <Loader/>
       </div>
     );
   } else {
-    console.log(props.address);
     let temp = Math.round(obj.currently.temperature);
     let windspeed = Math.round(obj.currently.windSpeed);
     let percent =
