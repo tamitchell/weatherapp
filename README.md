@@ -1,39 +1,36 @@
-# [FirstCall - Weather App](https://firstcall-weather.surge.sh/)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-A React Based Application that uses Dark Sky's web API to gather weather data and Geocodio's API to render weather conditions based on user's desired location
+## Getting Started
 
-## Project Purpose
+First, run the development server:
 
-This is a weather app. The purpose of this app is to allow users to query their desired location and retrieve weather information according to that specific location. 
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-For this project, I will be using Dark Sky's Weather API and Geocodio for geocoding the latitude and longitude request.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-The most challenging part I presume of this project will be converting the latitude and longitude into human readable addresses and vice versa. I also predict that being able to send the request from front end and backend will cause trouble as well
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-I have prepared to base files, one in ```javascript```, which I have experience in, and the other in ```python``` a language I am still learning, that will act as the core drivers in this project. If time is coming fast and I find that still have not progressed as far as I need to in python then I will switch to React.js and run the app from there.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-UPDATE: 09/11/2018 Switched React
+## Learn More
 
-### Installing
+To learn more about Next.js, take a look at the following resources:
 
-To run this app, an `npm install` sufficient enough. 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-This app uses the following languages, webpacks, and methodologies
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-* Javascript(ES6)
-* React.JS
-* Babel
-* SASS
+## Deploy on Vercel
 
-## Deployment
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-This site was deployed with [Surge - Static web publishing
-for Front-End Developers](https://surge.sh/)
-
-## Built With
-
-## Acknowledgments
-A big thanks to my teachers 
-
-* @dmc
-* @Hectorlito
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
