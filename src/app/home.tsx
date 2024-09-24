@@ -1,15 +1,15 @@
 "use client";
-import { HomeProps, WeatherData, Result } from "@/types";
+
+import { WeatherData, Result } from "@/types";
 import clsx from "clsx";
 import { useState, FormEvent, useEffect } from "react";
 import Search from "./search";
 import Weather from "./weather";
 import Location from "./location";
 
-
-export default function ClientSideHome({ initialWeather, initialAddress }: HomeProps) {
-    const [weather, setWeather] = useState<WeatherData | null>(initialWeather);
-    const [address, setAddress] = useState<string>(initialAddress);
+export default function Home() {
+    const [weather, setWeather] = useState<WeatherData | null>();
+    const [address, setAddress] = useState<string | null>();
     const [results, setResults] = useState<Result[]>([]);
   
     const getLatLng = async (e: FormEvent, input: string): Promise<void> => {
@@ -26,9 +26,14 @@ export default function ClientSideHome({ initialWeather, initialAddress }: HomeP
     };
   
     const getWeather = async (lat: number, lng: number, address: string): Promise<void> => {
-      const url = `/api/weather?lat=${lat}&lng=${lng}`;
+        const baseUrl = process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000';
       try {
-        const res = await fetch(url);
+        const res = await fetch(`${baseUrl}/api/weather?lat=${lat}&lng=${lng}`);
+        if (!res.ok) {
+          throw new Error(`Weather API responded with status: ${res.status}`);
+        }
         const json = await res.json();
         setWeather(json);
         setAddress(address);
@@ -54,8 +59,7 @@ export default function ClientSideHome({ initialWeather, initialAddress }: HomeP
       <div className={clsx("border-2 min-h-screen flex flex-col")}>
         <Search getLatLng={getLatLng} />
         <Location results={results} getWeather={getWeather} />
-        <Weather data={weather} address={address} />
+        {!weather && !address ? null :  <Weather data={weather!} address={address!} />}
       </div>
     );
   }
-  

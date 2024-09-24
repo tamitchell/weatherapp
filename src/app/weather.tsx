@@ -4,74 +4,74 @@ import React from "react";
 import Image from "next/image";
 
 import humidityImg from "@/img/humidity.png";
-import umbrellaImg from "@/img/umbrella.png";
 import windspeedImg from "@/img/windspeed.png";
 import uvImg from "@/img/uv.png";
 import { WeatherProps } from "@/types";
 import clsx from 'clsx';
-import { baseStyles, imageStyles, textStyles, weatherStyles } from "./styles/styles"; // Adjust path as necessary
+import { imageStyles, weatherStyles } from "./styles/styles"; // Adjust path as necessary
 
 
 export default function Weather({ data, address }: WeatherProps) {
-  const date = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
+  if (!data) return null;
 
-  if (!data || !data.current) {
-    return (
-      <div>
-        <div className={textStyles.regular}>
-          Loading weather data...
-        </div>
-        <span className={baseStyles.flexCenter}>
-          <p>Gathering Local Weather Data...</p>
-          {/* <div className={weatherStyles.progress}>
-            <div className={weatherStyles.indeterminate} />
-          </div> */}
-        </span>
-      </div>
-    );
-  }
+  // const date = new Date();
+  // const options: Intl.DateTimeFormatOptions = {
+  //   weekday: "long",
+  //   year: "numeric",
+  //   month: "long",
+  //   day: "numeric",
+  // };
 
-  if (!data) {
-    return (
-      <div>
-        <div className={baseStyles.container}>
-          Today is {date.toLocaleDateString("en-US", options)}
-        </div>
-        <span className={baseStyles.container}>
-          {/* <p>Gathering Local Weather Data...</p> */}
-          {/* <div className={styles.progress}>
-              <div className={styles.indeterminate} />
-            </div> */}
-        </span>
-      </div>
-    );
-  }
-  const temp = Math.round(data.current.temp);
-  const windspeed = Math.round(data.current.wind_speed);
-  const humidity = `${data.current.humidity}%`;
-  const uvi = Math.round(data.current.uvi);
-  const pop = data.daily[0] ? `${(data.daily[0].pop * 100).toFixed(0)}%` : 'N/A';
+  // if (!data || !data.current) {
+  //   return (
+  //     <div>
+  //       <div className={textStyles.regular}>
+  //         Loading weather data...
+  //       </div>
+  //       <span className={baseStyles.flexCenter}>
+  //         <p>Gathering Local Weather Data...</p>
+  //         {/* <div className={weatherStyles.progress}>
+  //           <div className={weatherStyles.indeterminate} />
+  //         </div> */}
+  //       </span>
+  //     </div>
+  //   );
+  // }
+
+  // if (!data) {
+  //   return (
+  //     <div>
+  //       <div className={baseStyles.container}>
+  //         Today is {date.toLocaleDateString("en-US", options)}
+  //       </div>
+  //       <span className={baseStyles.container}>
+  //         {/* <p>Gathering Local Weather Data...</p> */}
+  //         {/* <div className={styles.progress}>
+  //             <div className={styles.indeterminate} />
+  //           </div> */}
+  //       </span>
+  //     </div>
+  //   );
+  // }
+
+const temp = Math.round(data.main.temp - 273.15); // Convert Kelvin to Celsius
+  const feelsLike = Math.round(data.main.feels_like - 273.15)
 
   return (
     <div className={clsx(weatherStyles.component)}>
       <p>{address}</p>
       <div className={clsx(weatherStyles.mainWeather)}>
         <Image
-          src={`/images/${data.current.weather[0].icon}.png`}
+          src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
           className={clsx(weatherStyles.mainImg)}
-          alt={data.current.weather[0].description}
+          alt={data.weather[0].description}
           width={100}
           height={100}
         />
         <p className={clsx(weatherStyles.temp)}>{temp}&#8457;</p>
         <span className={clsx(weatherStyles.summary)}>
-          <p>{data.current.weather[0].description}</p>
+        <p>{data.weather[0].description}</p>
+        <p>Feels like: {feelsLike}</p>
         </span>
       </div>
       <span className={clsx(weatherStyles.weatherDetails)}>
@@ -84,7 +84,7 @@ export default function Weather({ data, address }: WeatherProps) {
             height={20}
             className={clsx(imageStyles.detailIcon)}
           />
-          {humidity}
+        <p>Humidity: {data.main.humidity}</p>
         </p>
         <p>
           <Image
@@ -95,7 +95,7 @@ export default function Weather({ data, address }: WeatherProps) {
             height={20}
             className={clsx(imageStyles.detailIcon)}
           />
-          {windspeed} mph
+        <p>Wind: {data.wind.speed}</p>
         </p>
         <p>
           <Image
@@ -106,18 +106,7 @@ export default function Weather({ data, address }: WeatherProps) {
             height={20}
             className={clsx(imageStyles.detailIcon)}
           />
-          {uvi}
-        </p>
-        <p>
-          <Image
-            src={umbrellaImg}
-            title="Probability of Precipitation"
-            alt="Probability of Precipitation icon"
-            width={20}
-            height={20}
-            className={clsx(imageStyles.detailIcon)}
-          />
-          {pop}
+        <p>Pressure: {data.main.pressure} hPa</p>
         </p>
       </span>
     </div>
