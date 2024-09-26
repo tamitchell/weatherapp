@@ -1,5 +1,7 @@
+"use client";
+import React from "react";
+import { textStyles } from "@/app/styles/styles";
 import clsx from "clsx";
-import { textStyles } from "./styles/styles";
 import Image from "next/image";
 
 type DayProps = {

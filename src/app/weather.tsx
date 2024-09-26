@@ -8,51 +8,11 @@ import windspeedImg from "@/img/windspeed.png";
 import uvImg from "@/img/uv.png";
 import { WeatherProps } from "@/types";
 import clsx from 'clsx';
-import { imageStyles, weatherStyles } from "./styles/styles"; // Adjust path as necessary
+import { imageStyles, weatherStyles } from "@/app/styles/styles";
 
 
 export default function Weather({ data, address }: WeatherProps) {
   if (!data) return null;
-
-  // const date = new Date();
-  // const options: Intl.DateTimeFormatOptions = {
-  //   weekday: "long",
-  //   year: "numeric",
-  //   month: "long",
-  //   day: "numeric",
-  // };
-
-  // if (!data || !data.current) {
-  //   return (
-  //     <div>
-  //       <div className={textStyles.regular}>
-  //         Loading weather data...
-  //       </div>
-  //       <span className={baseStyles.flexCenter}>
-  //         <p>Gathering Local Weather Data...</p>
-  //         {/* <div className={weatherStyles.progress}>
-  //           <div className={weatherStyles.indeterminate} />
-  //         </div> */}
-  //       </span>
-  //     </div>
-  //   );
-  // }
-
-  // if (!data) {
-  //   return (
-  //     <div>
-  //       <div className={baseStyles.container}>
-  //         Today is {date.toLocaleDateString("en-US", options)}
-  //       </div>
-  //       <span className={baseStyles.container}>
-  //         {/* <p>Gathering Local Weather Data...</p> */}
-  //         {/* <div className={styles.progress}>
-  //             <div className={styles.indeterminate} />
-  //           </div> */}
-  //       </span>
-  //     </div>
-  //   );
-  // }
 
 const temp = Math.round(data.main.temp - 273.15); // Convert Kelvin to Celsius
   const feelsLike = Math.round(data.main.feels_like - 273.15)

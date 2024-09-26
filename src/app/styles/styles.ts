@@ -31,7 +31,7 @@ export const baseStyles = {
   
   export const inputStyles = {
     searchInput:
-      "border border-whitesmoke text-whitesmoke bg-transparent rounded-full p-4 w-[30vw] min-w-[380px] h-12 pr-6 bg-no-repeat bg-right focus:outline-none",
+      "border border-whitesmoke text-whitesmoke bg-transparent p-2 w-full h-12 pr-6 bg-no-repeat bg-right focus:outline-none",
   };
   
   export const imageStyles = {

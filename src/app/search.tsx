@@ -1,35 +1,43 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useState } from "react";
-import { SearchProps } from "@/types";
+import {useState } from "react";
 import clsx from "clsx";
-import { baseStyles, inputStyles } from "./styles/styles";
+import { baseStyles } from "@/app/styles/styles";
+import dynamic from 'next/dynamic';
 
-export default function Search({ getLatLng }: SearchProps) {
+
+//Google Places API logic
+
+export default function Search() {
     const [userInput, setUserInput] = useState<string>("");
+    const PlacePicker = dynamic(
+      () =>
+        import('./GooglePlacesPicker').then(
+          (mod) => mod.GooglePlacesPicker,
+        ),
+      { ssr: false },
+    );
 
     // Handler for input change event
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setUserInput(e.target.value);
-    };
-  
-    // Handler for form submission event
-    const handleSubmit = (e: FormEvent) => {
-      e.preventDefault();
-      getLatLng(e, userInput);
+    const handleChange = (e: Event) => {
+      console.log("target", e.currentTarget);
+      setUserInput("");
+      // setUserInput(e.currentTarget ?? "");
     };
 
+    console.log("", userInput)
+  
+    // // Handler for form submission event
+    // const handleSubmit = (e: FormEvent) => {
+    //   e.preventDefault();
+    //   getLatLng(userInput);
+    // };
+
   return (
-    <div className={clsx(baseStyles.flexCenter, "border-2 h-[20vh]")}>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="search"
-          className={clsx(inputStyles.searchInput, "bg-white")}
-          onChange={handleChange}
-          placeholder="Enter a city, zipcode, or address"
-          value={userInput}
-        />
-      </form>
+    <div className={clsx(baseStyles.flexCenter, "w-full py-4 m-0")}>
+      <div className="w-full relative">
+      <PlacePicker handleChange={handleChange} />
+      </div>
     </div>
   );
 }

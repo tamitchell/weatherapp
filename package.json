@@ -1,16 +1,19 @@
 {
-  "name": "my-app",
+  "name": "first-watch-weather",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"next dev\" \"npm run tailwind:css\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "tailwind:css": "tailwindcss -i ./src/app/styles/globals.css -o ./src/app/styles/output.css --watch"
   },
   "dependencies": {
+    "@googlemaps/extended-component-library": "^0.6.11",
+    "@svgr/webpack": "^8.1.0",
     "clsx": "^2.1.1",
+    "concurrently": "^9.0.1",
     "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18"

@@ -1,4 +1,3 @@
-import { FormEvent } from "react";
 
 export interface Coordinates {
   lon: number;
@@ -61,9 +60,10 @@ export interface WeatherData {
     address: string;
   };
   
- export interface SearchProps {
-    getLatLng: (e: FormEvent, input: string) => Promise<void>;
-  };
+//  export interface SearchProps {
+//     getLatLng: (input: string) => Promise<GeocodeResult | null>;
+//     isLoading: boolean;
+//   };
 
   export type Result = {
     formatted_address: string;
@@ -72,6 +72,12 @@ export interface WeatherData {
       lng: number;
     };
   };
+
+  export interface GeocodeResult {
+    lat: number;
+    lng: number;
+    formatted_address: string;
+  }
   
 
   export interface LocationProps {

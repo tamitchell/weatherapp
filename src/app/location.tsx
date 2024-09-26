@@ -2,7 +2,7 @@
 import React from "react";
 import { LocationProps } from "@/types";
 import clsx from "clsx";
-import { baseStyles, buttonStyles } from "./styles/styles";
+import { baseStyles, buttonStyles } from "@/app/styles/styles";
 
 
 
