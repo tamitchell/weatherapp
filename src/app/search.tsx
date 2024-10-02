@@ -1,35 +1,57 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useState } from "react";
-import { SearchProps } from "@/types";
+import { useRef } from "react";
 import clsx from "clsx";
-import { baseStyles, inputStyles } from "./styles/styles";
+import { baseStyles } from "@/app/styles/styles";
+import dynamic from 'next/dynamic';
+import { useWeather } from "./hooks/useWeather";
+import {PlacePicker as TPlacePicker} from '@googlemaps/extended-component-library/place_picker.js';
 
-export default function Search({ getLatLng }: SearchProps) {
-    const [userInput, setUserInput] = useState<string>("");
 
-    // Handler for input change event
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setUserInput(e.target.value);
-    };
-  
-    // Handler for form submission event
-    const handleSubmit = (e: FormEvent) => {
-      e.preventDefault();
-      getLatLng(e, userInput);
+//Google Places API logic
+
+interface GooglePlace {
+  formatted_address: string;
+
+      lat: number;
+      lng: number;
+}
+
+export default function Search() {
+    const { getWeather } = useWeather();
+    const pickerRef = useRef<TPlacePicker>(null);
+
+    const PlacePicker = dynamic(
+      () =>
+        import('./GooglePlacesPicker').then(
+          (mod) => mod.GooglePlacesPicker,
+        ),
+      { ssr: false },
+    );
+
+//Set any here because google response is a proxy that obfiscates the object into getters
+//@ts-expect-error Google Place Picker passes an unknown event
+    const handlePlaceChanged = (event) => {
+      const place = event.target?.value
+      if (place && place.location) {
+        const selectedPlace: GooglePlace = {
+          formatted_address: place.formatted_address,
+          lat: place.location.lat(),
+          lng: place.location.lng(),
+        };
+    
+        getWeather(selectedPlace.lat, selectedPlace.lng, selectedPlace.formatted_address)
+      } else {
+        //throw error
+        console.error('Place data is incomplete or unavailable');
+      }
     };
 
   return (
-    <div className={clsx(baseStyles.flexCenter, "border-2 h-[20vh]")}>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="search"
-          className={clsx(inputStyles.searchInput, "bg-white")}
-          onChange={handleChange}
-          placeholder="Enter a city, zipcode, or address"
-          value={userInput}
-        />
-      </form>
+    <div className={clsx(baseStyles.flexCenter, "w-full py-4 m-0")}>
+      <div className="w-full relative">
+      <PlacePicker ref={pickerRef} handlePlaceChange={handlePlaceChanged} />
+      </div>
     </div>
   );
 }

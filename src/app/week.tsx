@@ -2,6 +2,7 @@
 
 import Day from "./day";
 
+
 type DailyData = {
     apparentTemperatureHigh: number;
     apparentTemperatureLow: number;
