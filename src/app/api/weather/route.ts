@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
      const { searchParams } = new URL(request.url);
      const lat = searchParams.get('lat');
      const lng = searchParams.get('lng');
+     const units = searchParams.get('units') || 'imperial';
 
      if (!lat || !lng) {
        return NextResponse.json({ error: 'Latitude and longitude are required' }, { status: 400 });
@@ -14,7 +15,7 @@ import { NextResponse } from 'next/server';
        return NextResponse.json({ error: 'Missing OpenWeather API key' }, { status: 500 });
      }
 
-     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${apiKey}`;
+     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKey}`;
 
      try {
        const response = await fetch(url);

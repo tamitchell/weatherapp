@@ -1,4 +1,22 @@
 
+export interface WeatherData {
+  coord: Coordinates;
+  weather: WeatherCondition[];
+  base: string;
+  main: MainWeatherData;
+  visibility: number;
+  wind: Wind;
+  clouds: Clouds;
+  dt: number;
+  sys: SysInfo;
+  timezone: number;
+  id: number;
+  name: string;
+  cod: number;
+}
+
+export type Units = "metric" | "imperial";
+
 export interface Coordinates {
   lon: number;
   lat: number;
@@ -37,22 +55,6 @@ export interface SysInfo {
   country: string;
   sunrise: number;
   sunset: number;
-}
-
-export interface WeatherData {
-  coord: Coordinates;
-  weather: WeatherCondition[];
-  base: string;
-  main: MainWeatherData;
-  visibility: number;
-  wind: Wind;
-  clouds: Clouds;
-  dt: number;
-  sys: SysInfo;
-  timezone: number;
-  id: number;
-  name: string;
-  cod: number;
 }
 
   export interface WeatherProps {
@@ -94,4 +96,8 @@ export interface WeatherData {
   export interface PageProps {
     params: { slug: string };
     searchParams: { [key: string]: string | string[] | undefined };
+  }
+
+  export interface PlaceChangeEvent extends Event {
+    detail: { place: google.maps.places.PlaceResult }; // The event detail should have a place object
   }
