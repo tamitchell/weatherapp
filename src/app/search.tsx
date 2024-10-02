@@ -1,6 +1,6 @@
 'use client'
 
-import {ChangeEvent, useRef, useState } from "react";
+import { useRef } from "react";
 import clsx from "clsx";
 import { baseStyles } from "@/app/styles/styles";
 import dynamic from 'next/dynamic';
@@ -18,10 +18,8 @@ interface GooglePlace {
 }
 
 export default function Search() {
-    const { weather, isLoading, error, address, getWeather } = useWeather();
+    const { getWeather } = useWeather();
     const pickerRef = useRef<TPlacePicker>(null);
-    const [place, setSelectedPlace] = useState<GooglePlace | undefined>(undefined);
-    // const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
 
     const PlacePicker = dynamic(
       () =>
@@ -32,7 +30,8 @@ export default function Search() {
     );
 
 //Set any here because google response is a proxy that obfiscates the object into getters
-    const handlePlaceChanged = (event: any) => {
+//@ts-expect-error Google Place Picker passes an unknown event
+    const handlePlaceChanged = (event) => {
       const place = event.target?.value
       if (place && place.location) {
         const selectedPlace: GooglePlace = {
@@ -41,10 +40,8 @@ export default function Search() {
           lng: place.location.lng(),
         };
     
-        setSelectedPlace(selectedPlace);
         getWeather(selectedPlace.lat, selectedPlace.lng, selectedPlace.formatted_address)
       } else {
-        setSelectedPlace(undefined);
         //throw error
         console.error('Place data is incomplete or unavailable');
       }
