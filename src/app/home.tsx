@@ -15,7 +15,7 @@ export default function Home() {
       <LeftPanel weatherData={weather} units={units} address={address || ''} isLoading={isLoading} error={error} />
       </div>
       <div className="w-full md:w-3/4 md:min-h-screen overflow-y-auto">
-        {weather && forecast && <WeeklyForecast forecast={forecast} />} {/* We'll need to update this with actual weekly forecast data */}
+        {weather && forecast && <WeeklyForecast units={units} forecast={forecast} />} {/* We'll need to update this with actual weekly forecast data */}
       </div>
     </div>
   );

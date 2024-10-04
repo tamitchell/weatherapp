@@ -15,6 +15,13 @@ export interface WeatherData {
   cod: number;
 }
 
+export type WeatherQuotes = {
+  rain: string[];
+  clear: string[];
+  clouds: string[];
+  thunderstorm: string[];
+};
+
 export type Units = "metric" | "imperial";
 
 export interface Coordinates {
@@ -182,3 +189,11 @@ export interface SysInfo {
   export interface PlaceChangeEvent extends Event {
     detail: { place: google.maps.places.PlaceResult }; // The event detail should have a place object
   }
+
+
+  export interface IconProps {
+    size?: number | string;
+    color?: string;
+    className?: string;
+  }
+  

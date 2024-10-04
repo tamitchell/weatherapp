@@ -1,11 +1,9 @@
 'use client'
 
-import { useRef } from "react";
 import clsx from "clsx";
 import { baseStyles } from "@/app/styles/styles";
 import dynamic from 'next/dynamic';
 import { useWeather } from "./hooks/useWeather";
-import {PlacePicker as TPlacePicker} from '@googlemaps/extended-component-library/place_picker.js';
 
 
 //Google Places API logic
@@ -19,7 +17,6 @@ interface GooglePlace {
 
 export default function Search() {
     const { getWeather } = useWeather();
-    const pickerRef = useRef<TPlacePicker>(null);
 
     const PlacePicker = dynamic(
       () =>
@@ -48,9 +45,9 @@ export default function Search() {
     };
 
   return (
-    <div className={clsx(baseStyles.flexCenter, "w-full py-4 m-0")}>
+    <div className={clsx(baseStyles.flexCenter, "w-full")}>
       <div className="w-full relative">
-      <PlacePicker ref={pickerRef} handlePlaceChange={handlePlaceChanged} />
+      <PlacePicker handlePlaceChange={handlePlaceChanged} />
       </div>
     </div>
   );

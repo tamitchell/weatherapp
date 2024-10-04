@@ -75,7 +75,7 @@ const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] =>
       
       // Use cached data if it's less than 30 minutes old
       if (cacheAge < 30 * 60 * 1000) {
-        setWeather(data);
+        setWeather(data.weather);
         setForecast(filterForecastByUserTime(data.forecast));
         setAddress(locationAddress);
         setIsLoading(false);

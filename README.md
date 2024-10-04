@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# First Watch Weather App
 
-## Getting Started
+First Watch Weather is a weather app I initially developed inspired by the design of Dark Sky for desktop. My aim was simply to provide the same clean, simple interface on the web. After Dark Sky got bought out by Apple, I updated the design slightly and switched to the OpenWeather API for weather updates. I use the free tier, so updates happen on a slower cadence and may be outdated when comparing with the actual site data, specifically for the 5-day forecast. The work flow remains the same, however - users can verify the current conditions of their current location or any other location with the aid of the location search provided by Google.
 
-First, run the development server:
+## Key Features:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Current Weather:** Get live current weather for any location in the world, right now, based on your current location or any other location that you search.
+- **5-Day Forecast:** Get current conditions and a 5-day forecast with updates every 3 hours.
+- **Location Search:** Use Google Places for searching within cities or specific locations and instantly view the weather.
+- **User Preferences:** Easily switch between imperial and metric units for temperature and wind speed. The user's preference is stored for convenience.
+- **Location Auto-Detection:** The app attempts auto-detection of the user's current location upon being granted access to geolocation.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **React:** A flexible and performance-oriented JavaScript library for building user interfaces.
+- **Next.js:** A powerful React framework for server-side rendering and static site generation.
+- **Google Places API:** Enables location-based search and retrieves detailed location information for cities and landmarks worldwide.
+- **OpenWeather API:** Provides real-time current weather data and a 5-day forecast.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
