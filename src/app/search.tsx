@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { baseStyles } from "@/app/styles/styles";
 import dynamic from 'next/dynamic';
 import { useWeather } from "./hooks/useWeather";
+import { memo } from "react";
 
 
 //Google Places API logic
@@ -15,13 +16,13 @@ interface GooglePlace {
       lng: number;
 }
 
-export default function Search() {
+export default memo(function Search() {
     const { getWeather } = useWeather();
 
     const PlacePicker = dynamic(
       () =>
         import('./GooglePlacesPicker').then(
-          (mod) => mod.GooglePlacesPicker,
+          (mod) => mod.default,
         ),
       { ssr: false },
     );
@@ -49,4 +50,4 @@ export default function Search() {
       <PlacePicker handlePlaceChange={handlePlaceChanged} />
       </div>
   );
-}
+});
