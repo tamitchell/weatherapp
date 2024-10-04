@@ -1,4 +1,4 @@
-import { IconProps } from "@/types";
+import { IconProps } from "@/app/types";
 import IconWrapper from "./IconWrapper";
 
 export default function ChanceOfRain({ size, color, className = '' }: IconProps) {

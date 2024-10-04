@@ -1,4 +1,4 @@
-import { WeatherQuotes } from "@/types";
+import { WeatherQuotes } from "@/app/types";
 
 const quotes: WeatherQuotes = {
     rain: [

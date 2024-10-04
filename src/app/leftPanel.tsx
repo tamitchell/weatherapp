@@ -1,5 +1,5 @@
 "use client";
-import { Units, WeatherData } from "@/types";
+import { Units, WeatherData } from "@/app/types";
 import Search from "./search";
 import clsx from "clsx";
 import { baseStyles } from "@/app/styles/styles";
@@ -7,18 +7,27 @@ import { SkeletonLeftPanelLoader } from "./skeletalLeftPanel";
 import { createWeatherDetails } from "./weatherDetails";
 import Logo from "./icons/Logo";
 import DateDisplay from "./dateDisplay";
+import { useCallback } from "react";
+import UnitsToggle from "./UnitsToggle";
 
 interface LeftPanelProps {
   weatherData: WeatherData | null;
   units: Units;
+  setUnits: (units: Units) => void
   address: string;
   isLoading: boolean;
   error: string | null;
 }
 
-export default function LeftPanel({ weatherData, units, isLoading, error }: LeftPanelProps) {
-  return <div className="bg-white p-4 w-full h-full max-w-md flex flex-col">
-    <div className={clsx("flex items-center justify-start space-between", "w-full text-black h-[3.5em]")}><Logo width={250} height={18} /> </div>
+export default function LeftPanel({ weatherData, units, setUnits, isLoading, error }: LeftPanelProps) {
+  const handleUnitChange = useCallback(() => {
+    setUnits(units === 'imperial' ? 'metric' : 'imperial');
+  }, [units, setUnits]);
+  return <div className="bg-white p-4 w-full h-full flex flex-col">
+    <div className={clsx("flex items-center justify-start space-between", "w-full text-black h-[3.5em]")}>
+      <Logo width={250} height={18} /> 
+      <UnitsToggle units={units} onToggle={handleUnitChange} />
+        </div>
     <div className={clsx(baseStyles.flexCenter, "w-full text-black h-[3.5em]")}>      <Search />
     </div>
 
@@ -28,7 +37,7 @@ export default function LeftPanel({ weatherData, units, isLoading, error }: Left
       <p className="text-red-500">{error}</p>
     ) : weatherData && (
       <>
-       <DateDisplay />
+        <DateDisplay />
 
         <p className="text-lg mb-4 text-charcoal">{weatherData.name}</p>
 

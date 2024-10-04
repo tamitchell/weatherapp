@@ -1,4 +1,4 @@
-import { ForecastData, ForecastItem, LastLocation, Units, WeatherContextProps, WeatherData } from "@/types";
+import { ForecastData, ForecastItem, LastLocation, Units, WeatherContextProps, WeatherData } from "@/app/types";
 import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
 import { DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS } from "../defaultData";
 

@@ -1,4 +1,4 @@
-import { Units, WeatherData } from "@/types";
+import { Units, WeatherData } from "@/app/types";
 import ChanceOfRain from "./icons/ChanceOfRain";
 import Humidity from "./icons/Humidity";
 import WindSpeed from "./icons/WindSpeed";

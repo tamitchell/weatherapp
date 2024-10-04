@@ -1,5 +1,5 @@
 import React from 'react';
-import { ForecastItem, Units } from '@/types';
+import { ForecastItem, Units } from '@/app/types';
 
 interface WeeklyForecastProps {
   forecast: ForecastItem[] | null;
