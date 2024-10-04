@@ -21,7 +21,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
         setUnits(storedUnits);
       }
     }
-  }, []); 
+  }, []);
 
   const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
 
@@ -39,7 +39,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       west: -125.0,
       east: -66.93,
     };
-  
+
     return (
       lat >= usBounds.south &&
       lat <= usBounds.north &&
@@ -49,18 +49,18 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   // Filtering the forecast data based on the user's current time
-const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] => {
-  const currentTime = new Date(); // User's current local time
-  const currentHour = currentTime.getHours(); // Current hour in user's timezone
+  const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] => {
+    const currentTime = new Date(); // User's current local time
+    const currentHour = currentTime.getHours(); // Current hour in user's timezone
 
-  return forecastData.list.filter(entry => {
-    const forecastTimeUTC = new Date(entry.dt * 1000); // Convert UNIX timestamp to Date in UTC
-    const forecastLocalTime = new Date(forecastTimeUTC.getTime() + forecastTimeUTC.getTimezoneOffset() * 60000); // Convert UTC to local time
+    return forecastData.list.filter(entry => {
+      const forecastTimeUTC = new Date(entry.dt * 1000); // Convert UNIX timestamp to Date in UTC
+      const forecastLocalTime = new Date(forecastTimeUTC.getTime() + forecastTimeUTC.getTimezoneOffset() * 60000); // Convert UTC to local time
 
-    // Match forecast entries that are close to the user's current hour (e.g., within a 3-hour range)
-    return Math.abs(forecastLocalTime.getHours() - currentHour) <= 3;
-  });
-};
+      // Match forecast entries that are close to the user's current hour (e.g., within a 3-hour range)
+      return Math.abs(forecastLocalTime.getHours() - currentHour) <= 3;
+    });
+  };
 
   const getWeather = useCallback(async (lat: number, lng: number, locationAddress: string): Promise<void> => {
     setIsLoading(true);
@@ -72,7 +72,7 @@ const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] =>
     if (cachedData) {
       const { data, timestamp } = JSON.parse(cachedData);
       const cacheAge = Date.now() - timestamp;
-      
+
       // Use cached data if it's less than 30 minutes old
       if (cacheAge < 30 * 60 * 1000) {
         setWeather(data.weather);
@@ -98,6 +98,9 @@ const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] =>
       }
       const forecastJson: ForecastData = await forecastRes.json();
 
+      console.log("weather json", weatherJson);
+
+      if (isCountryUS(lat, lng)) { setUnits("imperial") } else { setUnits("metric") }
 
       // Set weather and forecast state
       setWeather(weatherJson);
@@ -123,7 +126,7 @@ const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] =>
     } finally {
       setIsLoading(false);
     }
-  }, [baseUrl, units]);
+  }, [isCountryUS, baseUrl, units]);
 
   useEffect(() => {
     const lastLocationString = window.localStorage.getItem('lastLocation');

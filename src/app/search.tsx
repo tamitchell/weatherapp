@@ -45,10 +45,8 @@ export default function Search() {
     };
 
   return (
-    <div className={clsx(baseStyles.flexCenter, "w-full")}>
-      <div className="w-full relative">
+      <div className={clsx(baseStyles.flexCenter, "w-full")}>
       <PlacePicker handlePlaceChange={handlePlaceChanged} />
       </div>
-    </div>
   );
 }

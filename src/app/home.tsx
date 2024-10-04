@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <div className={clsx("min-h-screen min-w-screen flex")}>
-      <div className="w-full md:w-1/4 md:max-w-[25vw] md:min-h-screen overflow-y-auto">
+      <div className="w-full md:w-1/4 md:max-w-[25vw] md:min-h-screen">
       <LeftPanel weatherData={weather} units={units} address={address || ''} isLoading={isLoading} error={error} />
       </div>
       <div className="w-full md:w-3/4 md:min-h-screen overflow-y-auto">

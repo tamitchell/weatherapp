@@ -26,7 +26,7 @@ export default function IconWrapper({
     >
       {React.Children.map(children, child =>
         React.isValidElement(child)
-          ? React.cloneElement(child as React.ReactElement<any>, { fill: color })
+          ? React.cloneElement(child as React.ReactElement<unknown & {fill: string}>, { fill: color })
           : child
       )}
     </svg>

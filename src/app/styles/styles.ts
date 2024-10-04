@@ -7,6 +7,7 @@ export const baseStyles = {
     rounded: "rounded-full",
     centeredText: "text-center",
     flexCenter: "flex items-center justify-center",
+    flexStart: "flex items-center justify-start",
     flexCol: "flex flex-col",
     flexRow: "flex flex-row",
     bgTransparent: "bg-transparent",
@@ -19,7 +20,7 @@ export const baseStyles = {
   export const textStyles = {
     title: "font-montserrat text-lg",
     regular: "font-raleway text-base",
-    largeTemp: "text-[9vh] m-2",
+    largeTemp: "text-[9vh]",
     date: "mt-12 mb-8",
   };
   

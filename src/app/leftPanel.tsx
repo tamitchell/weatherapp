@@ -2,10 +2,11 @@
 import { Units, WeatherData } from "@/types";
 import Search from "./search";
 import clsx from "clsx";
-import { baseStyles, textStyles } from "@/app/styles/styles";
+import { baseStyles } from "@/app/styles/styles";
 import { SkeletonLeftPanelLoader } from "./skeletalLeftPanel";
 import { createWeatherDetails } from "./weatherDetails";
 import Logo from "./icons/Logo";
+import DateDisplay from "./dateDisplay";
 
 interface LeftPanelProps {
   weatherData: WeatherData | null;
@@ -15,7 +16,7 @@ interface LeftPanelProps {
   error: string | null;
 }
 
-export default function LeftPanel({ weatherData, units, isLoading, error, address }: LeftPanelProps) {
+export default function LeftPanel({ weatherData, units, isLoading, error }: LeftPanelProps) {
   return <div className="bg-white p-4 w-full h-full max-w-md flex flex-col">
     <div className={clsx("flex items-center justify-start space-between", "w-full text-black h-[3.5em]")}><Logo width={250} height={18} /> </div>
     <div className={clsx(baseStyles.flexCenter, "w-full text-black h-[3.5em]")}>      <Search />
@@ -27,15 +28,19 @@ export default function LeftPanel({ weatherData, units, isLoading, error, addres
       <p className="text-red-500">{error}</p>
     ) : weatherData && (
       <>
-        <div className="bg-black text-white p-4 rounded-lg mb-4">
-          <h2 className="text-xl font-semibold">{address}</h2>
-        </div>
+       <DateDisplay />
 
         <p className="text-lg mb-4 text-charcoal">{weatherData.name}</p>
 
-        <div className="text-center mb-6">
-          <span className={clsx(textStyles.largeTemp, "text-black")}>
+        <div className="text-center mb-6 text-black flex flex-col gap-2 mb-4x">
+          <span className={clsx("text-[8vh]", "text-black font-bold")}>
             {Math.round(weatherData.main?.temp)}{units === "imperial" ? "°F" : "°C"}
+          </span>
+          <span className="text-sm italic">
+            feels like {Math.round(weatherData.main.feels_like)} {units === "imperial" ? "°F" : "°C"}
+          </span>
+          <span className="capitalize">
+            {weatherData.weather[0].description}
           </span>
         </div>
 
