@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { WeatherData, Units, AirQualityDescription } from "./types";
+import { Units, AirQualityDescription } from "./types";
 import { createWeatherDetails } from "./createWeatherDetails";
 
 interface WeatherDetailsGridProps {

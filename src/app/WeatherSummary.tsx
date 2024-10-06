@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { WeatherData, Units } from "./types";
+import { Units } from "./types";
 
 interface WeatherSummaryProps {
     name: string;

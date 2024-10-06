@@ -1,10 +1,9 @@
 "use client";
-import { AirQualityDescription, AirQualityIndex, Units, WeatherData } from "@/app/types";
+import { AirQualityDescription, Units, WeatherData } from "@/app/types";
 import Search from "./search";
 import clsx from "clsx";
 import { baseStyles } from "@/app/styles/styles";
 import { SkeletonLeftPanelLoader } from "./skeletalLeftPanel";
-import { createWeatherDetails } from "./createWeatherDetails";
 import Logo from "./icons/Logo";
 import DateDisplay from "./dateDisplay";
 import { useCallback } from "react";
