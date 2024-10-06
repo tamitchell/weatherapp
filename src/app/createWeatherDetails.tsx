@@ -1,9 +1,8 @@
-import { AirQualityDescription, AirQualityIndex, Units, WeatherData } from "@/app/types";
+import { AirQualityDescription, Units } from "@/app/types";
 import ChanceOfRain from "./icons/ChanceOfRain";
 import Humidity from "./icons/Humidity";
 import Icon from "./icons/Icon";
 import formatVisibility from "./util/formatVisibility";
-import getAirQualityDescription from "./util/getAQIDescription";
 
 interface WeatherCardDetail {
     title: string;

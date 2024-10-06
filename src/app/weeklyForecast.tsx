@@ -16,9 +16,9 @@ export default function WeeklyForecast({ forecast, units }: WeeklyForecastProps)
   return (
     <div className="bg-charcoal w-full h-full p-4 flex flex-col justify-between overflow-x-hidden">
       <h2 className="text-xl font-semibold mb-4 w-full">5 Day Forecast</h2>
-      <div className="flex self-end space-x-4 overflow-x-scroll w-full">
+      <div className="flex self-end space-x-4 overflow-x-scroll w-full border-2 border-white">
         {forecast && forecast.map(({ main, weather, dt, wind, pop }, index) => (
-          <div key={index} className="bg-white w-[250px] h-[320px] p-2 flex flex-col justify-between rounded-lg shadow-lg text-center text-charcoal">
+          <div key={index} className="bg-white min-w-[250px] h-[320px] p-2 flex flex-col justify-between rounded-lg shadow-lg text-center text-charcoal">
             <p className="text-md font-medium text-left">{dayjs.unix(dt).format('MMM D')}</p>  {/* Display Date */}
             <div className="flex flex-col items-center my-4">
               <WeatherIcon name={weather[0].icon} size={56} />

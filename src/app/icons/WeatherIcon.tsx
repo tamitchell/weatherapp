@@ -1,5 +1,4 @@
 
-import sunny from "../../img/icons/sunny.svg";
 import { weatherIconMap, WeatherIconName } from "./iconMap";
 interface IconProps {
     name: WeatherIconName;
