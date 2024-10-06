@@ -1,15 +1,13 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Icon from './icons/Icon'; // Assuming Icon component is in the same directory
 import clsx from 'clsx';
-import Toggle from './UnitsToggle';
-import { Units } from './types';
 
-interface DropdownMenuProps {
-  units: Units;
-  setUnits: (units: Units) => void;
-}
+// interface DropdownMenuProps {
+//   units: Units;
+//   setUnits: (units: Units) => void;
+// }
 
-export default function DropdownMenu({units, setUnits}: DropdownMenuProps): JSX.Element {
+export default function DropdownMenu(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -30,10 +28,6 @@ export default function DropdownMenu({units, setUnits}: DropdownMenuProps): JSX.
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dropdownRef]);
-
-  const handleUnitChange = useCallback(() => {
-    setUnits(units === 'imperial' ? 'metric' : 'imperial');
-  }, [units, setUnits]);
 
   return (
     <div className="relative inline-block text-left ml-auto" ref={dropdownRef}>

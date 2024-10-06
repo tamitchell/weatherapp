@@ -52,7 +52,7 @@ export interface WeatherCondition {
   id: number;
   main: string;
   description: string;
-  icon: string;
+  icon:  "01d" | "01n" | "02d" | "02n" | "03d" | "03n" | "04d" | "04n" | "09d" | "09n" | "10d" | "10n" | "11d" | "11n" | "13d" | "13n" | "50d" | "50n";
 }
 
 export interface MainWeatherData {
@@ -143,6 +143,7 @@ export interface SysInfo {
     isLoading: boolean;
     error: string | null;
     forecast: ForecastItem[] | null;
+    airQuality: AirQualityResponse | null;
     getWeather: (lat: number, lng: number, locationAddress: string) => Promise<void>;
     units: Units;
     setUnits: (units: Units) => void;
@@ -197,3 +198,33 @@ export interface SysInfo {
     className?: string;
   }
   
+
+  export enum AirQualityIndex {
+    Good = 1,
+    Fair,
+    Moderate,
+    Poor,
+    VeryPoor,
+  }
+
+  export type AirQualityDescription = "Good" | "Fair" | "Moderate" | "Poor" | "Very Poor" | "Unknown AQI level";
+
+  export type AirQualityResponse = {
+    coord: Coordinates;
+    list: Array<{
+      main: {
+        aqi: number;  // Air Quality Index (1 to 5)
+      };
+      components: {
+        co: number;       // Carbon Monoxide (μg/m³)
+        no: number;       // Nitric Oxide (μg/m³)
+        no2: number;      // Nitrogen Dioxide (μg/m³)
+        o3: number;       // Ozone (μg/m³)
+        so2: number;      // Sulfur Dioxide (μg/m³)
+        pm2_5: number;    // Fine Particulate Matter PM2.5 (μg/m³)
+        pm10: number;     // Coarse Particulate Matter PM10 (μg/m³)
+        nh3: number;      // Ammonia (μg/m³)
+      };
+      dt: number;  // Timestamp in UNIX format
+    }>;
+  };

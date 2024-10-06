@@ -1,4 +1,4 @@
-import { ForecastData, ForecastItem, LastLocation, Units, WeatherContextProps, WeatherData } from "@/app/types";
+import { AirQualityResponse, ForecastData, ForecastItem, LastLocation, Units, WeatherContextProps, WeatherData } from "@/app/types";
 import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
 import { DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS } from "../defaultData";
 
@@ -9,6 +9,7 @@ export const WeatherContext = createContext<WeatherContextProps | undefined>(und
 export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [forecast, setForecast] = useState<ForecastItem[] | null>(null);
+  const [airQuality, setAirQuality] = useState<AirQualityResponse | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -77,6 +78,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       if (cacheAge < 30 * 60 * 1000) {
         setWeather(data.weather);
         setForecast(filterForecastByUserTime(data.forecast));
+        setAirQuality(data.airQuality);
         setAddress(locationAddress);
         setIsLoading(false);
         return;
@@ -98,18 +100,26 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       }
       const forecastJson: ForecastData = await forecastRes.json();
 
-      console.log("weather json", weatherJson);
+      const airQualityRes = await fetch(`${baseUrl}/api/weather/air_pollution?lat=${lat}&lng=${lng}&units=${units}`)
+      if (!airQualityRes.ok) {
+        throw new Error(`Air Quality API responded with status: ${airQualityRes.status}`);
+      }
+
+      const airQualityJson: AirQualityResponse = await airQualityRes.json();
+
+      console.log("weather json", airQualityJson);
 
       if (isCountryUS(lat, lng)) { setUnits("imperial") } else { setUnits("metric") }
 
       // Set weather and forecast state
       setWeather(weatherJson);
       setForecast(filterForecastByUserTime(forecastJson));
+      setAirQuality(airQualityJson);
       setAddress(locationAddress);
 
       // Cache the new data
       window.localStorage.setItem(cacheKey, JSON.stringify({
-        data: { weather: weatherJson, forecast: forecastJson },
+        data: { weather: weatherJson, forecast: forecastJson, aqi: airQualityJson },
         timestamp: Date.now(),
       }));
 
@@ -156,7 +166,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   }, [isCountryUS, getWeather]);
 
   return (
-    <WeatherContext.Provider value={{ weather, forecast, address, isLoading, units, setUnits, error, getWeather }}>
+    <WeatherContext.Provider value={{ weather, airQuality, forecast, address, isLoading, units, setUnits, error, getWeather }}>
       {children}
     </WeatherContext.Provider>
   );
