@@ -1,4 +1,4 @@
-import { ForecastData, ForecastItem, LastLocation, Units, WeatherContextProps, WeatherData } from "@/types";
+import { AirQualityResponse, ForecastData, ForecastItem, LastLocation, Units, WeatherContextProps, WeatherData } from "@/app/types";
 import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
 import { DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS } from "../defaultData";
 
@@ -9,6 +9,7 @@ export const WeatherContext = createContext<WeatherContextProps | undefined>(und
 export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [forecast, setForecast] = useState<ForecastItem[] | null>(null);
+  const [airQuality, setAirQuality] = useState<AirQualityResponse | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +22,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
         setUnits(storedUnits);
       }
     }
-  }, []); 
+  }, []);
 
   const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
 
@@ -39,7 +40,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       west: -125.0,
       east: -66.93,
     };
-  
+
     return (
       lat >= usBounds.south &&
       lat <= usBounds.north &&
@@ -49,18 +50,18 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   // Filtering the forecast data based on the user's current time
-const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] => {
-  const currentTime = new Date(); // User's current local time
-  const currentHour = currentTime.getHours(); // Current hour in user's timezone
+  const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] => {
+    const currentTime = new Date(); // User's current local time
+    const currentHour = currentTime.getHours(); // Current hour in user's timezone
 
-  return forecastData.list.filter(entry => {
-    const forecastTimeUTC = new Date(entry.dt * 1000); // Convert UNIX timestamp to Date in UTC
-    const forecastLocalTime = new Date(forecastTimeUTC.getTime() + forecastTimeUTC.getTimezoneOffset() * 60000); // Convert UTC to local time
+    return forecastData.list.filter(entry => {
+      const forecastTimeUTC = new Date(entry.dt * 1000); // Convert UNIX timestamp to Date in UTC
+      const forecastLocalTime = new Date(forecastTimeUTC.getTime() + forecastTimeUTC.getTimezoneOffset() * 60000); // Convert UTC to local time
 
-    // Match forecast entries that are close to the user's current hour (e.g., within a 3-hour range)
-    return Math.abs(forecastLocalTime.getHours() - currentHour) <= 3;
-  });
-};
+      // Match forecast entries that are close to the user's current hour (e.g., within a 3-hour range)
+      return Math.abs(forecastLocalTime.getHours() - currentHour) <= 3;
+    });
+  };
 
   const getWeather = useCallback(async (lat: number, lng: number, locationAddress: string): Promise<void> => {
     setIsLoading(true);
@@ -72,11 +73,12 @@ const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] =>
     if (cachedData) {
       const { data, timestamp } = JSON.parse(cachedData);
       const cacheAge = Date.now() - timestamp;
-      
+
       // Use cached data if it's less than 30 minutes old
       if (cacheAge < 30 * 60 * 1000) {
-        setWeather(data);
+        setWeather(data.weather);
         setForecast(filterForecastByUserTime(data.forecast));
+        setAirQuality(data.airQuality);
         setAddress(locationAddress);
         setIsLoading(false);
         return;
@@ -98,15 +100,26 @@ const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] =>
       }
       const forecastJson: ForecastData = await forecastRes.json();
 
+      const airQualityRes = await fetch(`${baseUrl}/api/weather/air_pollution?lat=${lat}&lng=${lng}&units=${units}`)
+      if (!airQualityRes.ok) {
+        throw new Error(`Air Quality API responded with status: ${airQualityRes.status}`);
+      }
+
+      const airQualityJson: AirQualityResponse = await airQualityRes.json();
+
+      console.log("weather json", airQualityJson);
+
+      if (isCountryUS(lat, lng)) { setUnits("imperial") } else { setUnits("metric") }
 
       // Set weather and forecast state
       setWeather(weatherJson);
       setForecast(filterForecastByUserTime(forecastJson));
+      setAirQuality(airQualityJson);
       setAddress(locationAddress);
 
       // Cache the new data
       window.localStorage.setItem(cacheKey, JSON.stringify({
-        data: { weather: weatherJson, forecast: forecastJson },
+        data: { weather: weatherJson, forecast: forecastJson, aqi: airQualityJson },
         timestamp: Date.now(),
       }));
 
@@ -123,7 +136,7 @@ const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] =>
     } finally {
       setIsLoading(false);
     }
-  }, [baseUrl, units]);
+  }, [isCountryUS, baseUrl, units]);
 
   useEffect(() => {
     const lastLocationString = window.localStorage.getItem('lastLocation');
@@ -153,7 +166,7 @@ const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] =>
   }, [isCountryUS, getWeather]);
 
   return (
-    <WeatherContext.Provider value={{ weather, forecast, address, isLoading, units, setUnits, error, getWeather }}>
+    <WeatherContext.Provider value={{ weather, airQuality, forecast, address, isLoading, units, setUnits, error, getWeather }}>
       {children}
     </WeatherContext.Provider>
   );

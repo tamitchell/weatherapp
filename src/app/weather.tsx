@@ -6,7 +6,7 @@ import Image from "next/image";
 import humidityImg from "@/img/humidity.png";
 import windspeedImg from "@/img/windspeed.png";
 import uvImg from "@/img/uv.png";
-import { WeatherProps } from "@/types";
+import { WeatherProps } from "@/app/types";
 import clsx from 'clsx';
 import { imageStyles, weatherStyles } from "@/app/styles/styles";
 

@@ -33,3 +33,20 @@ body {
       linear-gradient(336deg, rgba(96, 59, 75, 0.8), rgba(96, 59, 75, 0) 70.71%);
   }
 }
+
+
+.custom-place-picker {
+  width: 100%;
+}
+
+.custom-place-picker .pac-container {
+  border: 1px solid black; /* Solid black border for dropdown */
+}
+
+.custom-place-picker input {
+  height: 3.5em; /* Set height of the input field */
+  border: 1px solid black; /* Solid black border for input */
+  background-color: #f3f4f6; /* Tailwind's bg-gray-100 */
+  color: #4b5563; /* Tailwind's text-gray-700 */
+  padding: 0.5em; /* Add padding for better appearance */
+}

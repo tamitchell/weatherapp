@@ -2,18 +2,15 @@ import {
     PlacePicker,
   } from "@googlemaps/extended-component-library/react";
 import clsx from "clsx";
-import { LegacyRef } from "react";
-import {PlacePicker as TPlacePicker} from '@googlemaps/extended-component-library/place_picker.js';
+import { memo } from "react";
 
-
-  export const GooglePlacesPicker = ({ handlePlaceChange, ref }: { handlePlaceChange: (e: Event) => void; ref: LegacyRef<TPlacePicker> | undefined
-  }) => (
-    <>
+  export default memo(function GooglePlacesPicker ({ handlePlaceChange }: { handlePlaceChange: (e: Event) => void;
+  }): JSX.Element { return (
+    <div className="custom-place-picker">
       <PlacePicker
-        ref={ref}
-        className={clsx("w-full h-full border-gray-300 text-gray-700 bg-gray-100")}
-        placeholder="Enter city name e.g. Vancouver, BC"
+        className={clsx("w-full h-full border-gray-300 text-gray-700 bg-gray-100 custom-place-picker")}
+        placeholder="Enter a location name or address"
         onPlaceChange={handlePlaceChange}
       />
-    </>
-  );
+    </div>
+  )});

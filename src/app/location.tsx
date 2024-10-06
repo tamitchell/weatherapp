@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { LocationProps } from "@/types";
+import { LocationProps } from "@/app/types";
 import clsx from "clsx";
 import { baseStyles, buttonStyles } from "@/app/styles/styles";
 
