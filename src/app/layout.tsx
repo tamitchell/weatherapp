@@ -1,17 +1,17 @@
 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import './styles/output.css';
+import '../styles/output.css';
 import dynamic from "next/dynamic";
-import Providers from "./Providers";
+import Providers from "../context/Providers";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description: "A React/NextJS Based Application that uses OpenWeather's web API to gather weather data and Geocodio's API to render weather conditions based on user's desired location",
 };
 
-const APILoaderWrapper = dynamic(() => import('./ApiLoaderWrapper'), {
+const APILoaderWrapper = dynamic(() => import('../components/ApiLoaderWrapper'), {
   ssr: false,
 });
 
