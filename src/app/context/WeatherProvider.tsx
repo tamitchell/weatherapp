@@ -24,7 +24,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000';
 
 
   // Store user's unit preference in localStorage when it changes
