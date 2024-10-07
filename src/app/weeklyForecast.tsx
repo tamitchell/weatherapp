@@ -14,9 +14,9 @@ interface WeeklyForecastProps {
 export default function WeeklyForecast({ forecast, units }: WeeklyForecastProps): JSX.Element {
 
   return (
-    <div className="bg-charcoal w-full h-full p-4 flex flex-col justify-between overflow-x-hidden">
+    <div className="w-full h-full p-4 flex flex-col justify-between overflow-x-hidden">
       <h2 className="text-xl font-semibold mb-4 w-full">5 Day Forecast</h2>
-      <div className="flex self-end space-x-4 overflow-x-scroll w-full border-2 border-white">
+      <div className="flex self-end space-x-4 overflow-x-scroll w-full">
         {forecast && forecast.map(({ main, weather, dt, wind, pop }, index) => (
           <div key={index} className="bg-white min-w-[250px] h-[320px] p-2 flex flex-col justify-between rounded-lg shadow-lg text-center text-charcoal">
             <p className="text-md font-medium text-left">{dayjs.unix(dt).format('MMM D')}</p>  {/* Display Date */}

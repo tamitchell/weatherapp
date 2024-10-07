@@ -3,7 +3,7 @@ import { Units, AirQualityDescription } from "./types";
 import { createWeatherDetails } from "./createWeatherDetails";
 
 interface WeatherDetailsGridProps {
-    chanceOfRain: number;
+    chanceOfRain: number | null;
     humidity: number;
     windSpeed: number;
     visibility: number;

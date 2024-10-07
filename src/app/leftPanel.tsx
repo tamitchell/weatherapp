@@ -10,6 +10,7 @@ import { useCallback } from "react";
 import UnitsToggle from "./UnitsToggle";
 import WeatherDetailsGrid from "./WeatherDetailsGrid";
 import WeatherSummary from "./WeatherSummary";
+import calculateRainProbability from "./util/calculateChanceOfPrecip";
 
 interface LeftPanelProps {
   weatherData: WeatherData | null;
@@ -43,7 +44,7 @@ export default function LeftPanel({ weatherData, units, airQuality, setUnits, is
 
         <WeatherSummary name={weatherData.name} description={weatherData.weather[0].description} mainTemp={weatherData.main.temp} feelsLike={weatherData.main.feels_like} units={units} />
         <WeatherDetailsGrid
-          chanceOfRain={weatherData.clouds.all}
+          chanceOfRain={calculateRainProbability(weatherData)}
           humidity={weatherData.main.humidity}
           windSpeed={weatherData.wind.speed}
           visibility={weatherData.visibility}

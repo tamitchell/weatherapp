@@ -30,7 +30,8 @@ export default function Home() {
         "w-full",
         "sm:flex-1",
         "md:min-h-screen", 
-        "overflow-y-auto"
+        "overflow-y-auto",
+        "bg-charcoal"
       )}>
         {weather && forecast && <WeeklyForecast units={units} forecast={forecast} />} {/* We'll need to update this with actual weekly forecast data */}
       </div>

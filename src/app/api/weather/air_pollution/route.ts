@@ -1,5 +1,11 @@
 import { NextResponse } from 'next/server';
 
+const allowedOrigins = [
+  'https://weatherapp-nine-mauve.vercel.app',
+  'https://weatherapp-git-dev-tashas-projects-4e4847e8.vercel.app',
+  'https://weatherapp-tashas-projects-4e4847e8.vercel.app',
+];
+
    export async function GET(request: Request) {
      const { searchParams } = new URL(request.url);
      const lat = searchParams.get('lat');
@@ -18,6 +24,27 @@ import { NextResponse } from 'next/server';
      const url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKey}`;
 
      try {
+            // Get the origin of the request
+    const origin = request.headers.get('origin') || "";
+    const headers = new Headers();
+
+    // Check if the origin is allowed
+    if (allowedOrigins.includes(origin)) {
+      headers.set('Access-Control-Allow-Origin', origin);
+    } else {
+      headers.set('Access-Control-Allow-Origin', 'null');
+    }
+
+    // Set CORS headers
+    headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS');
+    headers.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept');
+    headers.set('Access-Control-Allow-Credentials', 'true');  // If you need to allow credentials
+
+    // Handle preflight OPTIONS request
+    if (request.method === 'OPTIONS') {
+      return new NextResponse(null, { headers, status: 200 });
+    }
+
        const response = await fetch(url);
        const data = await response.json();
 

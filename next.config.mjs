@@ -31,7 +31,7 @@ const nextConfig = {
     NEXT_PUBLIC_GEOCODIO_API_KEY: process.env.NEXT_PUBLIC_GEOCODIO_API_KEY,
     NEXT_PUBLIC_GOOGLE_PLACES_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY,
     OPENWEATHER_API_KEY: process.env.OPENWEATHER_API_KEY,
-  }
+  },
 };
 
 export default nextConfig;

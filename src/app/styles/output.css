@@ -978,11 +978,6 @@ video {
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
-.border-white {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
-}
-
 .bg-\[rgba\(255\2c 255\2c 255\2c 0\.15\)\] {
   background-color: rgba(255,255,255,0.15);
 }

@@ -11,7 +11,7 @@ interface WeatherCardDetail {
   }
   
   interface WeatherMetrics {
-    chanceOfRain: number;
+    chanceOfRain: number | null;
     humidity: number;
     windSpeed: number;
     visibility: number;
@@ -24,7 +24,7 @@ export const createWeatherDetails = ({chanceOfRain, humidity, windSpeed, visibil
     {
       title: "Chance of Rain",
       icon: <ChanceOfRain size={28} />,
-      value: `${chanceOfRain}%`
+      value: chanceOfRain ? `${chanceOfRain}%` : "No rain expected"
     },
     {
       title: "Humidity",

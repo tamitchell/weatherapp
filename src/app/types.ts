@@ -13,6 +13,12 @@ export interface WeatherData {
   id: number;
   name: string;
   cod: number;
+  rain?: Rain;
+}
+
+export interface Rain {
+  "1h"?: number;  
+  "3h"?: number;
 }
 
 export type WeatherQuotes = {
@@ -93,10 +99,6 @@ export interface SysInfo {
     lat: number;
     lng: number;
     address: string;
-  }
-
-  export interface Rain {
-    "3h": number;
   }
   
   export interface ForecastSys {
