@@ -73,22 +73,7 @@ export interface MainWeatherData {
 }
 
 
-export interface Wind {
-  speed: number;
-  deg: number;
-}
 
-export interface Clouds {
-  all: number;
-}
-
-export interface SysInfo {
-  type: number;
-  id: number;
-  country: string;
-  sunrise: number;
-  sunset: number;
-}
 
   export interface WeatherProps {
     data: WeatherData | null;

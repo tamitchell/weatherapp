@@ -3,9 +3,9 @@
 import React from "react";
 import Image from "next/image";
 
-import humidityImg from "@/img/humidity.png";
-import windspeedImg from "@/img/windspeed.png";
-import uvImg from "@/img/uv.png";
+import humidityImg from "../public/img/icons/weather/humidity.svg";
+import windspeedImg from "../public/img/icons/weather/wind_speed.svg";
+import uvImg from "../public/img/icons/util/sunglasses.svg";
 import clsx from 'clsx';
 import { weatherStyles, imageStyles } from "../styles/styles";
 import { WeatherProps } from "../types/types";

@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import dayjs from "dayjs";
 import { baseStyles } from "../styles/styles";
+import clsx from "clsx";
 
 export default function DateDisplay(): JSX.Element {
     const today = dayjs();

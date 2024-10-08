@@ -1,5 +1,5 @@
 import React from 'react';
-import dayjs from 'dayjs';
+import {unix} from 'dayjs';
 import ChanceOfRain from '../icons/ChanceOfRain';
 import Humidity from '../icons/Humidity';
 import Icon from '../icons/Icon';
@@ -24,7 +24,7 @@ export default function WeeklyForecast({ forecast, units, isLoading }: WeeklyFor
       <div className="flex self-end space-x-4 overflow-x-scroll w-full">
         {forecast && forecast.map(({ main, weather, dt, wind, pop }, index) => (
           <div key={index} className="bg-white min-w-[250px] h-[320px] p-2 flex flex-col justify-between rounded-lg shadow-lg text-center text-charcoal">
-            <p className="text-md font-medium text-left">{dayjs.unix(dt).format('MMM D')}</p>  {/* Display Date */}
+            <p className="text-md font-medium text-left">{unix(dt).format('MMM D')}</p>  {/* Display Date */}
             <div className="flex flex-col items-center my-4">
               <WeatherIcon name={weather[0].icon} size={56} />
               <p className="text-xl font-bold my-2">{Math.round(main.temp)}{units === "imperial" ? "°F" : "°C"}</p>

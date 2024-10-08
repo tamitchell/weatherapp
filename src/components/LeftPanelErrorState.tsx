@@ -5,9 +5,9 @@ export default function LeftPanelErrorState(): JSX.Element {
         <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-4 text-center text-black">
             <Icon name="balloon" fill="transparent" size={42} />
             <h2 className="text-2xl font-bold mb-4">Oops! Our weather balloons got lost</h2>
-            <p className="text-gray-600 mb-4">We're having trouble fetching the latest weather data.</p>
+            <p className="text-gray-600 mb-4">We&#39;re having trouble fetching the latest weather data.</p>
             <div className="bg-white p-6 rounded-lg p-4 mb-4">
-                <h3 className="font-semibold my-4">While we're sorting things out, why not:</h3>
+                <h3 className="font-semibold my-4">While we&#39;re sorting things out, why not:</h3>
                 <ul className="text-left list-disc list-inside">
                     <li>Look out your window for a quick weather check</li>
                     <li>Practice your rain dance (who knows, it might help!)</li>

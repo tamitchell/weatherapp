@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { PropsWithChildren, isValidElement, Children, cloneElement, ReactElement } from 'react';
 
-interface IconWrapperProps {
+interface IconWrapperProps extends PropsWithChildren {
   size?: number | string;
   color?: string;
-  children: React.ReactNode;
   className?: string;
 }
 
@@ -24,9 +23,9 @@ export default function IconWrapper({
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {React.Children.map(children, child =>
-        React.isValidElement(child)
-          ? React.cloneElement(child as React.ReactElement<unknown & {fill: string}>, { fill: color })
+      {Children.map(children, child =>
+        isValidElement(child)
+          ? cloneElement(child as ReactElement<unknown & {fill: string}>, { fill: color })
           : child
       )}
     </svg>
