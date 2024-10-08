@@ -3,17 +3,19 @@ import { iconMap, IconName } from "./iconMap";
 interface IconProps {
 name: IconName;
 size?: number;
-color?: string;
+fill?: string;
+stroke?: string;
   }
   
-export default function Icon({ name, size = 24, color = 'black', ...props }: IconProps) {
+export default function Icon({ name, size = 24, stroke, fill = "black", ...props }: IconProps) {
     const SVGIcon = iconMap[name];
   
     return (
       <SVGIcon
         width={size}
         height={size}
-        fill={color}
+        fill={fill}
+        stroke={stroke}
         {...props}
       />
     );

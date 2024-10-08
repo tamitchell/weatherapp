@@ -11,6 +11,7 @@ import WeatherSummary from "./WeatherSummary";
 import calculateRainProbability from "../util/calculateChanceOfPrecip";
 import { baseStyles } from "../styles/styles";
 import { WeatherData, AirQualityDescription, Units } from "../types/types";
+import LeftPanelErrorState from "./LeftPanelErrorState";
 
 interface LeftPanelProps {
   weatherData: WeatherData | null;
@@ -37,7 +38,7 @@ export default function LeftPanel({ weatherData, units, airQuality, setUnits, is
     {isLoading ? (
       <SkeletonLeftPanelLoader />
     ) : error ? (
-      <p className="text-red-500">{error}</p>
+      <LeftPanelErrorState />
     ) : weatherData && (
       <>
         <DateDisplay />

@@ -1,24 +1,31 @@
-import settings from "../public/img/icons/settings.svg";
-import visibility from "../public/img/icons/visibility.svg";
-import pressure from "../public/img/icons/pressure.svg";
-import air_quality from "../public/img/icons/mask.svg";
-import wind_speed from "../public/img/icons/wind_speed.svg";
-import clear_day from "../public/img/icons/sunny.svg";
-import clear_night from "../public/img/icons/clear_night.svg";
-import cloudy_day from "../public/img/icons/cloud_day.svg";
-import cloudy_night from "../public/img/icons/cloud_night.svg";
-import cloudy from "../public/img/icons/cloudy.svg";
-import rain from  "../public/img/icons/rain.svg";
-import thunderstorm from "../public/img/icons/thunderstorm.svg";
-import snow from "../public/img/icons/snow.svg";
-import fog from "../public/img/icons/fog.svg";
+import settings from "../public/img/icons/util/settings.svg";
+import visibility from "../public/img/icons/weather/visibility.svg";
+import pressure from "../public/img/icons/weather/pressure.svg";
+import air_quality from "../public/img/icons/util/mask.svg";
+import wind_speed from "../public/img/icons/weather/wind_speed.svg";
+import clear_day from "../public/img/icons/weather/sunny.svg";
+import clear_night from "../public/img/icons/weather/clear_night.svg";
+import cloudy_day from "../public/img/icons/weather/cloud_day.svg";
+import cloudy_night from "../public/img/icons/weather/cloud_night.svg";
+import cloudy from "../public/img/icons/weather/cloudy.svg";
+import rain from  "../public/img/icons/weather/rain.svg";
+import thunderstorm from "../public/img/icons/weather/thunderstorm.svg";
+import snow from "../public/img/icons/weather/snow.svg";
+import fog from "../public/img/icons/weather/fog.svg";
+import alertTriangle from "../public/img/icons/util/alert-triangle.svg";
+import balloon from "../public/img/icons/util/balloon.svg";
+import refresh from "../public/img/icons/util/refresh.svg";
 
 export const iconMap = {
+    balloon: balloon, 
     settings: settings,
     visibility: visibility,
     pressure: pressure,
     air_quality: air_quality,
-    wind_speed: wind_speed
+    wind_speed: wind_speed,
+    cloud: cloudy,
+    refresh: refresh,
+    "alert-triangle": alertTriangle,
   } as const;
 
   export const weatherIconMap = {

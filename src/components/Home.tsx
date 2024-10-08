@@ -44,7 +44,7 @@ export default function Home() {
         "overflow-y-auto",
         "bg-charcoal"
       )}>
-        {weather && forecast && <WeeklyForecast units={units} forecast={forecast} />} {/* We'll need to update this with actual weekly forecast data */}
+        <WeeklyForecast isLoading={isLoading} units={units} forecast={forecast} /> {/* We'll need to update this with actual weekly forecast data */}
       </div>
     </div>
   );

@@ -5,13 +5,18 @@ import Humidity from '../icons/Humidity';
 import Icon from '../icons/Icon';
 import WeatherIcon from '../icons/WeatherIcon';
 import { Units, ForecastItem } from '../types/types';
+import WeeklyForecastSkeletonLoader from './WeeklyForecastSkeletalLoader';
 
 interface WeeklyForecastProps {
   forecast: ForecastItem[] | null;
   units: Units;
+  isLoading: boolean;
 }
 
-export default function WeeklyForecast({ forecast, units }: WeeklyForecastProps): JSX.Element {
+export default function WeeklyForecast({ forecast, units, isLoading }: WeeklyForecastProps): JSX.Element {
+  if (isLoading) {
+    return <WeeklyForecastSkeletonLoader />;
+  }
 
   return (
     <div className="w-full h-full p-4 flex flex-col justify-between overflow-x-hidden">
