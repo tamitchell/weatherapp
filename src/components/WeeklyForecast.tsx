@@ -6,7 +6,7 @@ import Icon from '../icons/Icon';
 import WeatherIcon from '../icons/WeatherIcon';
 import { Units, ForecastItem } from '../types/types';
 import WeeklyForecastSkeletonLoader from './WeeklyForecastSkeletalLoader';
-import TemperatureRange from './TemperatureRange';
+import TemperatureRange from './TemperatureRange/TemperatureRange';
 
 interface WeeklyForecastProps {
   forecast: ForecastItem[];

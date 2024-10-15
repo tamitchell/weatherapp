@@ -12,7 +12,7 @@ import calculateRainProbability from "../util/calculateChanceOfPrecip";
 import { baseStyles } from "../styles/styles";
 import { WeatherData, AirQualityDescription, Units, WeatherAction, ErrorType } from "../types/types";
 import LeftPanelErrorState from "./LeftPanelErrorState";
-import TemperatureRange from "./TemperatureRange";
+import TemperatureRange from "./TemperatureRange/TemperatureRange";
 
 interface LeftPanelProps {
   weatherData: WeatherData | null;
