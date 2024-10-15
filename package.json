@@ -16,7 +16,7 @@
     "concurrently": "^9.0.1",
     "dayjs": "^1.11.13",
     "framer-motion": "^11.11.1",
-    "next": "14.2.13",
+    "next": "^14.2.15",
     "react": "^18",
     "react-dom": "^18"
   },

@@ -25,6 +25,7 @@ export const iconMap = {
     wind_speed: wind_speed,
     cloud: cloudy,
     refresh: refresh,
+    sun: clear_day,
     "alert-triangle": alertTriangle,
   } as const;
 

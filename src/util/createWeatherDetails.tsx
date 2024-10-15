@@ -22,33 +22,33 @@ interface WeatherCardDetail {
 
 export const createWeatherDetails = ({chanceOfRain, humidity, windSpeed, visibility, pressure, airQuality, units}: WeatherMetrics): ReadonlyArray<WeatherCardDetail> => Object.freeze([
     {
-      title: "Chance of Rain",
-      icon: <ChanceOfRain size={28} />,
-      value: chanceOfRain ? `${chanceOfRain}%` : "No rain expected"
+      title: "% of Rain",
+      icon: <ChanceOfRain size={24} />,
+      value: chanceOfRain ? `${chanceOfRain}%` : "None"
     },
     {
       title: "Humidity",
-      icon: <Humidity size={28} />,
+      icon: <Humidity size={24} />,
       value: `${humidity}%`
     },
     {
       title: "Wind Speed",
-      icon: <Icon name="wind_speed" size={28} />,
+      icon: <Icon name="wind_speed" fill="transparent" size={24} />,
       value: `${Math.round(windSpeed)} ${units === "imperial" ? "mph" : "m/s"}`
     },
     {
       title: "Visibility",
-      icon: <Icon name="visibility" size={28} />,
+      icon: <Icon name="visibility" size={24} />,
       value: `${formatVisibility(visibility, units)}`
     },
     {
       title: "Pressure",
-      icon: <Icon name="pressure" size={28} />,
+      icon: <Icon name="pressure" size={24} />,
       value: `${pressure} ${units === "imperial" ? "inHg" : "hPa"}`
     },
     {
       title: "Air Quality",
-      icon: <Icon name="air_quality" size={28} />,
+      icon: <Icon name="air_quality" fill="black" stroke="transparent" size={24} />,
       value: `${airQuality}`
     }
   ]);

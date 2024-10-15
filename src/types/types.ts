@@ -14,9 +14,15 @@ export interface WeatherData {
   name: string;
   cod: number;
   rain?: Rain;
+  snow?: Snow;
 }
 
 export interface Rain {
+  "1h"?: number;  
+  "3h"?: number;
+}
+
+export interface Snow {
   "1h"?: number;  
   "3h"?: number;
 }
@@ -118,6 +124,7 @@ export interface MainWeatherData {
     visibility: number;
     pop: number;
     rain?: Rain;
+    snow?: Snow;
     sys: ForecastSys;
     dt_txt: string;
   }
@@ -125,16 +132,9 @@ export interface MainWeatherData {
   
 
   export interface WeatherContextProps {
-    weather: WeatherData | null;
-    address: string | null;
-    isLoading: boolean;
-    error: string | null;
-    forecast: ForecastItem[] | null;
-    airQuality: AirQualityResponse | null;
+    state: WeatherState; // Entire state managed by the reducer
+    dispatch: React.Dispatch<WeatherAction>;
     getWeather: (lat: number, lng: number, locationAddress: string) => Promise<void>;
-    units: Units;
-    setUnits: (units: Units) => void;
-  
   }
   
 
@@ -194,7 +194,7 @@ export interface MainWeatherData {
     VeryPoor,
   }
 
-  export type AirQualityDescription = "Good" | "Fair" | "Moderate" | "Poor" | "Very Poor" | "Unknown AQI level";
+  export type AirQualityDescription = "Good" | "Fair" | "Moderate" | "Poor" | "Very Poor" | "Unknown";
 
   export type AirQualityResponse = {
     coord: Coordinates;
@@ -215,3 +215,89 @@ export interface MainWeatherData {
       dt: number;  // Timestamp in UNIX format
     }>;
   };
+
+  export interface TemperatureRangeProps {
+    tempMin: number;
+    tempMax: number;
+    units: Units;
+  }
+
+  export type ErrorType = 'weather' | 'forecast' | 'airQuality' | 'general';
+
+  export interface WeatherState {
+    weather: WeatherData | null;
+    forecast: ForecastItem[];
+    airQuality: AirQualityResponse | null;
+    address: string | null;
+    isLoading: boolean;
+    error: {
+      [key in ErrorType]?: string;
+    } | null;
+    units: Units;
+    timestamp?: number;
+  }
+
+  export type WeatherAction =
+  /**
+   * Sets the current weather data.
+   * @payload WeatherData | null - The current weather data or null if not available.
+   */
+  | { type: 'SET_WEATHER'; payload: WeatherData | null }
+
+  /**
+   * Sets the weather forecast data.
+   * @payload ForecastItem[] - An array of forecast items.
+   */
+  | { type: 'SET_FORECAST'; payload: ForecastItem[] }
+
+  /**
+   * Sets the air quality data.
+   * @payload AirQualityResponse | null - The air quality data or null if not available.
+   */
+  | { type: 'SET_AIR_QUALITY'; payload: AirQualityResponse | null }
+
+  /**
+   * Sets the address for the current weather location.
+   * @payload string | null - The address string or null if not available.
+   */
+  | { type: 'SET_ADDRESS'; payload: string | null }
+
+  /**
+   * Sets the loading state of the weather data.
+   * @payload boolean - True if data is being loaded, false otherwise.
+   */
+  | { type: 'SET_LOADING'; payload: boolean }
+
+  /**
+   * Sets an error state for a specific part of the weather data.
+   * @payload { type: ErrorType; message: string } - The type of error and the error message.
+   */
+  | { type: 'SET_ERROR'; payload: { type: ErrorType; message: string } }
+
+  /**
+   * Clears an error for a specific part of the weather data.
+   * @payload ErrorType - The type of error to clear.
+   */
+  | { type: 'CLEAR_ERROR'; payload: ErrorType }
+
+  /**
+   * Sets the units used for weather measurements.
+   * @payload Units - The units to use ('imperial' or 'metric').
+   */
+  | { type: 'SET_UNITS'; payload: Units }
+
+  /**
+   * Sets the timestamp for when the weather data was last updated.
+   * @payload number - The timestamp in milliseconds.
+   */
+  | { type: 'SET_TIMESTAMP'; payload: number };
+
+  export interface WeatherCacheKeyComponents {
+    lat: number;
+    lng: number;
+    units: Units;
+  }
+  
+  // Now, let's create a type for the cache key itself
+  export type WeatherCacheKey = `weather_${number}_${number}_${Units}`;
+  

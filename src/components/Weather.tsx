@@ -30,7 +30,7 @@ const temp = Math.round(data.main.temp - 273.15); // Convert Kelvin to Celsius
         />
         <p className={clsx(weatherStyles.temp)}>{temp}&#8457;</p>
         <span className={clsx(weatherStyles.summary)}>
-        <p>{data.weather[0].description}</p>
+        <p className="capitalize">{data.weather[0].description}</p>
         <p>Feels like: {feelsLike}</p>
         </span>
       </div>

@@ -9,20 +9,23 @@ import getAirQualityDescription from "../util/getAQIDescription";
 
 /**
  * TODO:
- * - Clean up routes, are all headers really needed there?
+ * - Clean up routes.ts, are all headers really needed there?
  * - add Sunrise/Sunset calculation
  * - add daily quote
- * - chance of rain to chance of participation
  * - what to put in giant space.
- * - optimizing searches and call retrievals
- * - clean up state in weather provider
+ * - Add cypress integration testing
+ * - Consider react query to manage caching and refetches
+ * - instead of refetch, convert temp values
+ * - add error state of weekly forecast
+ * - add micro animations
  */
 
 export default function Home() {
-  const { weather, forecast, airQuality, address, isLoading, error, units, setUnits } = useWeather();
+  const { state, dispatch,  } = useWeather();
+  const { airQuality, weather, units, address, isLoading, error, forecast } = state;
 
   const airQualityIndex = useMemo(() => getAirQualityDescription(airQuality?.list[0].main.aqi || 0), [airQuality])
-
+  console.log('Forecast data:', forecast);
   return (
     <div className={clsx(
       "min-h-screen w-full",
@@ -35,7 +38,7 @@ export default function Home() {
         "md:max-w-[30vw]",
         "md:min-h-screen"
       )}>
-    <LeftPanel weatherData={weather} airQuality={airQualityIndex} setUnits={setUnits} units={units} address={address || ''} isLoading={isLoading} error={error} />
+    <LeftPanel weatherData={weather} airQuality={airQualityIndex} dispatch={dispatch} units={units} address={address || ''} isLoading={isLoading} error={error} />
       </div>
       <div className={clsx(
         "w-full",

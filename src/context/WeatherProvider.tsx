@@ -1,36 +1,36 @@
-import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
-import { AirQualityResponse, ForecastData, ForecastItem, LastLocation, Units, WeatherContextProps, WeatherData } from "../types/types";
+import { createContext, ReactNode, useCallback, useEffect, useMemo, useReducer } from "react";
+import { AirQualityResponse, ForecastData, ForecastItem, WeatherCacheKey, WeatherContextProps, WeatherData, WeatherState } from "../types/types";
 import { DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS } from "../data/defaultData";
+import { getCachedWeatherData, getLastLocationFromLocalStorage, getUnitsFromLocalStorage, setToLocalStorage } from "src/util/localStorageUtil";
+import { weatherReducer } from "src/reducers/weatherReducer";
 
 
 export const WeatherContext = createContext<WeatherContextProps | undefined>(undefined);
 
+// Define initial state
+const initialState: WeatherState = {
+  weather: null,
+  forecast: [],
+  airQuality: null,
+  address: null,
+  isLoading: true,
+  error: null,
+  units: 'imperial',
+};
+
 
 export const WeatherProvider = ({ children }: { children: ReactNode }) => {
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [forecast, setForecast] = useState<ForecastItem[] | null>(null);
-  const [airQuality, setAirQuality] = useState<AirQualityResponse | null>(null);
-  const [address, setAddress] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [units, setUnits] = useState<Units>('imperial'); // default value
+  const [state, dispatch] = useReducer(weatherReducer, initialState);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUnits = window.localStorage.getItem('weatherUnits') as Units;
-      if (storedUnits) {
-        setUnits(storedUnits);
-      }
-    }
+  const baseUrl = useMemo(() => {
+    return process.env.NEXT_PUBLIC_VERCEL_URL ?? 'http://localhost:3000';
   }, []);
-
-  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000';
-
 
   // Store user's unit preference in localStorage when it changes
   useEffect(() => {
-    window.localStorage.setItem('weatherUnits', units);
-  }, [units]);
+    const storedUnits = getUnitsFromLocalStorage();
+    dispatch({ type: 'SET_UNITS', payload: storedUnits });
+  }, []);
 
   const isCountryUS = useCallback((lat: number, lng: number): boolean => {
     // Rough bounding box for the continental US (could be refined)
@@ -49,124 +49,162 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
     );
   }, [])
 
-  // Filtering the forecast data based on the user's current time
   const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] => {
-    const currentTime = new Date(); // User's current local time
-    const currentHour = currentTime.getHours(); // Current hour in user's timezone
-
-    return forecastData.list.filter(entry => {
-      const forecastTimeUTC = new Date(entry.dt * 1000); // Convert UNIX timestamp to Date in UTC
-      const forecastLocalTime = new Date(forecastTimeUTC.getTime() + forecastTimeUTC.getTimezoneOffset() * 60000); // Convert UTC to local time
-
-      // Match forecast entries that are close to the user's current hour (e.g., within a 3-hour range)
-      return Math.abs(forecastLocalTime.getHours() - currentHour) <= 3;
+    const forecastByDay: { [key: string]: ForecastItem[] } = {};
+  
+    forecastData.list.forEach((entry) => {
+      const forecastTime = new Date(entry.dt * 1000);
+      const forecastDay = forecastTime.toISOString().split('T')[0]; // Get the day (YYYY-MM-DD)
+  
+      // Group forecast entries by day
+      if (!forecastByDay[forecastDay]) {
+        forecastByDay[forecastDay] = [];
+      }
+      forecastByDay[forecastDay].push(entry);
     });
+  
+    // Select a representative forecast item for each day (e.g., the one closest to noon)
+    const fiveDayForecast = Object.keys(forecastByDay)
+      .slice(0, 5) // Only take the next 5 days
+      .map((day) => {
+        const dayEntries = forecastByDay[day];
+  
+        // Find the forecast closest to noon (12:00 PM)
+        const closestToNoon = dayEntries.reduce((prev, curr) => {
+          const prevHour = new Date(prev.dt * 1000).getHours();
+          const currHour = new Date(curr.dt * 1000).getHours();
+          return Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev;
+        });
+  
+        return closestToNoon;
+      });
+  
+    return fiveDayForecast;
   };
 
-  const getWeather = useCallback(async (lat: number, lng: number, locationAddress: string): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
+  const requestGeolocation = useCallback((): Promise<GeolocationPosition> => {
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Geolocation request timed out'));
+      }, 10000); // 10-second timeout for geolocation
+  
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          clearTimeout(timeout); // Clear timeout when geolocation succeeds
+          resolve(position);
+        },
+        (error) => {
+          clearTimeout(timeout); // Clear timeout if geolocation fails
+          reject(error); // Reject with the geolocation error
+        }
+      );
+    });
+  }, []);
 
-    const cacheKey = `weather_${lat}_${lng}_${units}`;
-    const cachedData = window.localStorage.getItem(cacheKey);
+  const getWeather = useCallback(async (lat: number, lng: number, locationAddress: string) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    dispatch({ type: 'CLEAR_ERROR', payload: "general" });
 
-    if (cachedData) {
-      const { data, timestamp } = JSON.parse(cachedData);
-      const cacheAge = Date.now() - timestamp;
+    const cacheKey: WeatherCacheKey = `weather_${lat}_${lng}_${state.units}`;
+    const cachedData = getCachedWeatherData(lat, lng, state.units);
 
-      // Use cached data if it's less than 30 minutes old
-      if (cacheAge < 30 * 60 * 1000) {
-        setWeather(data.weather);
-        setForecast(filterForecastByUserTime(data.forecast));
-        setAirQuality(data.airQuality);
-        setAddress(locationAddress);
-        setIsLoading(false);
-        return;
-      }
+    
+    if (cachedData && cachedData.timestamp && Date.now() - cachedData.timestamp < 30 * 60 * 1000) {
+      dispatch({ type: 'SET_WEATHER', payload: cachedData.weather });
+      dispatch({ type: 'SET_FORECAST', payload: cachedData.forecast });
+      dispatch({ type: 'SET_AIR_QUALITY', payload: cachedData.airQuality });
+      dispatch({ type: 'SET_ADDRESS', payload: cachedData.address });
+      dispatch({ type: 'SET_TIMESTAMP', payload: cachedData.timestamp });
+      dispatch({ type: 'SET_LOADING', payload: false });
+      return;
     }
 
+    try { 
+      const [weatherRes, forecastRes, airQualityRes] = await Promise.all([
+        fetch(`${baseUrl}/api/weather?lat=${lat}&lng=${lng}&units=${state.units}`),
+        fetch(`${baseUrl}/api/weather/forecast?lat=${lat}&lng=${lng}&units=${state.units}`),
+        fetch(`${baseUrl}/api/weather/air_pollution?lat=${lat}&lng=${lng}&units=${state.units}`),
+      ]);
 
-    try {
-      const weatherRes = await fetch(`${baseUrl}/api/weather?lat=${lat}&lng=${lng}&units=${units}`);
-      if (!weatherRes.ok) {
-        throw new Error(`Weather API responded with status: ${weatherRes.status}`);
+      const newState: Partial<WeatherState> = {};
+
+      if (weatherRes.ok) {
+        const weather: WeatherData = await weatherRes.json();
+        dispatch({ type: 'SET_WEATHER', payload: weather });
+        newState.weather = weather;
+      } else {
+        dispatch({ type: 'SET_ERROR', payload: { type: 'weather', message: 'Failed to fetch weather data' } });
       }
-      const weatherJson: WeatherData = await weatherRes.json();
-
-
-      const forecastRes = await fetch(`${baseUrl}/api/weather/forecast?lat=${lat}&lng=${lng}&units=${units}`);
-      if (!forecastRes.ok) {
-        throw new Error(`Forecast API responded with status: ${forecastRes.status}`);
+  
+      if (forecastRes.ok) {
+        const forecastData = await forecastRes.json();
+        const fiveDayForecast = filterForecastByUserTime(forecastData);
+        newState.forecast = fiveDayForecast;
+        dispatch({ type: 'SET_FORECAST', payload: fiveDayForecast });
+      } else {
+        dispatch({ type: 'SET_ERROR', payload: { type: 'forecast', message: 'Failed to fetch forecast data' } });
       }
-      const forecastJson: ForecastData = await forecastRes.json();
-
-      const airQualityRes = await fetch(`${baseUrl}/api/weather/air_pollution?lat=${lat}&lng=${lng}&units=${units}`)
-      if (!airQualityRes.ok) {
-        throw new Error(`Air Quality API responded with status: ${airQualityRes.status}`);
+  
+      if (airQualityRes.ok) {
+        const airQuality: AirQualityResponse = await airQualityRes.json();
+        newState.airQuality = airQuality;
+        dispatch({ type: 'SET_AIR_QUALITY', payload: airQuality });
+      } else {
+        dispatch({ type: 'SET_ERROR', payload: { type: 'airQuality', message: 'Failed to fetch air quality data' } });
       }
+  
+      dispatch({ type: 'SET_ADDRESS', payload: locationAddress });
+      newState.address = locationAddress;
 
-      const airQualityJson: AirQualityResponse = await airQualityRes.json();
+      const timestamp = Date.now();
+      dispatch({ type: 'SET_TIMESTAMP', payload: timestamp });
+      newState.timestamp = timestamp;
 
-      console.log("weather json", airQualityJson);
 
-      if (isCountryUS(lat, lng)) { setUnits("imperial") } else { setUnits("metric") }
-
-      // Set weather and forecast state
-      setWeather(weatherJson);
-      setForecast(filterForecastByUserTime(forecastJson));
-      setAirQuality(airQualityJson);
-      setAddress(locationAddress);
 
       // Cache the new data
-      window.localStorage.setItem(cacheKey, JSON.stringify({
-        data: { weather: weatherJson, forecast: forecastJson, aqi: airQualityJson },
-        timestamp: Date.now(),
-      }));
+      if (Object.keys(newState).length) {
+        setToLocalStorage(cacheKey, newState);
+      }
 
       // Save the last location
-      const lastLocation: LastLocation = { lat, lng, address: locationAddress };
-      window.localStorage.setItem('lastLocation', JSON.stringify(lastLocation));
+      setToLocalStorage('lastLocation', { lat, lng, address: locationAddress });
     } catch (error) {
-      console.error("Error fetching weather:", error);
-      setError("Failed to fetch weather data. Showing default location.");
+      console.error('Error fetching weather:', error);
+      dispatch({ type: 'SET_ERROR', payload: {type: "general", message: 'Failed to fetch weather data. Showing default location.'} });
       // Fallback to New York if there's an error
-      if (lat !== DEFAULT_NY_LAT || lng !== DEFAULT_NY_LNG) {
-        getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS);
-      }
+      getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS);
     } finally {
-      setIsLoading(false);
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [isCountryUS, baseUrl, units]);
+  }, [state.units, baseUrl]);
+  
 
   useEffect(() => {
-    const lastLocationString = window.localStorage.getItem('lastLocation');
-    if (lastLocationString) {
-      const lastLocation: LastLocation = JSON.parse(lastLocationString);
+    const lastLocation = getLastLocationFromLocalStorage();
+    if (lastLocation) {
       getWeather(lastLocation.lat, lastLocation.lng, lastLocation.address);
     } else {
-      // If no last location, use geolocation or default to New York
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            if (isCountryUS(lat, lng)) {
-              setUnits('imperial');
-            } else {
-              setUnits('metric');
-            }
-            getWeather(lat, lng, "Your Location");
-          },
-          () => getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS)
-        );
-      } else {
-        getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS);
-      }
+      // Use geolocation or default to New York
+      const fetchGeolocation = async () => {
+        try {
+          const position: GeolocationPosition = await requestGeolocation();
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          getWeather(lat, lng, "Your Location");
+        } catch (error) {
+          console.error("Error fetching geolocation:", error);
+          // Fallback to New York if geolocation fails or times out
+          getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS);
+        }
+      };
+
+      fetchGeolocation();
     }
-  }, [isCountryUS, getWeather]);
+  }, [isCountryUS, requestGeolocation, getWeather]);
 
   return (
-    <WeatherContext.Provider value={{ weather, airQuality, forecast, address, isLoading, units, setUnits, error, getWeather }}>
+    <WeatherContext.Provider value={{ state, dispatch, getWeather }}>
       {children}
     </WeatherContext.Provider>
   );

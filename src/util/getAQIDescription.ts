@@ -13,6 +13,6 @@ export default function getAirQualityDescription(aqi: number): AirQualityDescrip
         case AirQualityIndex.VeryPoor:
           return "Very Poor";
         default:
-          return "Unknown AQI level";
+          return "Unknown";
       }
   };
