@@ -27,7 +27,7 @@ export const createWeatherDetails = ({chanceOfPrecip, humidity, windSpeed, visib
     },
     {
       title: "Humidity",
-      icon: <Humidity size={24} />,
+      icon: <Icon name="humidity" size={24} />,
       value: `${humidity}%`
     },
     {
