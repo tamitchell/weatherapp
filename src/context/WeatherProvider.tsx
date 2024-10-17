@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useCallback, useEffect, useMemo, useReducer } from "react";
-import { AirQualityResponse, ForecastData, ForecastItem, WeatherCacheKey, WeatherContextProps, WeatherData, WeatherState } from "../types/types";
+import { AirQualityResponse, ForecastData, WeatherCacheKey, WeatherContextProps, WeatherData, WeatherState } from "../types/types";
 import { DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS } from "../data/defaultData";
-import { getCachedWeatherData, getLastLocationFromLocalStorage, getUnitsFromLocalStorage, setToLocalStorage } from "src/util/localStorageUtil";
+import { getCachedWeatherData, getLastLocationFromLocalStorage, getUnitsFromLocalStorage } from "src/util/localStorageUtil";
 import { weatherReducer } from "src/reducers/weatherReducer";
+import setToLocalStorage from "src/util/setToLocalStorage/setToLocalStorage";
 
 
 export const WeatherContext = createContext<WeatherContextProps | undefined>(undefined);

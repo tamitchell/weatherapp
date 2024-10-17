@@ -5,7 +5,7 @@ import LeftPanel from "./LeftPanel";
 import { useWeather } from "../hooks/useWeather";
 import WeeklyForecast from "./WeeklyForecast";
 import { useMemo } from "react";
-import getAirQualityDescription from "../util/getAQIDescription";
+import getAirQualityDescription from "../util/getAQIDescription/getAQIDescription";
 
 /**
  * TODO:

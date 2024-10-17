@@ -1,4 +1,4 @@
-import { AirQualityDescription, AirQualityIndex } from "../types/types";
+import { AirQualityDescription, AirQualityIndex } from "../../types/types";
 
 export default function getAirQualityDescription(aqi: number): AirQualityDescription {
     switch (aqi) {

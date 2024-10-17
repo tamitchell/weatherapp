@@ -1,9 +1,9 @@
 import WeatherIcon from "src/icons/WeatherIcon";
-import ChanceOfRain from "../icons/ChanceOfRain";
-import Humidity from "../icons/Humidity";
-import Icon from "../icons/Icon";
-import { AirQualityDescription, PrecipitationForecast, Units } from "../types/types";
-import formatVisibility from "./formatVisibility";
+import ChanceOfRain from "../../icons/ChanceOfRain";
+import Humidity from "../../icons/Humidity";
+import Icon from "../../icons/Icon";
+import { AirQualityDescription, PrecipitationForecast, Units } from "../../types/types";
+import formatVisibility from "../formatVisibility/formatVisibility";
 
 interface WeatherCardDetail {
     title: string;
