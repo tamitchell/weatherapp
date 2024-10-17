@@ -2,11 +2,11 @@ import React, { useMemo } from 'react';
 import { unix } from 'dayjs';
 import ChanceOfRain from '../icons/ChanceOfRain';
 import Humidity from '../icons/Humidity';
-import Icon from '../icons/Icon';
-import WeatherIcon from '../icons/WeatherIcon';
+import Icon from './Icon/Icon';
 import { Units, ForecastItem } from '../types/types';
 import WeeklyForecastSkeletonLoader from './WeeklyForecastSkeletalLoader';
 import TemperatureRange from './TemperatureRange/TemperatureRange';
+import WeatherIcon from './WeatherIcon/WeatherIcon';
 
 interface WeeklyForecastProps {
   forecast: ForecastItem[];

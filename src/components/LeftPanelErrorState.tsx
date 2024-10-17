@@ -1,4 +1,4 @@
-import Icon from "src/icons/Icon";
+import Icon from "./Icon/Icon";
 
 export default function LeftPanelErrorState(): JSX.Element {
     return (
