@@ -1,4 +1,4 @@
-import { Clouds, ForecastItem, ForecastSys, MainWeatherData, Wind } from "src/types/types";
+import { Clouds, ForecastItem, ForecastSys, MainWeatherData, WeatherCondition, Wind } from "src/types/types";
 
 export function generateMainWeatherData({
     temp = 20,
@@ -60,6 +60,10 @@ export function generateMainWeatherData({
     wind_deg = 180,
     clouds_all = 100,
     pod = 'd',
+    weather_id = 800,
+    weather_main = 'Clear',
+    weather_description = 'clear sky',
+    weather_icon = '01d'
   }: {
     dt: number;
     pop?: number;
@@ -76,7 +80,18 @@ export function generateMainWeatherData({
     wind_deg?: number;
     clouds_all?: number;
     pod?: string;
+    weather_id?: number;
+    weather_main?: string;
+    weather_description?: string;
+    weather_icon?: string;
   }): ForecastItem {
+    const weatherCondition: WeatherCondition = {
+      id: weather_id,
+      main: weather_main,
+      description: weather_description,
+      icon: weather_icon as WeatherCondition['icon']
+    };
+  
     return {
       dt,
       pop,
@@ -88,7 +103,7 @@ export function generateMainWeatherData({
       wind: generateWind({ speed: wind_speed, deg: wind_deg }),
       visibility: 10000,
       sys: generateSys(pod),
-      weather: [],  // Can mock weather data similarly if needed
+      weather: [weatherCondition],
     };
   }
 
