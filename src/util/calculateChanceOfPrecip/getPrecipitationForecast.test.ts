@@ -1,5 +1,5 @@
 import getPrecipitationForecast from "./getPrecipitationForecast";
-import { generateMockForecast } from "./generators";
+import { generateMockForecast } from "../generators";
 import { ForecastItem, PrecipitationForecast } from "src/types/types";
 describe('getPrecipitationForecast', () => {
 
