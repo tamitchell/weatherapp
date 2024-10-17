@@ -148,26 +148,25 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   
 
   useEffect(() => {
-    const lastLocation = getLastLocationFromLocalStorage();
-    if (lastLocation) {
-      getWeather(lastLocation.lat, lastLocation.lng, lastLocation.address);
-    } else {
-      // Use geolocation or default to New York
-      const fetchGeolocation = async () => {
+    const fetchWeatherData = async () => {
+      const lastLocation = getLastLocationFromLocalStorage();
+      if (lastLocation) {
+        await getWeather(lastLocation.lat, lastLocation.lng, lastLocation.address);
+      } else {
         try {
           const position: GeolocationPosition = await requestGeolocation();
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
-          getWeather(lat, lng, "Your Location");
+          await getWeather(lat, lng, "Your Location");
         } catch (error) {
           console.error("Error fetching geolocation:", error);
           // Fallback to New York if geolocation fails or times out
-          getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS);
+          await getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS);
         }
-      };
-
-      fetchGeolocation();
-    }
+      }
+    };
+  
+    fetchWeatherData();
   }, [isCountryUS, requestGeolocation, getWeather]);
 
   return (

@@ -1,4 +1,4 @@
-import { iconMap, IconName } from "../../icons/iconMap";
+import { iconMap, IconName } from "../../data/iconMap";
 
 interface IconProps {
 name: IconName;

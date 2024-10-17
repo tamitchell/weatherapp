@@ -1,6 +1,7 @@
 import { ForecastItem, Units } from "src/types/types";
 import DayForecast from "./DayForecast";
 import { render, screen } from "@testing-library/react";
+import { generateForecastItem } from "src/util/generators";
 
 jest.mock('../MainTemperatureDisplay/MainTemperatureDisplay', () => {
     const MockMainTemperatureDisplay = ({ temp, units }: { temp: number, units: Units }) => (
@@ -27,25 +28,25 @@ jest.mock('../MainTemperatureDisplay/MainTemperatureDisplay', () => {
   });
 
 describe('DayForecast', () => {
-    const baseForecast: ForecastItem = {
+    const baseForecast: ForecastItem = generateForecastItem({
         dt: 1634472000,
-        main: {
-            temp: 20,
-            feels_like: 18,
-            temp_min: 15,
-            temp_max: 25,
-            pressure: 1015,
-            humidity: 65,
-        },
-        weather: [{ id: 800, main: 'Clear', description: 'clear sky', icon: '01d' }],
-        wind: { speed: 5, deg: 180 },
-        pop: 0.2,
-        clouds: { all: 0 },
-        visibility: 10000,
-        sys: { pod: 'd' },
         dt_txt: '2021-10-17 12:00:00',
-    };
-
+        temp: 20,
+        feels_like: 18,
+        temp_min: 15,
+        temp_max: 25,
+        pressure: 1015,
+        humidity: 65,
+        wind_speed: 5,
+        wind_deg: 180,
+        pop: 0.2,
+        clouds_all: 0,
+        weather_id: 800,
+        weather_main: 'Clear',
+        weather_description: 'clear sky',
+        weather_icon: '01d'
+      });
+      
     it('renders correctly with rain', () => {
         const rainForecast = { ...baseForecast, rain: { '3h': 1 } };
         render(<DayForecast forecast={rainForecast} units="imperial" />);
