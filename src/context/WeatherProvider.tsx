@@ -4,6 +4,7 @@ import { DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS } from "../data/default
 import { getCachedWeatherData, getLastLocationFromLocalStorage, getUnitsFromLocalStorage } from "src/util/localStorageUtil";
 import { weatherReducer } from "src/reducers/weatherReducer";
 import setToLocalStorage from "src/util/setToLocalStorage/setToLocalStorage";
+import { useSnackbar } from "notistack";
 
 
 export const WeatherContext = createContext<WeatherContextProps | undefined>(undefined);
@@ -22,6 +23,7 @@ const initialState: WeatherState = {
 
 export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(weatherReducer, initialState);
+  const { enqueueSnackbar } = useSnackbar(); 
 
   const baseUrl = useMemo(() => {
     return process.env.NEXT_PUBLIC_VERCEL_URL ?? 'http://localhost:3000';
@@ -78,7 +80,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
               reject(new Error('An unknown geolocation error occurred.'));
           }
         },
-        options // Apply the options
+        options 
       );
     });
   }, []);
@@ -160,6 +162,23 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
   }, [state.units, baseUrl]);
+
+  useEffect(() => {
+    if(state.error?.airQuality) {
+      enqueueSnackbar('Air Quality Data unavailable.', { variant: 'error' }); 
+    }
+    if(state.error?.forecast) {
+        enqueueSnackbar('5-day forecast unavailable.', { variant: 'error' }); 
+    }
+
+    if(state.error?.general) {
+        enqueueSnackbar('An unknown error has occurred.', { variant: 'error' }); 
+    }
+    if(state.error?.weather) {
+      enqueueSnackbar('Weather data is unavailable. Showing default location.', { variant: 'error' }); 
+    }
+
+  }, [state.error, enqueueSnackbar])
   
 
   useEffect(() => {
@@ -175,6 +194,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
           await getWeather(lat, lng, "Your Location");
         } catch (error) {
           console.error("Error fetching geolocation:", error);
+          enqueueSnackbar('Failed to retrieve your location. Showing default weather for New York.', { variant: 'error' });
           // Fallback to New York if geolocation fails or times out
           await getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS);
         }
@@ -182,7 +202,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
     };
   
     fetchWeatherData();
-  }, [isCountryUS, requestGeolocation, getWeather]);
+  }, [isCountryUS, requestGeolocation, getWeather, enqueueSnackbar]);
 
   return (
     <WeatherContext.Provider value={{ state, dispatch, getWeather }}>

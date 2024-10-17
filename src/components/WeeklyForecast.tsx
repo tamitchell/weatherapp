@@ -76,7 +76,7 @@ export default function WeeklyForecast({ forecast, units, isLoading }: WeeklyFor
 
               <div className="flex justify-between bg-black text-white p-2 rounded-lg text-sm">
                 <div className="flex flex-col items-center">
-                  <Icon name={precipIconName} size={28} />
+                  <Icon name={precipIconName} fill='white' size={28} />
                   <p>{Math.round(pop * 100)}%</p>
                 </div>
                 <div className="flex flex-col items-center">
