@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import DateDisplay from "./DateDisplay";
-import dayjs from "dayjs";
 
 // Mock dayjs to return a fixed date
 jest.mock('dayjs', () => () => ({
