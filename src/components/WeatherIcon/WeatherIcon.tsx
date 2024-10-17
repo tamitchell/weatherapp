@@ -1,5 +1,5 @@
+import { weatherIconMap, WeatherIconName } from "src/icons/iconMap";
 
-import { weatherIconMap, WeatherIconName } from "./iconMap";
 interface IconProps {
     name: WeatherIconName;
     size?: number;

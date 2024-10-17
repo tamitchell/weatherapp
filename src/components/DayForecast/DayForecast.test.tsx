@@ -2,16 +2,29 @@ import { ForecastItem, Units } from "src/types/types";
 import DayForecast from "./DayForecast";
 import { render, screen } from "@testing-library/react";
 
-jest.mock('../MainTemperatureDisplay/MainTemperatureDisplay', () => ({ temp, units }: { temp: number, units: Units }) => (
-    <div data-testid="main-temp">{`${temp}-${units}`}</div>
-));
-jest.mock('../DayWeatherStats/DayWeatherStats', () => ({ pop, humidity, windSpeed, units, precipType }: { pop: number, humidity: number, windSpeed: number, units: string, precipType: string }) => (
-    <div data-testid="day-weather-stats">{`${pop}-${humidity}-${windSpeed}-${units}-${precipType}`}</div>
-));
-
-jest.mock('../WeatherIcon/WeatherIcon', () => ({ name, size, fill, stroke }: { name: string, size: number, fill: string, stroke: string }) => (
-    <div data-testid="weather-icon">{`Icon: ${name}, Size: ${size}, Fill: ${fill}, Stroke: ${stroke}`}</div>
-));
+jest.mock('../MainTemperatureDisplay/MainTemperatureDisplay', () => {
+    const MockMainTemperatureDisplay = ({ temp, units }: { temp: number, units: Units }) => (
+      <div data-testid="main-temp">{`${temp}-${units}`}</div>
+    );
+    MockMainTemperatureDisplay.displayName = 'MainTemperatureDisplay';
+    return MockMainTemperatureDisplay;
+  });
+  
+  jest.mock('../DayWeatherStats/DayWeatherStats', () => {
+    const MockDayWeatherStats = ({ pop, humidity, windSpeed, units, precipType }: { pop: number, humidity: number, windSpeed: number, units: string, precipType: string }) => (
+      <div data-testid="day-weather-stats">{`${pop}-${humidity}-${windSpeed}-${units}-${precipType}`}</div>
+    );
+    MockDayWeatherStats.displayName = 'DayWeatherStats';
+    return MockDayWeatherStats;
+  });
+  
+  jest.mock('../WeatherIcon/WeatherIcon', () => {
+    const MockWeatherIcon = ({ name, size, fill, stroke }: { name: string, size: number, fill: string, stroke: string }) => (
+      <div data-testid="weather-icon">{`Icon: ${name}, Size: ${size}, Fill: ${fill}, Stroke: ${stroke}`}</div>
+    );
+    MockWeatherIcon.displayName = 'WeatherIcon';
+    return MockWeatherIcon;
+  });
 
 describe('DayForecast', () => {
     const baseForecast: ForecastItem = {

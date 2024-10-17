@@ -2,9 +2,10 @@ import { render, screen } from "@testing-library/react";
 import DayWeatherStats from "./DayWeatherStats";
 
 // Mock the Icon component
-jest.mock('../Icon/Icon', () => ({ name, size }: { name: string, size: number }) => (
-    <div data-testid={`icon-${name}`}>{`Mock Icon: ${name}, Size: ${size}`}</div>
-  ));
+jest.mock('../Icon/Icon', () => ({
+  __esModule: true,
+  default: ({ name }: { name: string }) => <div data-testid={`icon-${name}`}>{`Mock Icon: ${name}`}</div>
+}));
 
 
 describe('WeatherStats', () => {
