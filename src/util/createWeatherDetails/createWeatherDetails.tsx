@@ -1,5 +1,5 @@
 import Humidity from "../../icons/Humidity";
-import Icon from "../../icons/Icon";
+import Icon from "../../components/Icon/Icon";
 import { AirQualityDescription, PrecipitationForecast, Units } from "../../types/types";
 import formatVisibility from "../formatVisibility/formatVisibility";
 
