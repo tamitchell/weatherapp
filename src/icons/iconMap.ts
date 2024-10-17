@@ -15,6 +15,8 @@ import fog from "../public/img/icons/weather/fog.svg";
 import alertTriangle from "../public/img/icons/util/alert-triangle.svg";
 import balloon from "../public/img/icons/util/balloon.svg";
 import refresh from "../public/img/icons/util/refresh.svg";
+import raindrops from "../public/img/icons/weather/raindrops.svg";
+import snowflake from "../public/img/icons/weather/snowflake.svg";
 
 export const iconMap = {
     balloon: balloon, 
@@ -24,6 +26,8 @@ export const iconMap = {
     air_quality: air_quality,
     wind_speed: wind_speed,
     cloud: cloudy,
+    raindrops: raindrops,
+    snowflake: snowflake,
     refresh: refresh,
     sun: clear_day,
     "alert-triangle": alertTriangle,

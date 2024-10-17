@@ -1,7 +1,8 @@
+import WeatherIcon from "src/icons/WeatherIcon";
 import ChanceOfRain from "../icons/ChanceOfRain";
 import Humidity from "../icons/Humidity";
 import Icon from "../icons/Icon";
-import { AirQualityDescription, Units } from "../types/types";
+import { AirQualityDescription, PrecipitationForecast, Units } from "../types/types";
 import formatVisibility from "./formatVisibility";
 
 interface WeatherCardDetail {
@@ -11,7 +12,7 @@ interface WeatherCardDetail {
   }
   
   interface WeatherMetrics {
-    chanceOfRain: number | null;
+    chanceOfPrecip: PrecipitationForecast;
     humidity: number;
     windSpeed: number;
     visibility: number;
@@ -20,11 +21,11 @@ interface WeatherCardDetail {
     units: Units;
   }
 
-export const createWeatherDetails = ({chanceOfRain, humidity, windSpeed, visibility, pressure, airQuality, units}: WeatherMetrics): ReadonlyArray<WeatherCardDetail> => Object.freeze([
+export const createWeatherDetails = ({chanceOfPrecip, humidity, windSpeed, visibility, pressure, airQuality, units}: WeatherMetrics): ReadonlyArray<WeatherCardDetail> => Object.freeze([
     {
-      title: "% of Rain",
-      icon: <ChanceOfRain size={24} />,
-      value: chanceOfRain ? `${chanceOfRain}%` : "None"
+      title: chanceOfPrecip.type === "rain" ? "% of Rain" : "% of Snow",
+      icon: chanceOfPrecip.type === "rain" ? <Icon name="raindrops" size={24} /> : <Icon name="snowflake" size={24} />,
+      value: `${chanceOfPrecip.probability}%`
     },
     {
       title: "Humidity",

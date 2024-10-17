@@ -1,9 +1,9 @@
 import clsx from "clsx";
-import { Units, AirQualityDescription } from "../types/types";
+import { Units, AirQualityDescription, PrecipitationForecast } from "../types/types";
 import { createWeatherDetails } from "../util/createWeatherDetails";
 
 interface WeatherDetailsGridProps {
-  chanceOfRain: number | null;
+  chanceOfPrecip:  PrecipitationForecast;
   humidity: number;
   windSpeed: number;
   visibility: number;
@@ -12,10 +12,10 @@ interface WeatherDetailsGridProps {
   units: Units;
 }
 // text-[clamp(0.75rem,0.275vw+0.675rem,0.9375rem)] 
-export default function WeatherDetailsGrid({ chanceOfRain, humidity, windSpeed, visibility, pressure, airQuality, units }: WeatherDetailsGridProps): JSX.Element {
+export default function WeatherDetailsGrid({ chanceOfPrecip, humidity, windSpeed, visibility, pressure, airQuality, units }: WeatherDetailsGridProps): JSX.Element {
   return (
     <div className="grid grid-cols-3 gap-2 w-full text-charcoal">
-      {createWeatherDetails({ chanceOfRain, humidity, windSpeed, visibility, pressure, airQuality, units }).map((detail, index) => (
+      {createWeatherDetails({ chanceOfPrecip, humidity, windSpeed, visibility, pressure, airQuality, units }).map((detail, index) => (
         <div key={index} className={clsx(
           "bg-white rounded-lg border-2 border-black",
           "flex flex-col items-center justify-between",

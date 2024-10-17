@@ -47,40 +47,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       lng >= usBounds.west &&
       lng <= usBounds.east
     );
-  }, [])
-
-  const filterForecastByUserTime = (forecastData: ForecastData): ForecastItem[] => {
-    const forecastByDay: { [key: string]: ForecastItem[] } = {};
-  
-    forecastData.list.forEach((entry) => {
-      const forecastTime = new Date(entry.dt * 1000);
-      const forecastDay = forecastTime.toISOString().split('T')[0]; // Get the day (YYYY-MM-DD)
-  
-      // Group forecast entries by day
-      if (!forecastByDay[forecastDay]) {
-        forecastByDay[forecastDay] = [];
-      }
-      forecastByDay[forecastDay].push(entry);
-    });
-  
-    // Select a representative forecast item for each day (e.g., the one closest to noon)
-    const fiveDayForecast = Object.keys(forecastByDay)
-      .slice(0, 5) // Only take the next 5 days
-      .map((day) => {
-        const dayEntries = forecastByDay[day];
-  
-        // Find the forecast closest to noon (12:00 PM)
-        const closestToNoon = dayEntries.reduce((prev, curr) => {
-          const prevHour = new Date(prev.dt * 1000).getHours();
-          const currHour = new Date(curr.dt * 1000).getHours();
-          return Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev;
-        });
-  
-        return closestToNoon;
-      });
-  
-    return fiveDayForecast;
-  };
+  }, []);
 
   const requestGeolocation = useCallback((): Promise<GeolocationPosition> => {
     return new Promise((resolve, reject) => {
@@ -137,10 +104,9 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       }
   
       if (forecastRes.ok) {
-        const forecastData = await forecastRes.json();
-        const fiveDayForecast = filterForecastByUserTime(forecastData);
-        newState.forecast = fiveDayForecast;
-        dispatch({ type: 'SET_FORECAST', payload: fiveDayForecast });
+        const forecastData: ForecastData = await forecastRes.json();
+        dispatch({ type: 'SET_FORECAST', payload: forecastData.list });
+        newState.forecast = forecastData.list;
       } else {
         dispatch({ type: 'SET_ERROR', payload: { type: 'forecast', message: 'Failed to fetch forecast data' } });
       }

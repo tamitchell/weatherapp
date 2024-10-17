@@ -8,14 +8,15 @@ import { Dispatch, useCallback } from "react";
 import UnitsToggle from "./UnitsToggle";
 import WeatherDetailsGrid from "./WeatherDetailsGrid";
 import WeatherSummary from "./WeatherSummary";
-import calculateRainProbability from "../util/calculateChanceOfPrecip";
+import getPrecipitationForecast from "../util/calculateChanceOfPrecip/getPrecipitationForecast";
 import { baseStyles } from "../styles/styles";
-import { WeatherData, AirQualityDescription, Units, WeatherAction, ErrorType } from "../types/types";
+import { WeatherData, AirQualityDescription, Units, WeatherAction, ErrorType, ForecastItem } from "../types/types";
 import LeftPanelErrorState from "./LeftPanelErrorState";
 import TemperatureRange from "./TemperatureRange/TemperatureRange";
 
 interface LeftPanelProps {
   weatherData: WeatherData | null;
+  forecast: ForecastItem[];
   airQuality: AirQualityDescription;
   units: Units;
   dispatch: Dispatch<WeatherAction>
@@ -26,7 +27,7 @@ interface LeftPanelProps {
   } | null;
 }
 
-export default function LeftPanel({ weatherData, units, airQuality, dispatch, isLoading, error }: LeftPanelProps) {
+export default function LeftPanel({ weatherData, units, airQuality, forecast, dispatch, isLoading, error }: LeftPanelProps) {
   const handleUnitChange = useCallback(() => {
     dispatch({ type: 'SET_UNITS', payload: units === 'imperial' ? 'metric' : 'imperial' });
   }, [units, dispatch]);
@@ -49,7 +50,7 @@ export default function LeftPanel({ weatherData, units, airQuality, dispatch, is
         <WeatherSummary name={weatherData.name} description={weatherData.weather[0].description} mainTemp={weatherData.main.temp} feelsLike={weatherData.main.feels_like} units={units} />
         <TemperatureRange tempMin={weatherData.main.temp_min} tempMax={weatherData.main.temp_max} units={units} />
         <WeatherDetailsGrid
-          chanceOfRain={calculateRainProbability(weatherData)}
+          chanceOfPrecip={getPrecipitationForecast(forecast)}
           humidity={weatherData.main.humidity}
           windSpeed={weatherData.wind.speed}
           visibility={weatherData.visibility}

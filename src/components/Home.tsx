@@ -25,7 +25,6 @@ export default function Home() {
   const { airQuality, weather, units, address, isLoading, error, forecast } = state;
 
   const airQualityIndex = useMemo(() => getAirQualityDescription(airQuality?.list[0].main.aqi || 0), [airQuality])
-  console.log('Forecast data:', forecast);
   return (
     <div className={clsx(
       "min-h-screen w-full",
@@ -38,7 +37,7 @@ export default function Home() {
         "md:max-w-[30vw]",
         "md:min-h-screen"
       )}>
-    <LeftPanel weatherData={weather} airQuality={airQualityIndex} dispatch={dispatch} units={units} address={address || ''} isLoading={isLoading} error={error} />
+    <LeftPanel weatherData={weather} forecast={forecast} airQuality={airQualityIndex} dispatch={dispatch} units={units} address={address || ''} isLoading={isLoading} error={error} />
       </div>
       <div className={clsx(
         "w-full",

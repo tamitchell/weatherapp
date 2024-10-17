@@ -298,6 +298,14 @@ export interface MainWeatherData {
     units: Units;
   }
   
-  // Now, let's create a type for the cache key itself
   export type WeatherCacheKey = `weather_${number}_${number}_${Units}`;
   
+
+export type PrecipitationType = 'none' | 'rain' | 'snow';
+
+export interface PrecipitationForecast {
+  probability: number;
+  type: PrecipitationType;
+  rainAmount: number;
+  snowAmount: number;
+}
