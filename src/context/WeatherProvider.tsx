@@ -51,23 +51,38 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const requestGeolocation = useCallback((): Promise<GeolocationPosition> => {
-    return new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        reject(new Error('Geolocation request timed out'));
-      }, 10000); // 10-second timeout for geolocation
+    const options = {
+      enableHighAccuracy: true,  // Request high accuracy, especially on mobile
+      timeout: 10000,            // Timeout after 10 seconds
+      maximumAge: 0,             // Always fetch fresh data (no cached position)
+    };
   
+    return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
-          clearTimeout(timeout); // Clear timeout when geolocation succeeds
           resolve(position);
         },
-        (error) => {
-          clearTimeout(timeout); // Clear timeout if geolocation fails
-          reject(error); // Reject with the geolocation error
-        }
+        (error: GeolocationPositionError) => {
+          // Handle specific geolocation errors
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              reject(new Error('Location access denied by the user.'));
+              break;
+            case error.POSITION_UNAVAILABLE:
+              reject(new Error('Location information is unavailable.'));
+              break;
+            case error.TIMEOUT:
+              reject(new Error('Geolocation request timed out.'));
+              break;
+            default:
+              reject(new Error('An unknown geolocation error occurred.'));
+          }
+        },
+        options // Apply the options
       );
     });
   }, []);
+  
 
   const getWeather = useCallback(async (lat: number, lng: number, locationAddress: string) => {
     dispatch({ type: 'SET_LOADING', payload: true });
