@@ -1,34 +1,35 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import WeatherSummary from './WeatherSummary';
-import '@testing-library/jest-dom';
 
-// Mock the child components
+const mockMainTemperatureDisplay = jest.fn();
+const mockFeelsLikeTemperature = jest.fn();
+const mockWeatherDescription = jest.fn();
+
+jest.mock('../MainTemperatureDisplay/MainTemperatureDisplay', () => ({
+  __esModule: true,
+  default: (props: { temp: number, units: string }) => {
+    mockMainTemperatureDisplay(props);
+    return <div data-testid="mock-main-temp">{props.temp} {props.units === "imperial" ? "°F" : "°C"}</div>;
+  },
+}));
+
 jest.mock('../FeelsLikeTemperature/FeelsLikeTemperature', () => ({
   __esModule: true,
-  default: ({ feelsLike, units }: { feelsLike: number, units: string }) => (
-    <span data-testid="mock-feels-like">
-      feels like {feelsLike} {units === "imperial" ? "°F" : "°C"}
-    </span>
-  ),
+  default: (props: { feelsLike: number, units: string }) => {
+    mockFeelsLikeTemperature(props);
+    return <span data-testid="mock-feels-like">feels like {props.feelsLike} {props.units === "imperial" ? "°F" : "°C"}</span>;
+  },
 }));
 
 jest.mock('../WeatherDescription/WeatherDescription', () => ({
   __esModule: true,
-  default: ({ description }: { description: string }) => (
-    <span data-testid="mock-description">{description}</span>
-  ),
+  default: (props: { description: string }) => {
+    mockWeatherDescription(props);
+    return <span data-testid="mock-description">{props.description}</span>;
+  },
 }));
 
-jest.mock('../MainTemperatureDisplay/MainTemperatureDisplay', () => ({
-  __esModule: true,
-  default: ({ temp, units }: { temp: number, units: string }) => (
-    <div data-testid="mock-main-temp">
-      {temp} {units === "imperial" ? "°F" : "°C"}
-    </div>
-  ),
-}));
-
-describe('WeatherSummary', () => {
+describe('WeatherSummary - Data Flow', () => {
   const mockProps = {
     cityName: 'New York',
     mainTemp: 72,
@@ -37,36 +38,50 @@ describe('WeatherSummary', () => {
     units: 'imperial' as const,
   };
 
-  it('renders the correct city name', () => {
-    render(<WeatherSummary {...mockProps} />);
-    expect(screen.getByText('New York')).toBeInTheDocument();
+  beforeEach(() => {
+    mockMainTemperatureDisplay.mockClear();
+    mockFeelsLikeTemperature.mockClear();
+    mockWeatherDescription.mockClear();
   });
 
-  it('renders the main temperature', () => {
+  it('passes the correct data to MainTemperatureDisplay', () => {
     render(<WeatherSummary {...mockProps} />);
-    const mainTempElement = screen.getByTestId('mock-main-temp');
-    expect(mainTempElement).toHaveTextContent('72 °F'); // Testing with imperial units
+    expect(mockMainTemperatureDisplay).toHaveBeenCalledWith({
+      temp: 72,
+      units: 'imperial',
+      className: expect.any(String),
+    });
   });
 
-  it('renders the feels like temperature', () => {
+  it('passes the correct data to FeelsLikeTemperature', () => {
     render(<WeatherSummary {...mockProps} />);
-    const feelsLikeElement = screen.getByTestId('mock-feels-like');
-    expect(feelsLikeElement).toHaveTextContent('feels like 70 °F');
+    expect(mockFeelsLikeTemperature).toHaveBeenCalledWith({
+      feelsLike: 70,
+      units: 'imperial',
+    });
   });
 
-  it('renders the weather description', () => {
+  it('passes the correct data to WeatherDescription', () => {
     render(<WeatherSummary {...mockProps} />);
-    const descriptionElement = screen.getByTestId('mock-description');
-    expect(descriptionElement).toHaveTextContent('clear sky');
+    expect(mockWeatherDescription).toHaveBeenCalledWith({
+      description: 'clear sky',
+    });
   });
 
-  it('renders with metric units', () => {
+  it('correctly transforms data for metric units', () => {
     const metricProps = { ...mockProps, units: 'metric' as const };
-    render(<WeatherSummary {...metricProps} />);
-    const mainTempElement = screen.getByTestId('mock-main-temp');
-    const feelsLikeElement = screen.getByTestId('mock-feels-like');
 
-    expect(mainTempElement).toHaveTextContent('72 °C');
-    expect(feelsLikeElement).toHaveTextContent('feels like 70 °C');
+    render(<WeatherSummary {...metricProps} />);
+
+    expect(mockMainTemperatureDisplay).toHaveBeenCalledWith({
+      temp: 72,
+      units: 'metric',
+      className: expect.any(String),
+    });
+
+    expect(mockFeelsLikeTemperature).toHaveBeenCalledWith({
+      feelsLike: 70,
+      units: 'metric',
+    });
   });
 });

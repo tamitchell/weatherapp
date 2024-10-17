@@ -6,6 +6,7 @@ import WeeklyForecastSkeletonLoader from './WeeklyForecastSkeletalLoader';
 import TemperatureRange from './TemperatureRange/TemperatureRange';
 import WeatherIcon from './WeatherIcon/WeatherIcon';
 import MainTemperatureDisplay from './MainTemperatureDisplay/MainTemperatureDisplay';
+import WeatherDescription from './WeatherDescription/WeatherDescription';
 
 interface WeeklyForecastProps {
   forecast: ForecastItem[];
@@ -69,7 +70,7 @@ export default function WeeklyForecast({ forecast, units, isLoading }: WeeklyFor
               <div className="flex flex-col items-center my-3">
                 <WeatherIcon name={weather[0].icon} size={56} fill='transparent' stroke='black' />
                 <MainTemperatureDisplay className='my-1' temp={main.temp} units={units} />
-                <p className="text-sm italic capitalize">{weather[0].description}</p> {/* Weather Description */}
+                <WeatherDescription description={weather[0].description} />
               </div>
               <TemperatureRange tempMin={main.temp_min} tempMax={main.temp_max} units={units} />
 
