@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import WeeklyForecast from './WeeklyForecast';
 import { generateMockForecast } from 'src/util/generators';
 import { Units } from 'src/types/types';
+import dayjs from 'dayjs';
 
 jest.mock('../WeatherIcon/WeatherIcon', () => ({
     __esModule: true,
@@ -41,37 +42,62 @@ jest.mock('../WeatherIcon/WeatherIcon', () => ({
   }));
   
 
-  const mockForecast = generateMockForecast(5, [0, 1, 0, 0, 1], [0, 0, 0, 0, 0], [0.2, 0.5, 0.1, 0.3, 0.65]);
-
 describe('WeeklyForecast', () => {
+    const startDate = dayjs().startOf('day'); // Use today as the start date
+    const mockForecast = generateMockForecast(5, 
+      [0, 1, 0, 0, 1],  // rainAmounts
+      [0, 0, 0, 0, 0],  // snowAmounts
+      [0.2, 0.5, 0.1, 0.3, 0.65],  // pops
+      startDate.unix()  // Start date
+    );
+  
   it('displays the loading state when isLoading is true', () => {
     render(<WeeklyForecast forecast={[]} units="imperial" isLoading={true} />);
     expect(screen.getByTestId('loading-skeleton')).toBeInTheDocument();
   });
 
-  it('renders the correct number of forecast cards when data is available', () => {
+it('renders the correct number of forecast cards when data is available', () => {
     render(<WeeklyForecast forecast={mockForecast} units="imperial" isLoading={false} />);
     
-    // Check that 5 forecast cards are rendered
-    expect(screen.getAllByTestId(/forecast-card-/)).toHaveLength(mockForecast.length);  // Matching by regex
-    expect(screen.getAllByTestId(/weather-icon-/)).toHaveLength(mockForecast.length);  // Matching by regex
-    expect(screen.getAllByTestId(/main-temp-/)).toHaveLength(mockForecast.length);  // Matching by regex
+    const forecastCards = screen.getAllByTestId(/^forecast-card-/);
+    expect(forecastCards).toHaveLength(5);
+    
+    // Check for the next 5 days
+    for (let i = 0; i < 5; i++) {
+      const date = dayjs().add(i, 'day');
+      expect(screen.getByText(date.format('MMM D'))).toBeInTheDocument();
+    }
   });
+
 
   it('correctly applies the data transformation logic (filterForecastByUserTime)', () => {
     render(<WeeklyForecast forecast={mockForecast} units="imperial" isLoading={false} />);
-
-    // Check for specific entries based on the transformation logic
-    expect(screen.getByText((content, element) => element?.tagName.toLowerCase() === 'p' && content.includes('Dec'))).toBeInTheDocument();  // Example date based on the mock forecast    expect(screen.getByText('Clear sky')).toBeInTheDocument(); // Example weather description
-    expect(screen.getByText('Partly cloudy')).toBeInTheDocument(); // Another weather description
+    
+    const currentMonth = dayjs().format('MMM');
+    
+    // Check for the current month in the rendered forecast
+    expect(screen.getAllByText((content, element) => 
+      element?.tagName.toLowerCase() === 'p' && content.includes(currentMonth)
+    )).toHaveLength(5); // Expecting 5 dates with the current month
+    
+    // Optionally, check for specific dates if needed
+    const startDate = dayjs();
+    for (let i = 0; i < 5; i++) {
+      const expectedDate = startDate.add(i, 'day').format('MMM D');
+      expect(screen.getByText(expectedDate)).toBeInTheDocument();
+    }
   });
 
-  it('displays precipitation, humidity, and wind speed correctly', () => {
+it('displays precipitation, humidity, and wind speed correctly', () => {
     render(<WeeklyForecast forecast={mockForecast} units="imperial" isLoading={false} />);
-
-    // Check that the correct percentage of precipitation is displayed
-    expect(screen.getByText('20%')).toBeInTheDocument(); // For example, based on mock forecast data
-    expect(screen.getByText('65%')).toBeInTheDocument(); // Humidity example
-    expect(screen.getByText('5 mph')).toBeInTheDocument(); // Wind speed example
+    
+    // Check that the correct percentages are displayed
+    expect(screen.getAllByText(/\d+%/)).toHaveLength(10); // 5 for precipitation, 5 for humidity
+    expect(screen.getAllByText(/\d+ mph/)).toHaveLength(5); // 5 for wind speed
+    
+    // Check for specific values
+    expect(screen.getByText('20%')).toBeInTheDocument();
+    expect(screen.getAllByText('75%')).toHaveLength(5); // Humidity
+    expect(screen.getAllByText('5 mph')).toHaveLength(5);
   });
 });

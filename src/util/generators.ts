@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { Clouds, ForecastItem, ForecastSys, MainWeatherData, WeatherCondition, Wind } from "src/types/types";
 
 export function generateMainWeatherData({
@@ -111,19 +112,25 @@ export function generateMainWeatherData({
     periods: number,
     rainAmounts: number[] = [],
     snowAmounts: number[] = [],
-    pops: number[] = []
+    pops: number[] = [],
+    startDate?: number // Optional start date timestamp
   ): ForecastItem[] {
     const forecast: ForecastItem[] = [];
+    const start = startDate ? dayjs.unix(startDate) : dayjs().startOf('day');
+  
     for (let i = 0; i < periods; i++) {
       const rain = rainAmounts[i] || 0;
       const snow = snowAmounts[i] || 0;
       const pop = pops[i] || 0;
+      const currentDate = start.add(i, 'day');
+      const timestamp = currentDate.unix();
+  
       forecast.push(generateForecastItem({
-        dt: i,
+        dt: timestamp,
         pop,
         rainAmount: rain,
         snowAmount: snow,
-        dt_txt: `2024-10-16 0${i}:00`
+        dt_txt: currentDate.format('YYYY-MM-DD 12:00:00')
       }));
     }
     return forecast;
