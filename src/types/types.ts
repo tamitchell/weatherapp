@@ -209,7 +209,7 @@ export type AirQualityDescription =
   | 'Moderate'
   | 'Poor'
   | 'Very Poor'
-  | 'Unknown';
+  | 'Unknown AQI level';
 
 export type AirQualityResponse = {
   coord: Coordinates;
@@ -345,3 +345,5 @@ export interface MotionComponentProps {
   'data-testid'?: string;
   style?: Record<string, number | string>;
 }
+
+export type Theme = 'light' | 'dark';

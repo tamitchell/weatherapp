@@ -11,25 +11,28 @@ Like many projects, this app continuously grows in scale. It's more of a pet pro
 - **Location Search:** Use Google Places for searching within cities or specific locations and instantly view the weather.
 - **User Preferences:** Easily switch between imperial and metric units for temperature and wind speed. The user's preference is stored for convenience.
 - **Location Auto-Detection:** The app attempts auto-detection of the user's current location upon being granted access to geolocation.
+- **Outfit Recommendations:** AI-powered suggestions (ChatGPT) for what to wear based on current weather conditions and forecast.
 
-## Future Features
+## Upcoming Features
 
-### (Mid November 2024)
+### In Progress
 
-- **Do I need a jacket?** Addition of langchain ChatGPT generated feedback of what clothing a user may want to wear based on weather details
+- **Dark Mode Support** (February 2025): Implementation of system-wide dark mode support
+- **Cypress Integration** (March 2025): End-to-end testing implementation
 
-### (December 2024)
+### Planned
 
-- First integration of end to end testing using cypress
+- **Outfit Recommendation Enhancement** (February 2025): Adding user preferences to customize clothing suggestions
+- **Water the Flowers!** (April 2025): First iteration of pixel-based mini-game when weather data isn't available or API is down
 
-### (January 2025)
+## Technologies Used
 
-- **Water the flowers!\*** First Iteration of pixel based mini-game when weather data isn't available or api is down.
-
-## Technologies Used:
-
-- **React:** A flexible and performance-oriented JavaScript library for building user interfaces.
-- **Next.js:** A powerful React framework for server-side rendering and static site generation.
-- **Google Places API:** Enables location-based search and retrieves detailed location information for cities and landmarks worldwide.
-- **OpenWeather API:** Provides real-time current weather data and a 5-day forecast.
-- **Jest:** For Unit testing
+- **React:** A flexible and performance-oriented JavaScript library for building user interfaces
+- **Next.js:** A powerful React framework for server-side rendering and static site generation
+- **Google Places API:** Enables location-based search and retrieves detailed location information for cities and landmarks worldwide
+- **OpenWeather API:** Provides real-time current weather data and a 5-day forecast
+- **LangChain & OpenAI:** Powers intelligent outfit recommendations based on weather conditions
+- **Tanstack Query:** For server state management, caching, and synchronization
+- **Tanstack React Query Dev Tools:** For debugging and development optimization
+- **Jest:** For unit testing
+- **Tailwind CSS:** For styling and responsive design

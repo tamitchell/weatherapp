@@ -37,36 +37,74 @@ export const createWeatherDetails = ({
         chanceOfPrecip.type === 'snow' ? 'Chance of Snow' : 'Chance of Rain',
       icon:
         chanceOfPrecip.type === 'snow' ? (
-          <Icon name="snowflake" size={30} />
+          <Icon
+            name="snowflake"
+            size={30}
+            className="text-secondary-foreground dark:text-primary"
+          />
         ) : (
-          <Icon name="raindrops" size={30} />
+          <Icon
+            name="raindrops"
+            size={30}
+            className="text-secondary-foreground dark:text-primary"
+          />
         ),
       value: `${chanceOfPrecip.probability}%`,
     },
     {
       title: 'Humidity',
-      icon: <Icon name="humidity" size={30} />,
+      icon: (
+        <Icon
+          name="humidity"
+          size={30}
+          className="text-secondary-foreground dark:text-primary"
+        />
+      ),
       value: `${humidity}%`,
     },
     {
       title: 'Wind Speed',
-      icon: <Icon name="wind_speed" fill="transparent" size={30} />,
+      icon: (
+        <Icon
+          name="wind_speed"
+          fill="transparent"
+          size={30}
+          className="text-secondary-foreground dark:text-primary"
+        />
+      ),
       value: `${Math.round(windSpeed)} ${units === 'imperial' ? 'mph' : 'm/s'}`,
     },
     {
       title: 'Visibility',
-      icon: <Icon name="visibility" size={30} />,
+      icon: (
+        <Icon
+          name="visibility"
+          size={30}
+          className="text-secondary-foreground dark:text-primary"
+        />
+      ),
       value: `${formatVisibility(visibility, units)}`,
     },
     {
       title: 'Pressure',
-      icon: <Icon name="pressure" size={30} />,
+      icon: (
+        <Icon
+          name="pressure"
+          size={30}
+          className="text-secondary-foreground dark:text-primary"
+        />
+      ),
       value: `${pressure} ${units === 'imperial' ? 'inHg' : 'hPa'}`,
     },
     {
       title: 'Air Quality',
       icon: (
-        <Icon name="air_quality" fill="black" stroke="transparent" size={30} />
+        <Icon
+          name="air_quality"
+          stroke="transparent"
+          size={30}
+          className="text-secondary-foreground dark:text-primary"
+        />
       ),
       value: `${airQuality}`,
     },
