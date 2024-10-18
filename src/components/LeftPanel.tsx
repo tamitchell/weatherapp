@@ -3,11 +3,11 @@ import Search from "./Search";
 import clsx from "clsx";
 import { SkeletonLeftPanelLoader } from "./SkeletalLeftPanel";
 import Logo from "../icons/Logo";
-import DateDisplay from "./DateDisplay";
+import DateDisplay from "./DateDisplay/DateDisplay";
 import { Dispatch, useCallback } from "react";
 import UnitsToggle from "./UnitsToggle";
 import WeatherDetailsGrid from "./WeatherDetailsGrid";
-import WeatherSummary from "./WeatherSummary";
+import WeatherSummary from "./WeatherSummary/WeatherSummary";
 import getPrecipitationForecast from "../util/calculateChanceOfPrecip/getPrecipitationForecast";
 import { baseStyles } from "../styles/styles";
 import { WeatherData, AirQualityDescription, Units, WeatherAction, ErrorType, ForecastItem } from "../types/types";
@@ -47,7 +47,7 @@ export default function LeftPanel({ weatherData, units, airQuality, forecast, di
     ) : weatherData && (
       <div className="flex flex-col gap-2">
         <DateDisplay />
-        <WeatherSummary name={weatherData.name} description={weatherData.weather[0].description} mainTemp={weatherData.main.temp} feelsLike={weatherData.main.feels_like} units={units} />
+        <WeatherSummary cityName={weatherData.name} description={weatherData.weather[0].description} mainTemp={weatherData.main.temp} feelsLike={weatherData.main.feels_like} units={units} />
         <TemperatureRange tempMin={weatherData.main.temp_min} tempMax={weatherData.main.temp_max} units={units} />
         <WeatherDetailsGrid
           chanceOfPrecip={getPrecipitationForecast(forecast)}

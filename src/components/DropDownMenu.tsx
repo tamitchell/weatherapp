@@ -2,11 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import Icon from './Icon/Icon';
 
-// interface DropdownMenuProps {
-//   units: Units;
-//   setUnits: (units: Units) => void;
-// }
-
 export default function DropdownMenu(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);

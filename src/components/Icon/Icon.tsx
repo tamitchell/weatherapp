@@ -15,6 +15,7 @@ export default function Icon({ name, size = 24, stroke, fill = "black", ...props
         width={size}
         height={size}
         fill={fill}
+        data-testid={`icon-${name}`}
         stroke={stroke}
         {...props}
       />

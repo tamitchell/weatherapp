@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import LeftPanel from "./LeftPanel";
 import { useWeather } from "../hooks/useWeather";
-import WeeklyForecast from "./WeeklyForecast";
+import WeeklyForecast from "./WeeklyForecast/WeeklyForecast";
 import { useMemo } from "react";
 import getAirQualityDescription from "../util/getAQIDescription/getAQIDescription";
 

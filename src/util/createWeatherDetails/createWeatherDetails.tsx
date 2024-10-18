@@ -1,4 +1,3 @@
-import Humidity from "../../icons/Humidity";
 import Icon from "../../components/Icon/Icon";
 import { AirQualityDescription, PrecipitationForecast, Units } from "../../types/types";
 import formatVisibility from "../formatVisibility/formatVisibility";
@@ -27,7 +26,7 @@ export const createWeatherDetails = ({chanceOfPrecip, humidity, windSpeed, visib
     },
     {
       title: "Humidity",
-      icon: <Humidity size={24} />,
+      icon: <Icon name="humidity" size={24} />,
       value: `${humidity}%`
     },
     {
