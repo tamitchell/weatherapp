@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, {unix} from "dayjs";
 import { Clouds, ForecastItem, ForecastSys, MainWeatherData, WeatherCondition, Wind } from "src/types/types";
 
 export function generateMainWeatherData({
@@ -116,7 +116,7 @@ export function generateMainWeatherData({
     startDate?: number // Optional start date timestamp
   ): ForecastItem[] {
     const forecast: ForecastItem[] = [];
-    const start = startDate ? dayjs.unix(startDate) : dayjs().startOf('day');
+    const start = startDate ? unix(startDate) : dayjs().startOf('day');
   
     for (let i = 0; i < periods; i++) {
       const rain = rainAmounts[i] || 0;

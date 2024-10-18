@@ -22,7 +22,7 @@ describe('generateMockForecast', () => {
 
   it('generates correct date-time strings', () => {
     const forecast = generateMockForecast(5);
-    forecast.forEach((item, index) => {
+    forecast.forEach((item) => {
       expect(item.dt_txt).toMatch(/^\d{4}-\d{2}-\d{2} 12:00:00$/);
     });
   });
