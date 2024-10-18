@@ -5,6 +5,7 @@ import { getCachedWeatherData, getLastLocationFromLocalStorage, getUnitsFromLoca
 import { weatherReducer } from "src/reducers/weatherReducer";
 import setToLocalStorage from "src/util/setToLocalStorage/setToLocalStorage";
 import { useSnackbar } from "notistack";
+import { requestGeolocation } from "src/util/requestGeolocation/requestGeolocation";
 
 
 export const WeatherContext = createContext<WeatherContextProps | undefined>(undefined);
@@ -50,39 +51,6 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       lng >= usBounds.west &&
       lng <= usBounds.east
     );
-  }, []);
-
-  const requestGeolocation = useCallback((): Promise<GeolocationPosition> => {
-    const options = {
-      enableHighAccuracy: true,  // Request high accuracy, especially on mobile
-      timeout: 10000,            // Timeout after 10 seconds
-      maximumAge: 0,             // Always fetch fresh data (no cached position)
-    };
-  
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
-          resolve(position);
-        },
-        (error: GeolocationPositionError) => {
-          // Handle specific geolocation errors
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              reject(new Error('Location access denied by the user.'));
-              break;
-            case error.POSITION_UNAVAILABLE:
-              reject(new Error('Location information is unavailable.'));
-              break;
-            case error.TIMEOUT:
-              reject(new Error('Geolocation request timed out.'));
-              break;
-            default:
-              reject(new Error('An unknown geolocation error occurred.'));
-          }
-        },
-        options 
-      );
-    });
   }, []);
   
 
@@ -194,8 +162,6 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
           await getWeather(lat, lng, "Your Location");
         } catch (error) {
           console.error("Error fetching geolocation:", error);
-          enqueueSnackbar('Failed to retrieve your location. Showing default weather for New York.', { variant: 'error' });
-          // Fallback to New York if geolocation fails or times out
           await getWeather(DEFAULT_NY_LAT, DEFAULT_NY_LNG, DEFAULT_ADDRESS);
         }
       }
