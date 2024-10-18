@@ -36,23 +36,6 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: 'SET_UNITS', payload: storedUnits });
   }, []);
 
-  const isCountryUS = useCallback((lat: number, lng: number): boolean => {
-    // Rough bounding box for the continental US (could be refined)
-    const usBounds = {
-      north: 49.38,
-      south: 24.52,
-      west: -125.0,
-      east: -66.93,
-    };
-
-    return (
-      lat >= usBounds.south &&
-      lat <= usBounds.north &&
-      lng >= usBounds.west &&
-      lng <= usBounds.east
-    );
-  }, []);
-  
 
   const getWeather = useCallback(async (lat: number, lng: number, locationAddress: string) => {
     dispatch({ type: 'SET_LOADING', payload: true });
@@ -168,7 +151,7 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
     };
   
     fetchWeatherData();
-  }, [isCountryUS, requestGeolocation, getWeather, enqueueSnackbar]);
+  }, [getWeather, enqueueSnackbar]);
 
   return (
     <WeatherContext.Provider value={{ state, dispatch, getWeather }}>
