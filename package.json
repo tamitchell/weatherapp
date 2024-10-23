@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "tailwind:css": "tailwindcss -i ./src/app/styles/globals.css -o ./src/app/styles/output.css --watch",
+    "postinstall": "husky",
+    "test-pre-push": "jest --watchAll=false",
     "test": "jest",
     "test:watch": "jest --watch"
   },
