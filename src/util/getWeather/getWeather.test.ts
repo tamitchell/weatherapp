@@ -17,7 +17,7 @@ describe('getWeather', () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockForecastData));
     fetchMock.mockResponseOnce(JSON.stringify(mockAirQualityData));
 
-    const result = await getWeather(40.7128, -74.0060, 'imperial');
+    const result = await getWeather(40.7128, -74.006, 'imperial');
 
     expect(result).toEqual({
       weather: mockWeatherData,
@@ -26,15 +26,23 @@ describe('getWeather', () => {
     });
 
     expect(fetchMock.mock.calls.length).toBe(3);
-    expect(fetchMock.mock.calls[0][0]).toContain('/api/weather?lat=40.7128&lng=-74.006&units=imperial');
-    expect(fetchMock.mock.calls[1][0]).toContain('/api/weather/forecast?lat=40.7128&lng=-74.006&units=imperial');
-    expect(fetchMock.mock.calls[2][0]).toContain('/api/weather/air_pollution?lat=40.7128&lng=-74.006&units=imperial');
+    expect(fetchMock.mock.calls[0][0]).toContain(
+      '/api/weather?lat=40.7128&lng=-74.006&units=imperial'
+    );
+    expect(fetchMock.mock.calls[1][0]).toContain(
+      '/api/weather/forecast?lat=40.7128&lng=-74.006&units=imperial'
+    );
+    expect(fetchMock.mock.calls[2][0]).toContain(
+      '/api/weather/air_pollution?lat=40.7128&lng=-74.006&units=imperial'
+    );
   });
 
   it('throws an error when fetching fails', async () => {
     fetchMock.mockRejectOnce(new Error('API is down'));
 
-    await expect(getWeather(40.7128, -74.0060, 'imperial')).rejects.toThrow('API is down');
+    await expect(getWeather(40.7128, -74.006, 'imperial')).rejects.toThrow(
+      'API is down'
+    );
   });
 
   it('throws an error when any response is not ok', async () => {
@@ -42,6 +50,8 @@ describe('getWeather', () => {
     fetchMock.mockResponseOnce(JSON.stringify({}), { status: 404 });
     fetchMock.mockResponseOnce(JSON.stringify({}), { status: 200 });
 
-    await expect(getWeather(40.7128, -74.0060, 'imperial')).rejects.toThrow('Failed to fetch weather data');
+    await expect(getWeather(40.7128, -74.006, 'imperial')).rejects.toThrow(
+      'Failed to fetch weather data'
+    );
   });
 });
