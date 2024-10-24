@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
-import LeftPanel from "./LeftPanel";
-import { useWeather } from "../hooks/useWeather";
-import WeeklyForecast from "./WeeklyForecast/WeeklyForecast";
-import { useMemo } from "react";
-import getAirQualityDescription from "../util/getAQIDescription/getAQIDescription";
+import clsx from 'clsx';
+import LeftPanel from './LeftPanel';
+import { useWeather } from '../hooks/useWeather';
+import WeeklyForecast from './WeeklyForecast/WeeklyForecast';
+import { useMemo } from 'react';
+import getAirQualityDescription from '../util/getAQIDescription/getAQIDescription';
 
 /**
  * TODO:
@@ -21,33 +21,52 @@ import getAirQualityDescription from "../util/getAQIDescription/getAQIDescriptio
  */
 
 export default function Home() {
-  const { state, dispatch,  } = useWeather();
-  const { airQuality, weather, units, address, isLoading, error, forecast } = state;
+  const { state, dispatch } = useWeather();
+  const { airQuality, weather, units, address, isLoading, error, forecast } =
+    state;
 
-  const airQualityIndex = useMemo(() => getAirQualityDescription(airQuality?.list[0].main.aqi || 0), [airQuality])
+  const airQualityIndex = useMemo(
+    () => getAirQualityDescription(airQuality?.list[0].main.aqi || 0),
+    [airQuality]
+  );
   return (
-    <div className={clsx(
-      "min-h-screen w-full",
-      "flex flex-col sm:flex-row",
-    )}>
-      <div className={clsx(
-        "w-full min-w-[320px]",
-        "sm:w-1/2 md:w-1/3",
-        "sm:max-w-[425px]",
-        "md:max-w-[30vw]",
-        "md:min-h-screen"
-      )}>
-    <LeftPanel weatherData={weather} forecast={forecast} airQuality={airQualityIndex} dispatch={dispatch} units={units} address={address || ''} isLoading={isLoading} error={error} />
+    <div className={clsx('min-h-screen w-full', 'flex flex-col sm:flex-row')}>
+      <div
+        className={clsx(
+          'w-full min-w-[320px]',
+          'sm:w-1/2 md:w-1/3',
+          'sm:max-w-[425px]',
+          'md:max-w-[30vw]',
+          'md:min-h-screen'
+        )}
+      >
+        <LeftPanel
+          weatherData={weather}
+          forecast={forecast}
+          airQuality={airQualityIndex}
+          dispatch={dispatch}
+          units={units}
+          address={address || ''}
+          isLoading={isLoading}
+          error={error}
+        />
       </div>
-      <div className={clsx(
-        "w-full",
-        "sm:flex-1",
-        "md:min-h-screen", 
-        "overflow-y-auto",
-        "bg-charcoal"
-      )}>
-        <WeeklyForecast isLoading={isLoading} units={units} forecast={forecast} /> {/* We'll need to update this with actual weekly forecast data */}
+      <div
+        className={clsx(
+          'w-full',
+          'sm:flex-1',
+          'md:min-h-screen',
+          'overflow-y-auto',
+          'bg-charcoal'
+        )}
+      >
+        <WeeklyForecast
+          isLoading={isLoading}
+          units={units}
+          forecast={forecast}
+        />{' '}
+        {/* We'll need to update this with actual weekly forecast data */}
       </div>
     </div>
   );
-  }
+}

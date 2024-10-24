@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,37 +18,25 @@
       }
     ],
     "paths": {
-      "@/components/*": [
-        "components/*"
-      ],
-      "@/api/*": [
-        "app/api/*"
-      ],
-      "@/hooks/*": [
-        "hooks/*"
-      ],
+      "@/components/*": ["components/*"],
+      "@/api/*": ["app/api/*"],
+      "@/hooks/*": ["hooks/*"],
       "@/reducers/*": ["reducers/*"],
-      "@/styles/*": [
-        "styles/*"
-      ],
-      "@/utils/*": [
-        "utils/*"
-      ],
-      "@/types/*": [
-        "types/*"
-      ],
-      "@/context/*": [
-        "context/*"
-      ],
-      "@/data/*": [
-        "data/*"
-      ]
+      "@/styles/*": ["styles/*"],
+      "@/utils/*": ["utils/*"],
+      "@/types/*": ["types/*"],
+      "@/context/*": ["context/*"],
+      "@/data/*": ["data/*"]
     },
     "baseUrl": "."
   },
   "types": ["jest", "@testing-library/jest-dom"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "jest-setup.ts"],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "jest-setup.ts"
+  ],
+  "exclude": ["node_modules"]
 }

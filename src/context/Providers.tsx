@@ -6,5 +6,10 @@ import { SnackbarProvider } from 'notistack';
 
 // This component wraps all client-side providers
 export default function Providers({ children }: { children: ReactNode }) {
-  return<SnackbarProvider> <WeatherProvider>{children}</WeatherProvider> </SnackbarProvider>;
+  return (
+    <SnackbarProvider>
+      {' '}
+      <WeatherProvider>{children}</WeatherProvider>{' '}
+    </SnackbarProvider>
+  );
 }

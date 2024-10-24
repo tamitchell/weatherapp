@@ -16,4 +16,3 @@ First Watch Weather is a weather app I initially developed inspired by the desig
 - **Next.js:** A powerful React framework for server-side rendering and static site generation.
 - **Google Places API:** Enables location-based search and retrieves detailed location information for cities and landmarks worldwide.
 - **OpenWeather API:** Provides real-time current weather data and a 5-day forecast.
-
