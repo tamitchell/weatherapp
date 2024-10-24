@@ -1,1 +1,1 @@
-echo "yarn test-pre-push" > .husky/pre-push
+yarn test-and-build && yarn type-check
