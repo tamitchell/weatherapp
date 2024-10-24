@@ -1,7 +1,6 @@
 import getPrecipitationForecast from './getPrecipitationForecast';
 import { generateMockForecast } from '../generators';
 import { ForecastItem, PrecipitationForecast } from 'src/types/types';
-
 describe('getPrecipitationForecast', () => {
   it('should return no precipitation when there is no rain or snow', () => {
     const forecast: ForecastItem[] = generateMockForecast(
