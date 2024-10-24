@@ -1,52 +1,72 @@
-import Icon from "../../components/Icon/Icon";
-import { AirQualityDescription, PrecipitationForecast, Units } from "../../types/types";
-import formatVisibility from "../formatVisibility/formatVisibility";
+import Icon from '../../components/Icon/Icon';
+import {
+  AirQualityDescription,
+  PrecipitationForecast,
+  Units,
+} from '../../types/types';
+import formatVisibility from '../formatVisibility/formatVisibility';
 
 interface WeatherCardDetail {
-    title: string;
-    icon: React.ReactNode;
-    value: string;
-  }
-  
-  interface WeatherMetrics {
-    chanceOfPrecip: PrecipitationForecast;
-    humidity: number;
-    windSpeed: number;
-    visibility: number;
-    pressure: number;
-    airQuality: AirQualityDescription;
-    units: Units;
-  }
+  title: string;
+  icon: React.ReactNode;
+  value: string;
+}
 
-export const createWeatherDetails = ({chanceOfPrecip, humidity, windSpeed, visibility, pressure, airQuality, units}: WeatherMetrics): ReadonlyArray<WeatherCardDetail> => Object.freeze([
+interface WeatherMetrics {
+  chanceOfPrecip: PrecipitationForecast;
+  humidity: number;
+  windSpeed: number;
+  visibility: number;
+  pressure: number;
+  airQuality: AirQualityDescription;
+  units: Units;
+}
+
+export const createWeatherDetails = ({
+  chanceOfPrecip,
+  humidity,
+  windSpeed,
+  visibility,
+  pressure,
+  airQuality,
+  units,
+}: WeatherMetrics): ReadonlyArray<WeatherCardDetail> =>
+  Object.freeze([
     {
-      title: chanceOfPrecip.type === "rain" ? "% of Rain" : "% of Snow",
-      icon: chanceOfPrecip.type === "rain" ? <Icon name="raindrops" size={24} /> : <Icon name="snowflake" size={24} />,
-      value: `${chanceOfPrecip.probability}%`
+      title: chanceOfPrecip.type === 'rain' ? '% of Rain' : '% of Snow',
+      icon:
+        chanceOfPrecip.type === 'rain' ? (
+          <Icon name="raindrops" size={24} />
+        ) : (
+          <Icon name="snowflake" size={24} />
+        ),
+      value: `${chanceOfPrecip.probability}%`,
     },
     {
-      title: "Humidity",
+      title: 'Humidity',
       icon: <Icon name="humidity" size={24} />,
-      value: `${humidity}%`
+      value: `${humidity}%`,
     },
     {
-      title: "Wind Speed",
+      title: 'Wind Speed',
       icon: <Icon name="wind_speed" fill="transparent" size={24} />,
-      value: `${Math.round(windSpeed)} ${units === "imperial" ? "mph" : "m/s"}`
+      value: `${Math.round(windSpeed)} ${units === 'imperial' ? 'mph' : 'm/s'}`,
     },
     {
-      title: "Visibility",
+      title: 'Visibility',
       icon: <Icon name="visibility" size={24} />,
-      value: `${formatVisibility(visibility, units)}`
+      value: `${formatVisibility(visibility, units)}`,
     },
     {
-      title: "Pressure",
+      title: 'Pressure',
       icon: <Icon name="pressure" size={24} />,
-      value: `${pressure} ${units === "imperial" ? "inHg" : "hPa"}`
+      value: `${pressure} ${units === 'imperial' ? 'inHg' : 'hPa'}`,
     },
     {
-      title: "Air Quality",
-      icon: <Icon name="air_quality" fill="black" stroke="transparent" size={24} />,
-      value: `${airQuality}`
-    }
+      title: 'Air Quality',
+      icon: (
+        <Icon name="air_quality" fill="black" stroke="transparent" size={24} />
+      ),
+      value: `${airQuality}`,
+    },
   ]);

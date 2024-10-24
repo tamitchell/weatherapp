@@ -1,4 +1,10 @@
-import React, { PropsWithChildren, isValidElement, Children, cloneElement, ReactElement } from 'react';
+import React, {
+  PropsWithChildren,
+  isValidElement,
+  Children,
+  cloneElement,
+  ReactElement,
+} from 'react';
 
 interface IconWrapperProps extends PropsWithChildren {
   size?: number | string;
@@ -6,11 +12,11 @@ interface IconWrapperProps extends PropsWithChildren {
   className?: string;
 }
 
-export default function IconWrapper({ 
-  size = 24, 
-  color = 'currentColor', 
-  children, 
-  className = '' 
+export default function IconWrapper({
+  size = 24,
+  color = 'currentColor',
+  children,
+  className = '',
 }: IconWrapperProps) {
   const dimensions = typeof size === 'number' ? `${size}px` : size;
 
@@ -23,11 +29,13 @@ export default function IconWrapper({
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {Children.map(children, child =>
+      {Children.map(children, (child) =>
         isValidElement(child)
-          ? cloneElement(child as ReactElement<unknown & {fill: string}>, { fill: color })
+          ? cloneElement(child as ReactElement<unknown & { fill: string }>, {
+              fill: color,
+            })
           : child
       )}
     </svg>
   );
-};
+}

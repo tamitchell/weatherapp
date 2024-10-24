@@ -1,6 +1,6 @@
 'use client'; // Ensure the component is treated as a client component
 
-import { APILoader } from "@googlemaps/extended-component-library/react";
+import { APILoader } from '@googlemaps/extended-component-library/react';
 
 export default function APILoaderWrapper() {
   return (

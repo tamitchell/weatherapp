@@ -1,23 +1,28 @@
-import { weatherIconMap, WeatherIconName } from "src/data/iconMap";
+import { weatherIconMap, WeatherIconName } from 'src/data/iconMap';
 
 interface IconProps {
-    name: WeatherIconName;
-    size?: number;
-    fill?: string;
-    stroke?: string;
-      }
-      
-    export default function WeatherIcon({ name, size = 24, fill = 'currentColor', stroke = "currentColor", ...props }: IconProps) {
-        const SVGIcon = weatherIconMap[name];
-      
-        return (
-          <SVGIcon
-            width={size}
-            height={size}
-            fill={fill}
-            stroke={stroke}
-            {...props}
-          />
-        );
-      };
-    
+  name: WeatherIconName;
+  size?: number;
+  fill?: string;
+  stroke?: string;
+}
+
+export default function WeatherIcon({
+  name,
+  size = 24,
+  fill = 'currentColor',
+  stroke = 'currentColor',
+  ...props
+}: IconProps) {
+  const SVGIcon = weatherIconMap[name];
+
+  return (
+    <SVGIcon
+      width={size}
+      height={size}
+      fill={fill}
+      stroke={stroke}
+      {...props}
+    />
+  );
+}

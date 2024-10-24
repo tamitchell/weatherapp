@@ -1,6 +1,12 @@
-import { ForecastItem, PrecipitationForecast, PrecipitationType } from "../../types/types";
+import {
+  ForecastItem,
+  PrecipitationForecast,
+  PrecipitationType,
+} from '../../types/types';
 
-export default function getPrecipitationForecast(forecast: ForecastItem[]): PrecipitationForecast {
+export default function getPrecipitationForecast(
+  forecast: ForecastItem[]
+): PrecipitationForecast {
   const next24Hours = forecast.slice(0, 8); // 8 3-hour periods
   let highestPop = 0;
   let totalRain = 0;
@@ -26,6 +32,6 @@ export default function getPrecipitationForecast(forecast: ForecastItem[]): Prec
     probability: Math.round(highestPop * 100),
     type: precipitationType as PrecipitationType,
     rainAmount: totalRain,
-    snowAmount: totalSnow
+    snowAmount: totalSnow,
   };
 }

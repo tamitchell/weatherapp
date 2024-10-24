@@ -1,12 +1,13 @@
-import { render, screen } from "@testing-library/react";
-import DayWeatherStats from "./DayWeatherStats";
+import { render, screen } from '@testing-library/react';
+import DayWeatherStats from './DayWeatherStats';
 
 // Mock the Icon component
 jest.mock('../Icon/Icon', () => ({
   __esModule: true,
-  default: ({ name }: { name: string }) => <div data-testid={`icon-${name}`}>{`Mock Icon: ${name}`}</div>
+  default: ({ name }: { name: string }) => (
+    <div data-testid={`icon-${name}`}>{`Mock Icon: ${name}`}</div>
+  ),
 }));
-
 
 describe('WeatherStats', () => {
   const commonProps = {
@@ -50,7 +51,9 @@ describe('WeatherStats', () => {
   });
 
   it('renders correct wind speed for metric units', () => {
-    render(<DayWeatherStats {...commonProps} precipType="rain" units="metric" />);
+    render(
+      <DayWeatherStats {...commonProps} precipType="rain" units="metric" />
+    );
     expect(screen.getByText('5 m/s')).toBeInTheDocument();
   });
 });

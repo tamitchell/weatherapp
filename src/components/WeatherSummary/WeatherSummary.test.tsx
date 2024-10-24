@@ -7,17 +7,25 @@ const mockWeatherDescription = jest.fn();
 
 jest.mock('../MainTemperatureDisplay/MainTemperatureDisplay', () => ({
   __esModule: true,
-  default: (props: { temp: number, units: string }) => {
+  default: (props: { temp: number; units: string }) => {
     mockMainTemperatureDisplay(props);
-    return <div data-testid="mock-main-temp">{props.temp} {props.units === "imperial" ? "°F" : "°C"}</div>;
+    return (
+      <div data-testid="mock-main-temp">
+        {props.temp} {props.units === 'imperial' ? '°F' : '°C'}
+      </div>
+    );
   },
 }));
 
 jest.mock('../FeelsLikeTemperature/FeelsLikeTemperature', () => ({
   __esModule: true,
-  default: (props: { feelsLike: number, units: string }) => {
+  default: (props: { feelsLike: number; units: string }) => {
     mockFeelsLikeTemperature(props);
-    return <span data-testid="mock-feels-like">feels like {props.feelsLike} {props.units === "imperial" ? "°F" : "°C"}</span>;
+    return (
+      <span data-testid="mock-feels-like">
+        feels like {props.feelsLike} {props.units === 'imperial' ? '°F' : '°C'}
+      </span>
+    );
   },
 }));
 

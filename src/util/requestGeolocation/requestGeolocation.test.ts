@@ -18,7 +18,7 @@ describe('requestGeolocation', () => {
     });
   
     it('should resolve with a position when geolocation is successful', async () => {
-      const mockPosition: GeolocationPosition = {
+      const mockPosition = {
         coords: {
           latitude: 51.507351,
           longitude: -0.127758,
@@ -29,7 +29,7 @@ describe('requestGeolocation', () => {
           speed: null
         },
         timestamp: 1627846200000
-      };
+      } as GeolocationPosition ;
   
       mockGeolocation.getCurrentPosition.mockImplementation((successCallback) => {
         successCallback(mockPosition);

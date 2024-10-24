@@ -1,11 +1,11 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import TemperatureRange from './TemperatureRange'
-import { Units } from 'src/types/types'
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import TemperatureRange from './TemperatureRange';
+import { Units } from 'src/types/types';
 
 describe('TemperatureRange Component', () => {
   it('renders the correct temperature values and units (Celsius)', () => {
-    const units: Units = 'metric'
+    const units: Units = 'metric';
     render(<TemperatureRange tempMin={-5} tempMax={35} units={units} />);
 
     // Check if the low temperature is displayed correctly
@@ -20,7 +20,7 @@ describe('TemperatureRange Component', () => {
   });
 
   it('renders the correct temperature values and units (Fahrenheit)', () => {
-    const units: Units = 'imperial'
+    const units: Units = 'imperial';
     render(<TemperatureRange tempMin={32} tempMax={100} units={units} />);
 
     // Check if the low temperature is displayed correctly
