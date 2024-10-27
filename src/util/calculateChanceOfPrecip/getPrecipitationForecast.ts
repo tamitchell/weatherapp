@@ -5,13 +5,23 @@ import {
 } from '../../types/types';
 
 export default function getPrecipitationForecast(
-  forecast: ForecastItem[]
+  forecast: ForecastItem[] | null | undefined
 ): PrecipitationForecast {
+  // If no forecast data, return default values
+  if (!forecast || !Array.isArray(forecast)) {
+    return {
+      probability: 0,
+      type: 'none' as PrecipitationType,
+      rainAmount: 0,
+      snowAmount: 0,
+    };
+  }
+
   const next24Hours = forecast.slice(0, 8); // 8 3-hour periods
   let highestPop = 0;
   let totalRain = 0;
   let totalSnow = 0;
-  let precipitationType = 'none';
+  let precipitationType: PrecipitationType = 'none';
 
   for (const period of next24Hours) {
     if (period.pop > highestPop) {
@@ -30,7 +40,7 @@ export default function getPrecipitationForecast(
 
   return {
     probability: Math.round(highestPop * 100),
-    type: precipitationType as PrecipitationType,
+    type: precipitationType,
     rainAmount: totalRain,
     snowAmount: totalSnow,
   };

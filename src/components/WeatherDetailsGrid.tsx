@@ -15,9 +15,14 @@ interface WeatherDetailsGridProps {
   airQuality: AirQualityDescription;
   units: Units;
 }
-// text-[clamp(0.75rem,0.275vw+0.675rem,0.9375rem)]
+
 export default function WeatherDetailsGrid({
-  chanceOfPrecip,
+  chanceOfPrecip = {
+    probability: 0,
+    type: 'none',
+    rainAmount: 0,
+    snowAmount: 0,
+  },
   humidity,
   windSpeed,
   visibility,
@@ -42,7 +47,7 @@ export default function WeatherDetailsGrid({
             'bg-white rounded-lg border-2 border-black',
             'flex flex-col items-center justify-between',
             'p-2',
-            'h-[clamp(130px,20vw,160px)]', // Responsive height
+            'h-[clamp(130px,20vw,160px)]',
             'w-full'
           )}
         >

@@ -1,7 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import WeeklyForecast from './WeeklyForecast';
-import { generateMockForecast } from 'src/util/generators';
 import { Units } from 'src/types/types';
+import { renderWithProviders } from 'src/test/util';
+import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
+import { useWeatherQuery } from 'src/hooks/queries/useWeatherQuery';
 import dayjs from 'dayjs';
 
 jest.mock('../WeatherIcon/WeatherIcon', () => ({
@@ -57,84 +59,141 @@ jest.mock(
   })
 );
 
-describe('WeeklyForecast', () => {
-  const startDate = dayjs().startOf('day'); // Use today as the start date
-  const mockForecast = generateMockForecast(
-    5,
-    [0, 1, 0, 0, 1], // rainAmounts
-    [0, 0, 0, 0, 0], // snowAmounts
-    [0.2, 0.5, 0.1, 0.3, 0.65], // pops
-    startDate.unix() // Start date
-  );
+jest.mock('../../hooks/queries/useGeolocationQuery');
+jest.mock('../../hooks/queries/useWeatherQuery');
+jest.mock('../../hooks/useWeather', () => ({
+  useWeather: () => ({
+    units: 'imperial' as Units,
+  }),
+}));
 
-  it('displays the loading state when isLoading is true', () => {
-    render(<WeeklyForecast forecast={[]} units="imperial" isLoading={true} />);
+describe('WeeklyForecast', () => {
+  it('displays the loading state', () => {
+    (useGeolocationQuery as jest.Mock).mockReturnValue({
+      data: { lat: 40.7128, lng: -74.006 },
+    });
+
+    (useWeatherQuery as jest.Mock).mockReturnValue({
+      isLoading: true,
+      data: null,
+    });
+
+    renderWithProviders(<WeeklyForecast />);
+
     expect(screen.getByTestId('loading-skeleton')).toBeInTheDocument();
   });
 
-  it('renders the correct number of forecast cards when data is available', () => {
-    render(
-      <WeeklyForecast
-        forecast={mockForecast}
-        units="imperial"
-        isLoading={false}
-      />
-    );
+  it('displays error state when there is an error', () => {
+    (useWeatherQuery as jest.Mock).mockReturnValue({
+      isLoading: false,
+      error: new Error('Failed to fetch weather data'),
+      forecast: null,
+    });
 
-    const forecastCards = screen.getAllByTestId(/^forecast-card-/);
+    renderWithProviders(<WeeklyForecast />);
+
+    expect(screen.getByText('Unable to load forecast')).toBeInTheDocument();
+  });
+
+  it('displays error state when forecast is null', () => {
+    (useWeatherQuery as jest.Mock).mockReturnValue({
+      isLoading: false,
+      error: null,
+      forecast: null,
+    });
+
+    renderWithProviders(<WeeklyForecast />);
+
+    expect(screen.getByText('Unable to load forecast')).toBeInTheDocument();
+  });
+
+  it('displays no forecast data available when filtered forecast is empty', () => {
+    (useWeatherQuery as jest.Mock).mockReturnValue({
+      isLoading: false,
+      error: null,
+      forecast: [], // Empty array should trigger "No forecast data available"
+    });
+
+    renderWithProviders(<WeeklyForecast />);
+
+    expect(screen.getByText('No forecast data available')).toBeInTheDocument();
+  });
+
+  it('renders forecast cards when data is available', () => {
+    // Create mock data with multiple entries per day
+    const mockForecast = Array.from({ length: 40 }, (_, index) => {
+      const hourIncrement = index * 3; // OpenWeather sends forecasts in 3-hour increments
+      const date = dayjs().add(Math.floor(hourIncrement / 24), 'day');
+      const hour = hourIncrement % 24;
+
+      return {
+        dt: date.hour(hour).unix(),
+        main: {
+          temp: 72,
+          temp_min: 68,
+          temp_max: 75,
+          humidity: 65,
+        },
+        weather: [
+          {
+            id: 800,
+            main: 'Clear',
+            description: 'clear sky',
+            icon: '01d',
+          },
+        ],
+        wind: {
+          speed: 5,
+          deg: 180,
+        },
+        visibility: 10000,
+        pop: 0.2,
+        sys: { pod: 'd' },
+        dt_txt: date.hour(hour).format('YYYY-MM-DD HH:mm:ss'),
+      };
+    });
+
+    (useWeatherQuery as jest.Mock).mockReturnValue({
+      isLoading: false,
+      error: null,
+      forecast: mockForecast,
+    });
+
+    renderWithProviders(<WeeklyForecast />);
+
+    // Check number of cards - should be exactly 5 after filtering
+    const forecastCards = screen.getAllByTestId(/forecast-card-\d/);
     expect(forecastCards).toHaveLength(5);
 
-    // Check for the next 5 days
+    // Verify all 5 days are shown
+    const today = dayjs();
     for (let i = 0; i < 5; i++) {
-      const date = dayjs().add(i, 'day');
-      expect(screen.getByText(date.format('MMM D'))).toBeInTheDocument();
-    }
-  });
-
-  it('correctly applies the data transformation logic (filterForecastByUserTime)', () => {
-    render(
-      <WeeklyForecast
-        forecast={mockForecast}
-        units="imperial"
-        isLoading={false}
-      />
-    );
-
-    const currentMonth = dayjs().format('MMM');
-
-    // Check for the current month in the rendered forecast
-    expect(
-      screen.getAllByText(
-        (content, element) =>
-          element?.tagName.toLowerCase() === 'p' &&
-          content.includes(currentMonth)
-      )
-    ).toHaveLength(5); // Expecting 5 dates with the current month
-
-    // Optionally, check for specific dates if needed
-    const startDate = dayjs();
-    for (let i = 0; i < 5; i++) {
-      const expectedDate = startDate.add(i, 'day').format('MMM D');
+      const expectedDate = today.add(i, 'day').format('MMM D');
       expect(screen.getByText(expectedDate)).toBeInTheDocument();
     }
-  });
 
-  it('displays precipitation, humidity, and wind speed correctly', () => {
-    render(
-      <WeeklyForecast
-        forecast={mockForecast}
-        units="imperial"
-        isLoading={false}
-      />
-    );
-
-    // Check that the correct percentages are displayed
-    expect(screen.getAllByText(/\d+%/)).toHaveLength(10); // 5 for precipitation, 5 for humidity
-    expect(screen.getAllByText(/\d+ mph/)).toHaveLength(5); // 5 for wind speed
-
-    // Check for specific values
-    expect(screen.getByText('20%')).toBeInTheDocument();
-    expect(screen.getAllByText('75%')).toHaveLength(5); // Humidity
-    expect(screen.getAllByText('5 mph')).toHaveLength(5);
+    // Check details of first card
+    const firstCard = screen.getByTestId('forecast-card-0');
+    within(firstCard).getByText('WeatherDescription: clear sky');
+    within(firstCard).getByText('20%');
+    within(firstCard).getByText('65%');
+    within(firstCard).getByText('5 mph');
   });
 });
+
+it('handles error state', () => {
+  (useGeolocationQuery as jest.Mock).mockReturnValue({
+    data: { lat: 40.7128, lng: -74.006 },
+  });
+
+  (useWeatherQuery as jest.Mock).mockReturnValue({
+    isLoading: false,
+    error: new Error('Failed to fetch weather data'),
+    data: null,
+  });
+
+  renderWithProviders(<WeeklyForecast />);
+
+  expect(screen.getByText(/unable to load forecast/i)).toBeInTheDocument();
+});
+// });

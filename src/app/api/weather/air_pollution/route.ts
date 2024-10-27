@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
 const allowedOrigins = [
-  'https://weatherapp-nine-mauve.vercel.app',
-  'https://weatherapp-git-dev-tashas-projects-4e4847e8.vercel.app',
-  'https://weatherapp-tashas-projects-4e4847e8.vercel.app',
-  process.env.NEXT_PUBLIC_VERCEL_URL,
+  'https://weatherapp-nine-mauve.vercel.app', // Production
+  'https://weatherapp-git-dev-tashas-projects-4e4847e8.vercel.app', // Preview/Dev
+  'https://weatherapp-tashas-projects-4e4847e8.vercel.app', // Branch deploys
+  'http://localhost:3000', // Local development
 ];
 
 export async function GET(request: Request) {

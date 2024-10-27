@@ -1,6 +1,7 @@
 import getPrecipitationForecast from './getPrecipitationForecast';
 import { generateMockForecast } from '../generators';
 import { ForecastItem, PrecipitationForecast } from 'src/types/types';
+
 describe('getPrecipitationForecast', () => {
   it('should return no precipitation when there is no rain or snow', () => {
     const forecast: ForecastItem[] = generateMockForecast(
@@ -84,6 +85,36 @@ describe('getPrecipitationForecast', () => {
       type: 'snow',
       rainAmount: 3, // 1 + 2
       snowAmount: 10, // 4 + 6
+    });
+  });
+
+  it('should handle undefined forecast data', () => {
+    const result = getPrecipitationForecast(undefined);
+    expect(result).toEqual({
+      probability: 0,
+      type: 'none',
+      rainAmount: 0,
+      snowAmount: 0,
+    });
+  });
+
+  it('should handle null forecast data', () => {
+    const result = getPrecipitationForecast(null);
+    expect(result).toEqual({
+      probability: 0,
+      type: 'none',
+      rainAmount: 0,
+      snowAmount: 0,
+    });
+  });
+
+  it('should handle empty forecast array', () => {
+    const result = getPrecipitationForecast([]);
+    expect(result).toEqual({
+      probability: 0,
+      type: 'none',
+      rainAmount: 0,
+      snowAmount: 0,
     });
   });
 });

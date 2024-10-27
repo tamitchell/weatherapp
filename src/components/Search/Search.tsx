@@ -2,9 +2,10 @@
 
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
-import { useWeather } from '../hooks/useWeather';
+import { useWeather } from '../../hooks/useWeather';
 import { memo } from 'react';
-import { baseStyles } from '../styles/styles';
+import { baseStyles } from '../../styles/styles';
+import { useQueryClient } from '@tanstack/react-query';
 
 //Google Places API logic
 
@@ -16,10 +17,11 @@ interface GooglePlace {
 }
 
 export default memo(function Search() {
-  const { getWeather } = useWeather();
+  const queryClient = useQueryClient();
+  const { setAddress } = useWeather();
 
   const PlacePicker = dynamic(
-    () => import('./GooglePlacesPicker').then((mod) => mod.default),
+    () => import('../GooglePlacesPicker').then((mod) => mod.default),
     { ssr: false }
   );
 
@@ -34,11 +36,18 @@ export default memo(function Search() {
         lng: place.location.lng(),
       };
 
-      getWeather(
-        selectedPlace.lat,
-        selectedPlace.lng,
-        selectedPlace.formatted_address
-      );
+      setAddress(selectedPlace.formatted_address);
+
+      // Invalidate current queries to trigger refetch with new coordinates
+      queryClient.invalidateQueries({
+        queryKey: [
+          'weather',
+          {
+            lat: selectedPlace.lat,
+            lng: selectedPlace.lng,
+          },
+        ],
+      });
     } else {
       //throw error
       console.error('Place data is incomplete or unavailable');
