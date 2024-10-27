@@ -13,23 +13,20 @@ export default function Providers({ children }: { children: ReactNode }) {
     defaultOptions: {
       queries: {
         // Conservative for no... queries can override
-        staleTime: 1000 * 60 * 5,    // 5 minutes
-        gcTime: 1000 * 60 * 10,      // 10 minutes
-        retry: 2,                    
-        retryDelay: 1000,           
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        gcTime: 1000 * 60 * 10, // 10 minutes
+        retry: 2,
+        retryDelay: 1000,
       },
     },
   });
   return (
     <QueryClientProvider client={queryClient}>
-
       <SnackbarProvider>
         {' '}
         <WeatherProvider>{children}</WeatherProvider>{' '}
       </SnackbarProvider>
       <ReactQueryDevtools initialIsOpen={false} />
-
     </QueryClientProvider>
-
   );
 }

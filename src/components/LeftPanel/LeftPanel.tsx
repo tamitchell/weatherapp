@@ -13,36 +13,30 @@ import { useWeatherQuery } from 'src/hooks/queries/useWeatherQuery';
 import { useWeather } from 'src/hooks/useWeather';
 import LeftPanelWeatherContent from '../LeftPanelWeatherContent/LeftPanelWeatherContent';
 
-
 export default function LeftPanel() {
-    const { units, setUnits } = useWeather();
+  const { units, setUnits } = useWeather();
 
-    const { data: location } = useGeolocationQuery();
-  
-    const { 
-      currentWeather,
-      forecast,
-      airQuality,
-      isLoading,
-      error 
-    } = useWeatherQuery({
+  const { data: location } = useGeolocationQuery();
+
+  const { currentWeather, forecast, airQuality, isLoading, error } =
+    useWeatherQuery({
       lat: location?.lat ?? DEFAULT_NY_LAT,
       lng: location?.lng ?? DEFAULT_NY_LNG,
-      units
+      units,
     });
 
-    const handleUnitChange = useCallback(() => {
-      setUnits(units === 'imperial' ? 'metric' : 'imperial');
-    }, [units, setUnits]);
+  const handleUnitChange = useCallback(() => {
+    setUnits(units === 'imperial' ? 'metric' : 'imperial');
+  }, [units, setUnits]);
 
-    if(isLoading) {
-      return  <SkeletonLeftPanelLoader />
-    }
+  if (isLoading) {
+    return <SkeletonLeftPanelLoader />;
+  }
 
-    if(error) {
-      return <LeftPanelErrorState />
-    }
-    
+  if (error) {
+    return <LeftPanelErrorState />;
+  }
+
   return (
     <div className="bg-white p-4 w-full h-full flex flex-col">
       <div
@@ -60,9 +54,8 @@ export default function LeftPanel() {
         <Search />
       </div>
 
-      
       {isLoading && <SkeletonLeftPanelLoader />}
-      
+
       {!isLoading && currentWeather && forecast && airQuality && (
         <LeftPanelWeatherContent
           currentWeather={currentWeather}

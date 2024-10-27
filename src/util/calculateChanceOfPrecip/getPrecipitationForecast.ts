@@ -4,14 +4,16 @@ import {
   PrecipitationType,
 } from '../../types/types';
 
-export default function getPrecipitationForecast(forecast: ForecastItem[] | null | undefined): PrecipitationForecast {
+export default function getPrecipitationForecast(
+  forecast: ForecastItem[] | null | undefined
+): PrecipitationForecast {
   // If no forecast data, return default values
   if (!forecast || !Array.isArray(forecast)) {
     return {
       probability: 0,
       type: 'none' as PrecipitationType,
       rainAmount: 0,
-      snowAmount: 0
+      snowAmount: 0,
     };
   }
 
@@ -40,6 +42,6 @@ export default function getPrecipitationForecast(forecast: ForecastItem[] | null
     probability: Math.round(highestPop * 100),
     type: precipitationType,
     rainAmount: totalRain,
-    snowAmount: totalSnow
+    snowAmount: totalSnow,
   };
 }

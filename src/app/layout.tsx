@@ -38,8 +38,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          <APILoaderWrapper />
-          <Providers>{children}</Providers>
+        <APILoaderWrapper />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

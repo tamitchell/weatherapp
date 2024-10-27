@@ -14,20 +14,26 @@ jest.mock('../../hooks/useWeather', () => ({
 
 // Mock dynamic import of GooglePlacesPicker
 jest.mock('next/dynamic', () => () => {
- const MockPlacePicker = ({ handlePlaceChange }: { handlePlaceChange: (e: unknown) => void }) => (
+  const MockPlacePicker = ({
+    handlePlaceChange,
+  }: {
+    handlePlaceChange: (e: unknown) => void;
+  }) => (
     <div data-testid="mock-place-picker">
-      <button 
-        onClick={() => handlePlaceChange({
-          target: {
-            value: {
-              formatted_address: 'New York, NY, USA',
-              location: {
-                lat: () => 40.7128,
-                lng: () => -74.0060
-              }
-            }
-          }
-        })}
+      <button
+        onClick={() =>
+          handlePlaceChange({
+            target: {
+              value: {
+                formatted_address: 'New York, NY, USA',
+                location: {
+                  lat: () => 40.7128,
+                  lng: () => -74.006,
+                },
+              },
+            },
+          })
+        }
       >
         Select Place
       </button>
@@ -46,11 +52,11 @@ describe('Search', () => {
     jest.clearAllMocks();
 
     (useQueryClient as jest.Mock).mockReturnValue({
-      invalidateQueries: mockInvalidateQueries
+      invalidateQueries: mockInvalidateQueries,
     });
 
     (useWeather as jest.Mock).mockReturnValue({
-      setAddress: mockSetAddress
+      setAddress: mockSetAddress,
     });
   });
 
@@ -61,7 +67,7 @@ describe('Search', () => {
 
   it('handles place selection correctly', () => {
     render(<Search />);
-    
+
     screen.getByText('Select Place').click();
 
     // Check if address was set
@@ -69,16 +75,21 @@ describe('Search', () => {
 
     // Check if queries were invalidated with correct params
     expect(mockInvalidateQueries).toHaveBeenCalledWith({
-      queryKey: ['weather', { 
-        lat: 40.7128, 
-        lng: -74.0060 
-      }]
+      queryKey: [
+        'weather',
+        {
+          lat: 40.7128,
+          lng: -74.006,
+        },
+      ],
     });
   });
 
   it('handles invalid place data', () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    
+    const consoleSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     render(<Search />);
 
     // Get the PlacePicker and call handlePlaceChange directly
@@ -87,7 +98,7 @@ describe('Search', () => {
 
     // Check if error was logged
     expect(consoleSpy).not.toHaveBeenCalled();
-    
+
     // Check that address wasn't set and queries weren't invalidated
     expect(mockSetAddress).toHaveBeenCalled();
     expect(mockInvalidateQueries).toHaveBeenCalled();

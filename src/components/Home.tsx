@@ -29,8 +29,7 @@ export default function Home() {
           'md:min-h-screen'
         )}
       >
-       <LeftPanel 
-        />
+        <LeftPanel />
       </div>
       <div
         className={clsx(
@@ -41,8 +40,7 @@ export default function Home() {
           'bg-charcoal'
         )}
       >
-     <WeeklyForecast
-        />
+        <WeeklyForecast />
       </div>
     </div>
   );

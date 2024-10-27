@@ -36,15 +36,18 @@ export default memo(function Search() {
         lng: place.location.lng(),
       };
 
-         setAddress(selectedPlace.formatted_address);
+      setAddress(selectedPlace.formatted_address);
 
-         // Invalidate current queries to trigger refetch with new coordinates
-         queryClient.invalidateQueries({ 
-           queryKey: ['weather', { 
-             lat: selectedPlace.lat, 
-             lng: selectedPlace.lng 
-           }]
-         });
+      // Invalidate current queries to trigger refetch with new coordinates
+      queryClient.invalidateQueries({
+        queryKey: [
+          'weather',
+          {
+            lat: selectedPlace.lat,
+            lng: selectedPlace.lng,
+          },
+        ],
+      });
     } else {
       //throw error
       console.error('Place data is incomplete or unavailable');
