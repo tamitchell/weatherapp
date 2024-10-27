@@ -1,70 +1,77 @@
 import React, { useMemo } from 'react';
 import { unix } from 'dayjs';
 import Icon from '../Icon/Icon';
-import { Units, ForecastItem } from '../../types/types';
 import WeeklyForecastSkeletonLoader from '../WeeklyForecastSkeletonLoader/WeeklyForecastSkeletonLoader';
 import TemperatureRange from '../TemperatureRange/TemperatureRange';
 import WeatherIcon from '../WeatherIcon/WeatherIcon';
 import MainTemperatureDisplay from '../MainTemperatureDisplay/MainTemperatureDisplay';
 import WeatherDescription from '../WeatherDescription/WeatherDescription';
+import { useWeather } from 'src/hooks/useWeather';
+import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
+import { useWeatherQuery } from 'src/hooks/queries/useWeatherQuery';
+import { DEFAULT_NY_LAT, DEFAULT_NY_LNG } from 'src/data/defaultData';
 
-interface WeeklyForecastProps {
-  forecast: ForecastItem[];
-  units: Units;
-  isLoading: boolean;
-}
+export default function WeeklyForecast(): JSX.Element {
+    const { units } = useWeather();
 
-//TODO: Provide error state if available
-
-export default function WeeklyForecast({
-  forecast,
-  units,
-  isLoading,
-}: WeeklyForecastProps): JSX.Element {
-  const filterForecastByUserTime = (
-    forecastData: ForecastItem[]
-  ): ForecastItem[] => {
-    const forecastByDay: { [key: string]: ForecastItem[] } = {};
-
-    forecastData.forEach((entry) => {
-      const forecastTime = new Date(entry.dt * 1000);
-      const forecastDay = forecastTime.toISOString().split('T')[0]; // Get the day (YYYY-MM-DD)
-
-      // Group forecast entries by day
-      if (!forecastByDay[forecastDay]) {
-        forecastByDay[forecastDay] = [];
-      }
-      forecastByDay[forecastDay].push(entry);
+    const { data: location } = useGeolocationQuery();
+  
+    const { 
+      forecast,
+      isLoading,
+      error 
+    } = useWeatherQuery({
+      lat: location?.lat ?? DEFAULT_NY_LAT,
+      lng: location?.lng ?? DEFAULT_NY_LNG,
+      units
     });
 
-    // Select a representative forecast item for each day (e.g., the one closest to noon)
-    const fiveDayForecast = Object.keys(forecastByDay)
-      .slice(0, 5) // Only take the next 5 days
-      .map((day) => {
-        const dayEntries = forecastByDay[day];
-
-        // Find the forecast closest to noon (12:00 PM)
-        const closestToNoon = dayEntries.reduce((prev, curr) => {
-          const prevHour = new Date(prev.dt * 1000).getHours();
-          const currHour = new Date(curr.dt * 1000).getHours();
-          return Math.abs(currHour - 12) < Math.abs(prevHour - 12)
-            ? curr
-            : prev;
-        });
-
-        return closestToNoon;
+    const filterForecastByUserTime = useMemo(() => {
+      if (!forecast) return [];
+  
+      const forecastByDay: { [key: string]: typeof forecast[0][] } = {};
+  
+      forecast.forEach((entry) => {
+        const forecastTime = new Date(entry.dt * 1000);
+        const forecastDay = forecastTime.toISOString().split('T')[0];
+  
+        if (!forecastByDay[forecastDay]) {
+          forecastByDay[forecastDay] = [];
+        }
+        forecastByDay[forecastDay].push(entry);
       });
-
-    return fiveDayForecast;
-  };
-
-  const fiveDayForecast = useMemo(
-    () => filterForecastByUserTime(forecast),
-    [forecast]
-  );
+  
+      return Object.keys(forecastByDay)
+        .slice(0, 5)
+        .map((day) => {
+          const dayEntries = forecastByDay[day];
+          return dayEntries.reduce((prev, curr) => {
+            const prevHour = new Date(prev.dt * 1000).getHours();
+            const currHour = new Date(curr.dt * 1000).getHours();
+            return Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev;
+          });
+        });
+    }, [forecast]);
 
   if (isLoading) {
     return <WeeklyForecastSkeletonLoader />;
+  }
+
+  if (error || !forecast) {
+    // You might want to create a specific error state component for this
+    return (
+      <div className="w-full h-full p-4 flex flex-col justify-between">
+        <h2 className="text-xl font-semibold mb-4 w-full">Unable to load forecast</h2>
+      </div>
+    );
+  }
+
+  if (filterForecastByUserTime.length === 0) {
+    return (
+      <div className="w-full h-full p-4 flex flex-col justify-between">
+        <h2 className="text-xl font-semibold mb-4 w-full">No forecast data available</h2>
+      </div>
+    );
   }
 
   return (
@@ -76,9 +83,7 @@ export default function WeeklyForecast({
         5 Day Forecast
       </h2>
       <div className="flex self-end space-x-4 overflow-x-scroll w-full">
-        {fiveDayForecast.length > 0
-          ? fiveDayForecast.map(
-              ({ main, weather, dt, wind, pop, rain, snow }, index) => {
+        {filterForecastByUserTime.map(({ main, weather, dt, wind, pop, rain, snow }, index) => {
                 const precipIconName = snow
                   ? 'snowflake'
                   : rain
@@ -166,8 +171,7 @@ export default function WeeklyForecast({
                   </div>
                 );
               }
-            )
-          : null}
+            )}
       </div>
     </div>
   );

@@ -1,11 +1,8 @@
 'use client';
 
 import clsx from 'clsx';
-import LeftPanel from './LeftPanel';
-import { useWeather } from '../hooks/useWeather';
+import LeftPanel from './LeftPanel/LeftPanel';
 import WeeklyForecast from './WeeklyForecast/WeeklyForecast';
-import { useMemo } from 'react';
-import getAirQualityDescription from '../util/getAQIDescription/getAQIDescription';
 
 /**
  * TODO:
@@ -21,14 +18,6 @@ import getAirQualityDescription from '../util/getAQIDescription/getAQIDescriptio
  */
 
 export default function Home() {
-  const { state, dispatch } = useWeather();
-  const { airQuality, weather, units, address, isLoading, error, forecast } =
-    state;
-
-  const airQualityIndex = useMemo(
-    () => getAirQualityDescription(airQuality?.list[0].main.aqi || 0),
-    [airQuality]
-  );
   return (
     <div className={clsx('min-h-screen w-full', 'flex flex-col sm:flex-row')}>
       <div
@@ -40,15 +29,7 @@ export default function Home() {
           'md:min-h-screen'
         )}
       >
-        <LeftPanel
-          weatherData={weather}
-          forecast={forecast}
-          airQuality={airQualityIndex}
-          dispatch={dispatch}
-          units={units}
-          address={address || ''}
-          isLoading={isLoading}
-          error={error}
+       <LeftPanel 
         />
       </div>
       <div
@@ -60,12 +41,8 @@ export default function Home() {
           'bg-charcoal'
         )}
       >
-        <WeeklyForecast
-          isLoading={isLoading}
-          units={units}
-          forecast={forecast}
-        />{' '}
-        {/* We'll need to update this with actual weekly forecast data */}
+     <WeeklyForecast
+        />
       </div>
     </div>
   );

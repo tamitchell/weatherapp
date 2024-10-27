@@ -143,13 +143,10 @@ export interface ForecastItem {
 }
 
 export interface WeatherContextProps {
-  state: WeatherState; // Entire state managed by the reducer
-  dispatch: React.Dispatch<WeatherAction>;
-  getWeather: (
-    lat: number,
-    lng: number,
-    locationAddress: string
-  ) => Promise<void>;
+  units: Units;
+  setUnits: (units: Units) => void;
+  address: string | null;
+  setAddress: (address: string | null) => void;
 }
 
 //  export interface SearchProps {
