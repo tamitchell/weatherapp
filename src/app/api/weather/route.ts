@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
 const allowedOrigins = [
-  'https://weatherapp-nine-mauve.vercel.app',
-  'https://weatherapp-git-dev-tashas-projects-4e4847e8.vercel.app',
-  'https://weatherapp-tashas-projects-4e4847e8.vercel.app',
-  process.env.NEXT_PUBLIC_VERCEL_URL
+  'https://weatherapp-nine-mauve.vercel.app', // Production
+  'https://weatherapp-git-dev-tashas-projects-4e4847e8.vercel.app', // Preview/Dev
+  'https://weatherapp-tashas-projects-4e4847e8.vercel.app', // Branch deploys
+  'http://localhost:3000', // Local development
 ];
 
 export async function GET(request: Request) {
@@ -14,13 +14,19 @@ export async function GET(request: Request) {
   const units = searchParams.get('units') || 'imperial';
 
   if (!lat || !lng) {
-    return NextResponse.json({ error: 'Latitude and longitude are required' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Latitude and longitude are required' },
+      { status: 400 }
+    );
   }
 
   const apiKey = process.env.OPENWEATHER_API_KEY;
   if (!apiKey) {
-    console.log("missing apiKey")
-    return NextResponse.json({ error: 'Missing OpenWeather API key' }, { status: 500 });
+    console.log('missing apiKey');
+    return NextResponse.json(
+      { error: 'Missing OpenWeather API key' },
+      { status: 500 }
+    );
   }
 
   //  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKey}`;
@@ -32,13 +38,13 @@ export async function GET(request: Request) {
 
   if (isTesting) {
     // Mock data response
-    url = "test";
+    url = 'test';
   } else {
     url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKey}`;
   }
   try {
     // Get the origin of the request
-    const origin = request.headers.get('origin') || "";
+    const origin = request.headers.get('origin') || '';
     const headers = new Headers();
 
     // Check if the origin is allowed
@@ -50,8 +56,11 @@ export async function GET(request: Request) {
 
     // Set CORS headers
     headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS');
-    headers.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept');
-    headers.set('Access-Control-Allow-Credentials', 'true');  // If you need to allow credentials
+    headers.set(
+      'Access-Control-Allow-Headers',
+      'X-Requested-With, Content-Type, Accept'
+    );
+    headers.set('Access-Control-Allow-Credentials', 'true'); // If you need to allow credentials
 
     // Handle preflight OPTIONS request
     if (request.method === 'OPTIONS') {
@@ -63,15 +72,17 @@ export async function GET(request: Request) {
       // Return mock data to avoid hitting the actual API
       data = {
         coord: { lon: -0.1257, lat: 51.5085 },
-        weather: [{ id: 800, main: "Clear", description: "clear sky", icon: "01d" }],
-        base: "stations",
+        weather: [
+          { id: 800, main: 'Clear', description: 'clear sky', icon: '01d' },
+        ],
+        base: 'stations',
         main: {
           temp: 44.91,
           feels_like: 41.79,
-          temp_min: 42.80,
-          temp_max: 46.40,
+          temp_min: 42.8,
+          temp_max: 46.4,
           pressure: 1012,
-          humidity: 81
+          humidity: 81,
         },
         visibility: 10000,
         wind: { speed: 4.12, deg: 80 },
@@ -80,14 +91,14 @@ export async function GET(request: Request) {
         sys: {
           type: 1,
           id: 1414,
-          country: "GB",
+          country: 'GB',
           sunrise: 1605167283,
-          sunset: 1605201724
+          sunset: 1605201724,
         },
         timezone: 0,
         id: 2643743,
-        name: "London",
-        cod: 200
+        name: 'London',
+        cod: 200,
       };
     } else {
       // Make real API request
@@ -95,13 +106,19 @@ export async function GET(request: Request) {
       data = await response.json();
 
       if (!response.ok) {
-        return NextResponse.json({ error: data.message }, { status: response.status });
+        return NextResponse.json(
+          { error: data.message },
+          { status: response.status }
+        );
       }
     }
 
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error fetching weather data:', error);
-    return NextResponse.json({ error: 'Failed to fetch weather data' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch weather data' },
+      { status: 500 }
+    );
   }
 }

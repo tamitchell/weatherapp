@@ -1,92 +1,92 @@
 .chance-of-rain-icon .rain-drop {
-    animation: fall 1.5s ease-in infinite;
+  animation: fall 1.5s ease-in infinite;
+  opacity: 0;
+}
+
+.chance-of-rain-icon .rain-drop:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.chance-of-rain-icon .rain-drop:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(20px);
     opacity: 0;
   }
-  
-  .chance-of-rain-icon .rain-drop:nth-child(2) {
-    animation-delay: 0.5s;
-  }
-  
-  .chance-of-rain-icon .rain-drop:nth-child(3) {
-    animation-delay: 1s;
-  }
-  
-  @keyframes fall {
-    0% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    70% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-  }
+}
 
-  /* Humidity */
+/* Humidity */
 
-  .humidity-icon .humidity-line {
-    stroke-dasharray: 100;
-    stroke-dashoffset: 100;
-    animation: drawLine 1.5s ease-out forwards;
+.humidity-icon .humidity-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawLine 1.5s ease-out forwards;
+}
+
+.humidity-icon .humidity-line:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.humidity-icon .humidity-line:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.humidity-icon .humidity-drop {
+  animation: dropFall 1.5s ease-in forwards;
+  transform-origin: center top;
+  opacity: 0;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
   }
-  
-  .humidity-icon .humidity-line:nth-child(2) {
-    animation-delay: 0.5s;
-  }
-  
-  .humidity-icon .humidity-line:nth-child(3) {
-    animation-delay: 1s;
-  }
-  
-  .humidity-icon .humidity-drop {
-    animation: dropFall 1.5s ease-in forwards;
-    transform-origin: center top;
+}
+
+@keyframes dropFall {
+  0% {
+    transform: translateY(-20px) scale(0.8);
     opacity: 0;
   }
-  
-  @keyframes drawLine {
-    to {
-      stroke-dashoffset: 0;
-    }
+  50% {
+    opacity: 1;
   }
-  
-  @keyframes dropFall {
-    0% {
-      transform: translateY(-20px) scale(0.8);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
+}
 
-  .windspeed-icon .wind-path {
-    stroke-dasharray: 30;
+.windspeed-icon .wind-path {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: drawWind 3s linear infinite;
+}
+
+.windspeed-icon .wind-path:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.windspeed-icon .wind-path:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes drawWind {
+  0%,
+  100% {
     stroke-dashoffset: 30;
-    animation: drawWind 3s linear infinite;
   }
-  
-  .windspeed-icon .wind-path:nth-child(2) {
-    animation-delay: 0.5s;
+  50% {
+    stroke-dashoffset: 0;
   }
-  
-  .windspeed-icon .wind-path:nth-child(3) {
-    animation-delay: 1s;
-  }
-  
-  @keyframes drawWind {
-    0%, 100% {
-      stroke-dashoffset: 30;
-    }
-    50% {
-      stroke-dashoffset: 0;
-    }
-  }
-  
+}

@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Units } from '../types/types';
 import clsx from 'clsx';
 
-
 interface UnitsToggleProps {
   units: Units;
   onToggle: () => void;
@@ -17,23 +16,23 @@ export default function UnitsToggle({ units, onToggle }: UnitsToggleProps) {
     >
       <motion.span
         className={clsx(
-          "absolute left-1 top-1.5 h-6 bg-black rounded-sm shadow",
-          units === "imperial" ? "w-[2em]" : "w-[3.3em]"
+          'absolute left-1 top-1.5 h-6 bg-black rounded-sm shadow',
+          units === 'imperial' ? 'w-[2em]' : 'w-[3.3em]'
         )}
         animate={{ x: units === 'imperial' ? 0 : 32 }}
-        transition={{ type: "spring", stiffness: 700, damping: 30 }}
+        transition={{ type: 'spring', stiffness: 700, damping: 30 }}
       />
-      <span 
+      <span
         className={clsx(
-          "absolute w-[2em] left-2 top-1/2 transform -translate-y-1/2 text-xs font-bold",
+          'absolute w-[2em] left-2 top-1/2 transform -translate-y-1/2 text-xs font-bold',
           units === 'imperial' ? 'text-white' : 'text-black'
         )}
       >
         US
       </span>
-      <span 
+      <span
         className={clsx(
-          "absolute w-[3.5em] right-4 top-1/2 transform -translate-y-1/2 text-xs font-bold",
+          'absolute w-[3.5em] right-4 top-1/2 transform -translate-y-1/2 text-xs font-bold',
           units === 'metric' ? 'text-white' : 'text-black'
         )}
       >

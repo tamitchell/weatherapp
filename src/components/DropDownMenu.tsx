@@ -14,7 +14,10 @@ export default function DropdownMenu(): JSX.Element {
   // Close dropdown if clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -27,7 +30,10 @@ export default function DropdownMenu(): JSX.Element {
   return (
     <div className="relative inline-block text-left ml-auto" ref={dropdownRef}>
       <button
-        className={clsx("rounded-md hover:bg-gray-100 p-2", isOpen ? "bg-gray-100" : "")}
+        className={clsx(
+          'rounded-md hover:bg-gray-100 p-2',
+          isOpen ? 'bg-gray-100' : ''
+        )}
         onClick={toggleDropdown}
       >
         <Icon name="settings" />
@@ -49,4 +55,4 @@ export default function DropdownMenu(): JSX.Element {
       )}
     </div>
   );
-};
+}

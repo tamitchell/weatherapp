@@ -14,13 +14,13 @@ Like many projects, this app continuously grows in scale. It's more of a pet pro
 
 ## Future Features
 
-# (Mid November 2024)
+### (Mid November 2024)
 - **Do I need a jacket?** Addition of langchain ChatGPT generated feedback of what clothing a user may want to wear based on weather details
 
-# (December 2024)
+### (December 2024)
 - First integration of end to end testing using cypress
 
-# (January 2025)
+### (January 2025)
 - **Water the flowers!*** First Iteration of pixel based mini-game when weather data isn't available or api is down.
 
 ## Technologies Used:
@@ -30,4 +30,3 @@ Like many projects, this app continuously grows in scale. It's more of a pet pro
 - **Google Places API:** Enables location-based search and retrieves detailed location information for cities and landmarks worldwide.
 - **OpenWeather API:** Provides real-time current weather data and a 5-day forecast.
 - **Jest:** For Unit testing
-
