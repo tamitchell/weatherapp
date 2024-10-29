@@ -1,11 +1,21 @@
 import { ForecastItem, Units } from 'src/types/types';
 
+const getBaseUrl = () => {
+  // For development
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+  }
+
+  // Fallback for local development
+  return 'http://localhost:3000';
+};
+
 export const fetchCurrentWeather = async (
   lat: number,
   lng: number,
   units: Units
 ) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl = getBaseUrl();
   const response = await fetch(
     `${baseUrl}/api/weather?lat=${lat}&lng=${lng}&units=${units}`
   );
@@ -22,7 +32,7 @@ export const fetchForecast = async (
   lng: number,
   units: Units
 ): Promise<ForecastItem[]> => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl = getBaseUrl();
   const response = await fetch(
     `${baseUrl}/api/weather/forecast?lat=${lat}&lng=${lng}&units=${units}`
   );
@@ -45,7 +55,7 @@ export const fetchAirQuality = async (
   lng: number,
   units: Units
 ) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl = getBaseUrl();
   const response = await fetch(
     `${baseUrl}/api/weather/air_pollution?lat=${lat}&lng=${lng}&units=${units}`
   );
