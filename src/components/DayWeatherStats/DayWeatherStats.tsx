@@ -20,10 +20,10 @@ export default function DayWeatherStats({
   return (
     <div
       data-testid="day-weather-stats"
-      className="flex justify-between bg-black text-white p-2 rounded-lg text-sm"
+      className="flex justify-between w-full bg-black text-white p-2 rounded-lg text-sm"
     >
       <div className="flex flex-col items-center">
-        <Icon name={precipIconName} size={28} />
+        <Icon name={precipIconName} size={28} fill='white' />
         <p>{Math.round(pop * 100)}%</p>
       </div>
       <div className="flex flex-col items-center">

@@ -13,6 +13,7 @@ const getBaseUrl = () => {
   
   return 'http://localhost:3000';
 };
+
 export const fetchCurrentWeather = async (
   lat: number,
   lng: number,
