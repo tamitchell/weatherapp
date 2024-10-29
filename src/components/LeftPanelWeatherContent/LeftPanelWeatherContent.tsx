@@ -11,26 +11,43 @@ import { SkeletonLeftPanelLoader } from '../SkeletalLeftPanel';
 import TemperatureRange from '../TemperatureRange/TemperatureRange';
 import WeatherDetailsGrid from '../WeatherDetailsGrid';
 import WeatherSummary from '../WeatherSummary/WeatherSummary';
+import { memo } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface LeftPanelWeatherContentProps {
   currentWeather: WeatherData;
   forecast: ForecastItem[];
   airQuality: AirQualityResponse;
   units: Units;
+  locationKey: string;
 }
 
-export default function LeftPanelWeatherContent({
+export default memo(function LeftPanelWeatherContent({
   currentWeather,
   forecast,
   airQuality,
   units,
+  locationKey,
 }: LeftPanelWeatherContentProps) {
   if (!currentWeather || !forecast || !airQuality) {
     return <SkeletonLeftPanelLoader />;
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <AnimatePresence mode="wait">
+    <motion.div
+      key={locationKey}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        mass: 0.5
+      }}
+      className="flex flex-col gap-2"
+    >
       <DateDisplay />
       <WeatherSummary
         cityName={currentWeather.name}
@@ -53,6 +70,8 @@ export default function LeftPanelWeatherContent({
         airQuality={getAirQualityDescription(airQuality.list[0].main.aqi)}
         units={units}
       />
-    </div>
+   </motion.div>
+   </AnimatePresence>
   );
 }
+)

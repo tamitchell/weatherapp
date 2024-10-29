@@ -2,7 +2,7 @@
 import { render, screen } from '@testing-library/react';
 import { useQueryClient } from '@tanstack/react-query';
 import Search from './Search';
-import { useWeather } from 'src/hooks/useWeather';
+import { useWeather } from 'src/hooks/useWeather'; 
 
 jest.mock('@tanstack/react-query', () => ({
   useQueryClient: jest.fn(),
