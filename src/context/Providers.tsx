@@ -1,4 +1,4 @@
-'use client'; // This is a client-side component
+'use client';
 
 import { ReactNode } from 'react';
 import { WeatherProvider } from './WeatherProvider';

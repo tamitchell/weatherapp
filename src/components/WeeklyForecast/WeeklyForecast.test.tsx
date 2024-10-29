@@ -1,54 +1,55 @@
 import { screen, within } from '@testing-library/react';
 import WeeklyForecast from './WeeklyForecast';
-import { Units } from 'src/types/types';
+import { ForecastItem, Units } from 'src/types/types';
 import { renderWithProviders } from 'src/test/util';
 import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
 import { useWeatherQuery } from 'src/hooks/queries/useWeatherQuery';
-import dayjs from 'dayjs';
+import dayjs, { unix } from 'dayjs';
 
-jest.mock('../WeatherIcon/WeatherIcon', () => ({
-  __esModule: true,
-  default: ({ name, index }: { name: string; index: number }) => (
-    <div data-testid={`weather-icon-${index}`}>WeatherIcon: {name}</div>
-  ),
-}));
-
-jest.mock('../MainTemperatureDisplay/MainTemperatureDisplay', () => ({
+// Mock components
+jest.mock('../DayForecast/DayForecast', () => ({
   __esModule: true,
   default: ({
-    temp,
+    forecast,
     units,
     index,
   }: {
-    temp: number;
+    forecast: ForecastItem;
     units: Units;
     index: number;
   }) => (
-    <div
-      data-testid={`main-temp-${index}`}
-    >{`MainTemperatureDisplay: ${temp} ${units}`}</div>
+    <div data-testid={`forecast-card-${index}`} className="forecast-card">
+      <p data-testid={`forecast-date-${index}`}>
+        {unix(forecast.dt).format('MMM D')}
+      </p>
+      <div data-testid={`forecast-weather-${index}`}>
+        <div data-testid={`weather-icon-${index}`}>
+          WeatherIcon: {forecast.weather[0].icon}
+        </div>
+        <div data-testid={`main-temp-${index}`}>
+          MainTemperatureDisplay: {forecast.main.temp} {units}
+        </div>
+        <div data-testid={`weather-description-${index}`}>
+          WeatherDescription: {forecast.weather[0].description}
+        </div>
+      </div>
+      <div data-testid={`forecast-stats-${index}`}>
+        <span>{Math.round(forecast.pop * 100)}%</span>
+        <span>{forecast.main.humidity}%</span>
+        <span>{forecast.wind.speed} mph</span>
+      </div>
+    </div>
   ),
 }));
 
-jest.mock('../WeatherDescription/WeatherDescription', () => ({
-  __esModule: true,
-  default: ({ description, index }: { description: string; index: number }) => (
-    <div
-      data-testid={`weather-description-${index}`}
-    >{`WeatherDescription: ${description}`}</div>
-  ),
-}));
-
-jest.mock('../TemperatureRange/TemperatureRange', () => ({
-  __esModule: true,
-  default: () => <div data-testid="temperature-range">TemperatureRange</div>,
-}));
-
-jest.mock('../Icon/Icon', () => ({
-  __esModule: true,
-  default: ({ name }: { name: string }) => (
-    <div data-testid={`icon-${name}`}>{name} Icon</div>
-  ),
+jest.mock('../ForecastTransitionWrapper/ForecastTransitionWrapper', () => ({
+  ForecastTransition: ({
+    children,
+    className,
+  }: {
+    children: React.ReactNode;
+    className: string;
+  }) => <div className={className}>{children}</div>,
 }));
 
 jest.mock(
@@ -68,18 +69,19 @@ jest.mock('../../hooks/useWeather', () => ({
 }));
 
 describe('WeeklyForecast', () => {
-  it('displays the loading state', () => {
+  beforeEach(() => {
     (useGeolocationQuery as jest.Mock).mockReturnValue({
       data: { lat: 40.7128, lng: -74.006 },
     });
+  });
 
+  it('displays the loading state', () => {
     (useWeatherQuery as jest.Mock).mockReturnValue({
       isLoading: true,
       data: null,
     });
 
     renderWithProviders(<WeeklyForecast />);
-
     expect(screen.getByTestId('loading-skeleton')).toBeInTheDocument();
   });
 
@@ -91,7 +93,6 @@ describe('WeeklyForecast', () => {
     });
 
     renderWithProviders(<WeeklyForecast />);
-
     expect(screen.getByText('Unable to load forecast')).toBeInTheDocument();
   });
 
@@ -103,7 +104,6 @@ describe('WeeklyForecast', () => {
     });
 
     renderWithProviders(<WeeklyForecast />);
-
     expect(screen.getByText('Unable to load forecast')).toBeInTheDocument();
   });
 
@@ -111,11 +111,10 @@ describe('WeeklyForecast', () => {
     (useWeatherQuery as jest.Mock).mockReturnValue({
       isLoading: false,
       error: null,
-      forecast: [], // Empty array should trigger "No forecast data available"
+      forecast: [],
     });
 
     renderWithProviders(<WeeklyForecast />);
-
     expect(screen.getByText('No forecast data available')).toBeInTheDocument();
   });
 
@@ -161,39 +160,29 @@ describe('WeeklyForecast', () => {
 
     renderWithProviders(<WeeklyForecast />);
 
+    // Check heading
+    expect(screen.getByTestId('forecast-heading')).toHaveTextContent(
+      '5 Day Forecast'
+    );
+
     // Check number of cards - should be exactly 5 after filtering
-    const forecastCards = screen.getAllByTestId(/forecast-card-\d/);
+    const forecastCards = screen.getAllByTestId(/^forecast-card-\d$/);
     expect(forecastCards).toHaveLength(5);
 
     // Verify all 5 days are shown
     const today = dayjs();
     for (let i = 0; i < 5; i++) {
       const expectedDate = today.add(i, 'day').format('MMM D');
-      expect(screen.getByText(expectedDate)).toBeInTheDocument();
+      expect(screen.getByTestId(`forecast-date-${i}`)).toHaveTextContent(
+        expectedDate
+      );
     }
 
     // Check details of first card
     const firstCard = screen.getByTestId('forecast-card-0');
     within(firstCard).getByText('WeatherDescription: clear sky');
-    within(firstCard).getByText('20%');
-    within(firstCard).getByText('65%');
-    within(firstCard).getByText('5 mph');
+    within(firstCard).getByText('20%'); // pop percentage
+    within(firstCard).getByText('65%'); // humidity
+    within(firstCard).getByText('5 mph'); // wind speed
   });
 });
-
-it('handles error state', () => {
-  (useGeolocationQuery as jest.Mock).mockReturnValue({
-    data: { lat: 40.7128, lng: -74.006 },
-  });
-
-  (useWeatherQuery as jest.Mock).mockReturnValue({
-    isLoading: false,
-    error: new Error('Failed to fetch weather data'),
-    data: null,
-  });
-
-  renderWithProviders(<WeeklyForecast />);
-
-  expect(screen.getByText(/unable to load forecast/i)).toBeInTheDocument();
-});
-// });

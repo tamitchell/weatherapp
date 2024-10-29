@@ -11,7 +11,6 @@ import WeeklyForecast from './WeeklyForecast/WeeklyForecast';
  * - add daily quote
  * - what to put in giant space.
  * - Add cypress integration testing
- * - Consider react query to manage caching and refetches
  * - instead of refetch, convert temp values
  * - add error state of weekly forecast
  * - add micro animations
@@ -26,7 +25,8 @@ export default function Home() {
           'sm:w-1/2 md:w-1/3',
           'sm:max-w-[425px]',
           'md:max-w-[30vw]',
-          'md:min-h-screen'
+          'md:min-h-screen',
+          'bg-white'
         )}
       >
         <LeftPanel />

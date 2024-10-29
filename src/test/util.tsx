@@ -7,9 +7,16 @@ export function createTestQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false,
+        refetchOnWindowFocus: false,
+        retry: 0,
+        gcTime: Infinity,
       },
     },
+    // logger: {
+    //   log: console.log,
+    //   warn: console.warn,
+    //   error: () => {} // silence errors in tests
+    // }
   });
 }
 
@@ -25,17 +32,14 @@ export function createWrapper() {
 }
 
 export function renderWithProviders(ui: React.ReactElement) {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
+  const queryClient = createTestQueryClient();
 
-  return render(
-    <QueryClientProvider client={queryClient}>
-      <WeatherProvider>{ui}</WeatherProvider>
-    </QueryClientProvider>
-  );
+  return {
+    ...render(
+      <QueryClientProvider client={queryClient}>
+        <WeatherProvider>{ui}</WeatherProvider>
+      </QueryClientProvider>
+    ),
+    queryClient,
+  };
 }
