@@ -59,17 +59,17 @@ export default memo(function DayForecast({
               className={'my-1'}
               temp={main.temp}
             />
-                <WeatherDescription
-            data-testid={`weather-description-${index}`}
-            description={weather[0].description}
-          />
+            <WeatherDescription
+              data-testid={`weather-description-${index}`}
+              description={weather[0].description}
+            />
           </div>
           <TemperatureRange
             tempMin={main.temp_min}
             tempMax={main.temp_max}
             units={units}
           />
-    
+
           <DayWeatherStats
             data-testid={`forecast-stats-${index}`}
             pop={pop}

@@ -1,16 +1,14 @@
 import { ForecastItem, Units } from 'src/types/types';
 
-
 const getBaseUrl = () => {
   // For development
   if (process.env.NEXT_PUBLIC_VERCEL_URL) {
     return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
   }
-  
+
   // Fallback for local development
   return 'http://localhost:3000';
 };
-
 
 export const fetchCurrentWeather = async (
   lat: number,
