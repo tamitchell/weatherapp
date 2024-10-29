@@ -1,15 +1,16 @@
-// Search.test.tsx
-import { render, screen } from '@testing-library/react';
-import { useQueryClient } from '@tanstack/react-query';
+import { render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Search from './Search';
 import { useWeather } from 'src/hooks/useWeather';
+import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
+import { WeatherProvider } from 'src/context/WeatherProvider';
 
-jest.mock('@tanstack/react-query', () => ({
-  useQueryClient: jest.fn(),
+jest.mock('../../hooks/queries/useGeolocationQuery', () => ({
+  useGeolocationQuery: jest.fn()
 }));
 
 jest.mock('../../hooks/useWeather', () => ({
-  useWeather: jest.fn(),
+  useWeather: jest.fn()
 }));
 
 // Mock dynamic import of GooglePlacesPicker
@@ -42,68 +43,88 @@ jest.mock('next/dynamic', () => () => {
   return MockPlacePicker;
 });
 
-//Just test component rendering, place selection (which should be set), and error handling
-//we're not gonna test google's actual place api
+const createTestQueryClient = () => new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      gcTime: Infinity
+    },
+  },
+});
+
+const renderWithProviders = (ui: React.ReactElement) => {
+  const testQueryClient = createTestQueryClient();
+  return {
+    ...render(
+      <QueryClientProvider client={testQueryClient}>
+        <WeatherProvider>{ui}</WeatherProvider>
+      </QueryClientProvider>
+    ),
+    testQueryClient
+  };
+};
+
 describe('Search', () => {
-  const mockInvalidateQueries = jest.fn();
-  const mockSetAddress = jest.fn();
+  const mockUpdateLocation = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    (useQueryClient as jest.Mock).mockReturnValue({
-      invalidateQueries: mockInvalidateQueries,
+    (useGeolocationQuery as jest.Mock).mockReturnValue({
+      updateLocation: mockUpdateLocation
     });
 
     (useWeather as jest.Mock).mockReturnValue({
-      setAddress: mockSetAddress,
+      units: 'imperial'
     });
   });
 
-  it('renders the PlacePicker component', () => {
-    render(<Search />);
-    expect(screen.getByTestId('mock-place-picker')).toBeInTheDocument();
+  it('renders the PlacePicker component', async () => {
+    renderWithProviders(<Search />);
+    
+    await waitFor(() => {
+      expect(screen.getByTestId('mock-place-picker')).toBeInTheDocument();
+    });
   });
 
-  it('handles place selection correctly', () => {
-    render(<Search />);
-
+  it('handles place selection correctly', async () => {
+    renderWithProviders(<Search />);
+    
     screen.getByText('Select Place').click();
 
-    // Check if address was set
-    expect(mockSetAddress).toHaveBeenCalledWith('New York, NY, USA');
-
-    // Check if queries were invalidated with correct params
-    expect(mockInvalidateQueries).toHaveBeenCalledWith({
-      queryKey: [
-        'weather',
-        {
-          lat: 40.7128,
-          lng: -74.006,
-        },
-      ],
+    await waitFor(() => {
+      expect(mockUpdateLocation).toHaveBeenCalledWith({
+        lat: 40.7128,
+        lng: -74.006,
+        address: 'New York, NY, USA'
+      });
     });
   });
 
-  it('handles invalid place data', () => {
-    const consoleSpy = jest
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
+  it('handles invalid place data', async () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    
+    try {
+      renderWithProviders(<Search />);
+      
+      const placePicker = screen.getByTestId('mock-place-picker');
+      const button = placePicker.querySelector('button');
+      if (button) {
+        button.click();
+      }
 
-    render(<Search />);
-
-    // Get the PlacePicker and call handlePlaceChange directly
-    const placePicker = screen.getByTestId('mock-place-picker');
-    placePicker.querySelector('button')?.click();
-
-    // Check if error was logged
-    expect(consoleSpy).not.toHaveBeenCalled();
-
-    // Check that address wasn't set and queries weren't invalidated
-    expect(mockSetAddress).toHaveBeenCalled();
-    expect(mockInvalidateQueries).toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
+      await waitFor(() => {
+        expect(mockUpdateLocation).toHaveBeenCalledWith({
+          lat: 40.7128,
+          lng: -74.006,
+          address: 'New York, NY, USA'
+        });
+      });
+      
+      expect(consoleSpy).not.toHaveBeenCalled();
+    } finally {
+      consoleSpy.mockRestore();
+    }
   });
 
   afterAll(() => {
