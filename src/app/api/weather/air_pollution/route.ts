@@ -41,15 +41,13 @@ export async function GET(request: Request) {
     const headers = new Headers();
 
     // Check if the origin is allowed
-      // Check if the origin is allowed
-      if (origin && isAllowedOrigin(origin)) {
-        headers.set('Access-Control-Allow-Origin', origin);
-      } else {
-        // For security, we don't want to allow unknown origins
-        headers.set('Access-Control-Allow-Origin', 'null');
-      }
-  
-  
+    // Check if the origin is allowed
+    if (origin && isAllowedOrigin(origin)) {
+      headers.set('Access-Control-Allow-Origin', origin);
+    } else {
+      // For security, we don't want to allow unknown origins
+      headers.set('Access-Control-Allow-Origin', 'null');
+    }
 
     // Set CORS headers
     headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS');

@@ -49,7 +49,6 @@ export async function GET(request: Request) {
       headers.set('Access-Control-Allow-Origin', 'null');
     }
 
-
     // Set CORS headers
     headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS');
     headers.set(
