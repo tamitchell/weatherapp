@@ -1,11 +1,5 @@
 import { NextResponse } from 'next/server';
-
-const allowedOrigins = [
-  'https://weatherapp-nine-mauve.vercel.app', // Production
-  'https://weatherapp-git-dev-tashas-projects-4e4847e8.vercel.app', // Preview/Dev
-  'https://weatherapp-tashas-projects-4e4847e8.vercel.app', // Branch deploys
-  'http://localhost:3000', // Local development
-];
+import isAllowedOrigin from 'src/util/api/isAllowedOrigin';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -48,9 +42,10 @@ export async function GET(request: Request) {
     const headers = new Headers();
 
     // Check if the origin is allowed
-    if (allowedOrigins.includes(origin)) {
+    if (origin && isAllowedOrigin(origin)) {
       headers.set('Access-Control-Allow-Origin', origin);
     } else {
+      // For security, we don't want to allow unknown origins
       headers.set('Access-Control-Allow-Origin', 'null');
     }
 
