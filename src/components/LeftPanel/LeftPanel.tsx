@@ -39,7 +39,7 @@ export default function LeftPanel() {
     <div className="bg-white p-4 w-full h-full flex flex-col">
       <LeftPanelHeader units={units} onUnitChange={handleUnitChange} />
 
-{currentWeather && forecast && airQuality && (
+      {currentWeather && forecast && airQuality && (
         <LeftPanelWeatherContent
           currentWeather={currentWeather}
           forecast={forecast}

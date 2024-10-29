@@ -82,7 +82,7 @@ export default function WeeklyForecast(): JSX.Element {
       >
         5 Day Forecast
       </h2>
-      <ForecastTransition 
+      <ForecastTransition
         locationKey={locationKey}
         className="flex self-end space-x-4 overflow-x-scroll w-full"
       >

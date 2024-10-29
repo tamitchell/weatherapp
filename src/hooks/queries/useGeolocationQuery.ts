@@ -11,7 +11,7 @@ interface GeolocationData {
 
 export const useGeolocationQuery = () => {
   const queryClient = useQueryClient();
-  const { units } = useWeather(); 
+  const { units } = useWeather();
 
   // Query for initial geolocation
   const query = useQuery<GeolocationData, Error>({
@@ -42,25 +42,29 @@ export const useGeolocationQuery = () => {
     enabled: typeof window !== 'undefined' && Boolean(navigator?.geolocation),
   });
 
-const updateLocation = useCallback(async (newLocation: GeolocationData) => {
-    queryClient.setQueryData(['geolocation'], newLocation);
-    
-    await Promise.all([
-      queryClient.prefetchQuery({
-        queryKey: ['weather', 'current', { ...newLocation, units }],
-        queryFn: () => fetchCurrentWeather(newLocation.lat, newLocation.lng, units)
-      }),
-      queryClient.prefetchQuery({
-        queryKey: ['weather', 'forecast', { ...newLocation, units }],
-        queryFn: () => fetchForecast(newLocation.lat, newLocation.lng, units)
-      })
-    ]);
+  const updateLocation = useCallback(
+    async (newLocation: GeolocationData) => {
+      queryClient.setQueryData(['geolocation'], newLocation);
 
-    // Invalidate the queries to trigger the UI update
-    await queryClient.invalidateQueries({
-      queryKey: ['weather']
-    });
-  }, [queryClient, units]);
+      await Promise.all([
+        queryClient.prefetchQuery({
+          queryKey: ['weather', 'current', { ...newLocation, units }],
+          queryFn: () =>
+            fetchCurrentWeather(newLocation.lat, newLocation.lng, units),
+        }),
+        queryClient.prefetchQuery({
+          queryKey: ['weather', 'forecast', { ...newLocation, units }],
+          queryFn: () => fetchForecast(newLocation.lat, newLocation.lng, units),
+        }),
+      ]);
+
+      // Invalidate the queries to trigger the UI update
+      await queryClient.invalidateQueries({
+        queryKey: ['weather'],
+      });
+    },
+    [queryClient, units]
+  );
 
   return {
     ...query,
