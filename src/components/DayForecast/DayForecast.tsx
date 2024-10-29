@@ -69,7 +69,6 @@ export default memo(function DayForecast({
             tempMax={main.temp_max}
             units={units}
           />
-
           <DayWeatherStats
             data-testid={`forecast-stats-${index}`}
             pop={pop}
