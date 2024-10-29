@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import corsHeaders from 'src/util/api/corsHeaders';
 import isAllowedOrigin from 'src/util/api/isAllowedOrigin';
 
 export async function GET(request: Request) {
@@ -37,30 +38,15 @@ export async function GET(request: Request) {
     url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKey}`;
   }
   try {
-    // Get the origin of the request
+
     const origin = request.headers.get('origin') || '';
-    const headers = new Headers();
-
-    // Check if the origin is allowed
-    if (origin && isAllowedOrigin(origin)) {
-      headers.set('Access-Control-Allow-Origin', origin);
-    } else {
-      // For security, we don't want to allow unknown origins
-      headers.set('Access-Control-Allow-Origin', 'null');
-    }
-
-    // Set CORS headers
-    headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS');
-    headers.set(
-      'Access-Control-Allow-Headers',
-      'X-Requested-With, Content-Type, Accept'
-    );
-    headers.set('Access-Control-Allow-Credentials', 'true'); // If you need to allow credentials
+    const headers = corsHeaders(origin);
 
     // Handle preflight OPTIONS request
     if (request.method === 'OPTIONS') {
       return new NextResponse(null, { headers, status: 200 });
     }
+
 
     let data;
     if (isTesting) {
