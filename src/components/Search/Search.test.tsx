@@ -6,11 +6,11 @@ import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
 import { WeatherProvider } from 'src/context/WeatherProvider';
 
 jest.mock('../../hooks/queries/useGeolocationQuery', () => ({
-  useGeolocationQuery: jest.fn()
+  useGeolocationQuery: jest.fn(),
 }));
 
 jest.mock('../../hooks/useWeather', () => ({
-  useWeather: jest.fn()
+  useWeather: jest.fn(),
 }));
 
 // Mock dynamic import of GooglePlacesPicker
@@ -43,14 +43,15 @@ jest.mock('next/dynamic', () => () => {
   return MockPlacePicker;
 });
 
-const createTestQueryClient = () => new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      gcTime: Infinity
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        gcTime: Infinity,
+      },
     },
-  },
-});
+  });
 
 const renderWithProviders = (ui: React.ReactElement) => {
   const testQueryClient = createTestQueryClient();
@@ -60,7 +61,7 @@ const renderWithProviders = (ui: React.ReactElement) => {
         <WeatherProvider>{ui}</WeatherProvider>
       </QueryClientProvider>
     ),
-    testQueryClient
+    testQueryClient,
   };
 };
 
@@ -71,17 +72,17 @@ describe('Search', () => {
     jest.clearAllMocks();
 
     (useGeolocationQuery as jest.Mock).mockReturnValue({
-      updateLocation: mockUpdateLocation
+      updateLocation: mockUpdateLocation,
     });
 
     (useWeather as jest.Mock).mockReturnValue({
-      units: 'imperial'
+      units: 'imperial',
     });
   });
 
   it('renders the PlacePicker component', async () => {
     renderWithProviders(<Search />);
-    
+
     await waitFor(() => {
       expect(screen.getByTestId('mock-place-picker')).toBeInTheDocument();
     });
@@ -89,24 +90,26 @@ describe('Search', () => {
 
   it('handles place selection correctly', async () => {
     renderWithProviders(<Search />);
-    
+
     screen.getByText('Select Place').click();
 
     await waitFor(() => {
       expect(mockUpdateLocation).toHaveBeenCalledWith({
         lat: 40.7128,
         lng: -74.006,
-        address: 'New York, NY, USA'
+        address: 'New York, NY, USA',
       });
     });
   });
 
   it('handles invalid place data', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    
+    const consoleSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     try {
       renderWithProviders(<Search />);
-      
+
       const placePicker = screen.getByTestId('mock-place-picker');
       const button = placePicker.querySelector('button');
       if (button) {
@@ -117,10 +120,10 @@ describe('Search', () => {
         expect(mockUpdateLocation).toHaveBeenCalledWith({
           lat: 40.7128,
           lng: -74.006,
-          address: 'New York, NY, USA'
+          address: 'New York, NY, USA',
         });
       });
-      
+
       expect(consoleSpy).not.toHaveBeenCalled();
     } finally {
       consoleSpy.mockRestore();

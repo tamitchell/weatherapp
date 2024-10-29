@@ -9,11 +9,23 @@ import dayjs, { unix } from 'dayjs';
 // Mock components
 jest.mock('../DayForecast/DayForecast', () => ({
   __esModule: true,
-  default: ({ forecast, units, index }: { forecast: ForecastItem; units: Units; index: number }) => (
+  default: ({
+    forecast,
+    units,
+    index,
+  }: {
+    forecast: ForecastItem;
+    units: Units;
+    index: number;
+  }) => (
     <div data-testid={`forecast-card-${index}`} className="forecast-card">
-      <p data-testid={`forecast-date-${index}`}>{unix(forecast.dt).format('MMM D')}</p>
+      <p data-testid={`forecast-date-${index}`}>
+        {unix(forecast.dt).format('MMM D')}
+      </p>
       <div data-testid={`forecast-weather-${index}`}>
-        <div data-testid={`weather-icon-${index}`}>WeatherIcon: {forecast.weather[0].icon}</div>
+        <div data-testid={`weather-icon-${index}`}>
+          WeatherIcon: {forecast.weather[0].icon}
+        </div>
         <div data-testid={`main-temp-${index}`}>
           MainTemperatureDisplay: {forecast.main.temp} {units}
         </div>
@@ -27,19 +39,26 @@ jest.mock('../DayForecast/DayForecast', () => ({
         <span>{forecast.wind.speed} mph</span>
       </div>
     </div>
-  )
-}));
-
-jest.mock('../ForecastTransitionWrapper/ForecastTransitionWrapper', () => ({
-  ForecastTransition: ({ children, className }: { children: React.ReactNode; className: string }) => (
-    <div className={className}>{children}</div>
   ),
 }));
 
-jest.mock('../WeeklyForecastSkeletonLoader/WeeklyForecastSkeletonLoader', () => ({
-  __esModule: true,
-  default: () => <div data-testid="loading-skeleton">Loading...</div>,
+jest.mock('../ForecastTransitionWrapper/ForecastTransitionWrapper', () => ({
+  ForecastTransition: ({
+    children,
+    className,
+  }: {
+    children: React.ReactNode;
+    className: string;
+  }) => <div className={className}>{children}</div>,
 }));
+
+jest.mock(
+  '../WeeklyForecastSkeletonLoader/WeeklyForecastSkeletonLoader',
+  () => ({
+    __esModule: true,
+    default: () => <div data-testid="loading-skeleton">Loading...</div>,
+  })
+);
 
 jest.mock('../../hooks/queries/useGeolocationQuery');
 jest.mock('../../hooks/queries/useWeatherQuery');
@@ -142,7 +161,9 @@ describe('WeeklyForecast', () => {
     renderWithProviders(<WeeklyForecast />);
 
     // Check heading
-    expect(screen.getByTestId('forecast-heading')).toHaveTextContent('5 Day Forecast');
+    expect(screen.getByTestId('forecast-heading')).toHaveTextContent(
+      '5 Day Forecast'
+    );
 
     // Check number of cards - should be exactly 5 after filtering
     const forecastCards = screen.getAllByTestId(/^forecast-card-\d$/);
@@ -152,7 +173,9 @@ describe('WeeklyForecast', () => {
     const today = dayjs();
     for (let i = 0; i < 5; i++) {
       const expectedDate = today.add(i, 'day').format('MMM D');
-      expect(screen.getByTestId(`forecast-date-${i}`)).toHaveTextContent(expectedDate);
+      expect(screen.getByTestId(`forecast-date-${i}`)).toHaveTextContent(
+        expectedDate
+      );
     }
 
     // Check details of first card

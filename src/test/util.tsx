@@ -9,8 +9,8 @@ export function createTestQueryClient() {
       queries: {
         refetchOnWindowFocus: false,
         retry: 0,
-        gcTime: Infinity
-      }
+        gcTime: Infinity,
+      },
     },
     // logger: {
     //   log: console.log,
@@ -31,16 +31,15 @@ export function createWrapper() {
   };
 }
 
-
 export function renderWithProviders(ui: React.ReactElement) {
   const queryClient = createTestQueryClient();
-  
+
   return {
     ...render(
       <QueryClientProvider client={queryClient}>
         <WeatherProvider>{ui}</WeatherProvider>
       </QueryClientProvider>
     ),
-    queryClient
+    queryClient,
   };
 }
