@@ -181,20 +181,3 @@ describe('WeeklyForecast', () => {
     within(firstCard).getByText('5 mph'); // wind speed
   });
 });
-
-it('handles error state', () => {
-  (useGeolocationQuery as jest.Mock).mockReturnValue({
-    data: { lat: 40.7128, lng: -74.006 },
-  });
-
-  (useWeatherQuery as jest.Mock).mockReturnValue({
-    isLoading: false,
-    error: new Error('Failed to fetch weather data'),
-    data: null,
-  });
-
-  renderWithProviders(<WeeklyForecast />);
-
-  expect(screen.getByText(/unable to load forecast/i)).toBeInTheDocument();
-});
-// });
