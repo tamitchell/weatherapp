@@ -42,44 +42,43 @@ export default memo(function DayForecast({
           >
             {unix(dt).format('MMM D')}
           </p>
-          <div className='flex flex-col items-center gap-2'>
-          <div
-            data-testid={`forecast-weather-${index}`}
-            className="flex flex-col items-center"
-          >
-            <WeatherIcon
-              data-testid={`weather-icon-${index}`}
-              name={weather[0].icon}
-              size={56}
-              fill="transparent"
-              stroke="black"
-            />
-            <MainTemperatureDisplay
-              data-testid={`main-temp-${index}`}
+          <div className="flex flex-col items-center gap-2">
+            <div
+              data-testid={`forecast-weather-${index}`}
+              className="flex flex-col items-center"
+            >
+              <WeatherIcon
+                data-testid={`weather-icon-${index}`}
+                name={weather[0].icon}
+                size={56}
+                fill="transparent"
+                stroke="black"
+              />
+              <MainTemperatureDisplay
+                data-testid={`main-temp-${index}`}
+                units={units}
+                className={'my-1'}
+                temp={main.temp}
+              />
+              <WeatherDescription
+                data-testid={`weather-description-${index}`}
+                description={weather[0].description}
+              />
+            </div>
+            <TemperatureRange
+              tempMin={main.temp_min}
+              tempMax={main.temp_max}
               units={units}
-              className={'my-1'}
-              temp={main.temp}
             />
-            <WeatherDescription
-              data-testid={`weather-description-${index}`}
-              description={weather[0].description}
+            <DayWeatherStats
+              data-testid={`forecast-stats-${index}`}
+              pop={pop}
+              humidity={main.humidity}
+              windSpeed={wind.speed}
+              units={units}
+              precipType={precipType}
             />
           </div>
-          <TemperatureRange
-            tempMin={main.temp_min}
-            tempMax={main.temp_max}
-            units={units}
-          />
-          <DayWeatherStats
-            data-testid={`forecast-stats-${index}`}
-            pop={pop}
-            humidity={main.humidity}
-            windSpeed={wind.speed}
-            units={units}
-            precipType={precipType}
-          />
-          </div>
-
         </div>
       </motion.div>
     </AnimatePresence>

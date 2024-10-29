@@ -23,7 +23,7 @@ export default function DayWeatherStats({
       className="flex justify-between w-full bg-black text-white p-2 rounded-lg text-sm"
     >
       <div className="flex flex-col items-center">
-        <Icon name={precipIconName} size={28} fill='white' />
+        <Icon name={precipIconName} size={28} fill="white" />
         <p>{Math.round(pop * 100)}%</p>
       </div>
       <div className="flex flex-col items-center">
