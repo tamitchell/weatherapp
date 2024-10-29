@@ -35,7 +35,6 @@ export async function GET(request: Request) {
     url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKey}`;
   }
   try {
-
     const origin = request.headers.get('origin') || '';
     const headers = corsHeaders(origin);
 
@@ -43,7 +42,6 @@ export async function GET(request: Request) {
     if (request.method === 'OPTIONS') {
       return new NextResponse(null, { headers, status: 200 });
     }
-
 
     let data;
     if (isTesting) {
