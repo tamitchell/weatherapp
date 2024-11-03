@@ -8,14 +8,13 @@ interface AnimatedIcon {
   'aria-label'?: string;
 }
 
-export default function WindSpeedIcon({ 
-  speed = 10, 
+export default function WindSpeedIcon({
+  speed = 10,
   size = 24,
   className = '',
   stroke = 'currentColor',
-  'aria-label': ariaLabel = `Wind speed ${speed} units`
+  'aria-label': ariaLabel = `Wind speed ${speed} units`,
 }: AnimatedIcon) {
-
   const pathVariants = {
     start: {
       pathLength: 0,
@@ -23,7 +22,7 @@ export default function WindSpeedIcon({
     },
     hidden: {
       pathLength: 0,
-      opacity: 0
+      opacity: 0,
     },
     visible: {
       pathLength: 1,
@@ -32,20 +31,20 @@ export default function WindSpeedIcon({
         pathLength: {
           duration: 0.85,
           repeat: 2,
-          ease: "easeInOut"
+          ease: 'easeInOut',
         },
         opacity: {
-          duration: 0.5
-        }
-      }
-    }
+          duration: 0.5,
+        },
+      },
+    },
   };
 
   return (
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       className={`windspeed-icon ${className}`}
       role="img"
@@ -61,8 +60,7 @@ export default function WindSpeedIcon({
         variants={pathVariants}
         initial="hidden"
         animate="visible"
-        fill={"none"}
-
+        fill={'none'}
         className="wind-path"
       />
       {/* Middle wind gust */}
@@ -72,7 +70,7 @@ export default function WindSpeedIcon({
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill={"none"}
+        fill={'none'}
         variants={pathVariants}
         initial="hidden"
         animate="visible"
@@ -85,7 +83,7 @@ export default function WindSpeedIcon({
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill={"none"}
+        fill={'none'}
         variants={pathVariants}
         initial="hidden"
         animate="visible"
