@@ -804,11 +804,6 @@ body {
   margin-bottom: 1rem;
 }
 
-.my-3 {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -1096,10 +1091,6 @@ body {
   gap: 1rem;
 }
 
-.gap-\[5px\] {
-  gap: 5px;
-}
-
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
@@ -1298,10 +1289,6 @@ body {
 .text-xs {
   font-size: clamp(0.75rem, 0.12vw + 0.72rem, 0.84rem);
   line-height: 1.5;
-}
-
-.text-\[clamp\(0\.75rem\2c 0\.275vw\+0\.675rem\2c 0\.9375rem\)\] {
-  font-size: clamp(0.75rem,0.275vw + 0.675rem,0.9375rem);
 }
 
 .font-bold {
