@@ -11,8 +11,14 @@ export default memo(function GooglePlacesPicker({
     <div className="custom-place-picker">
       <PlacePicker
         className={clsx(
-          'w-full h-full border-gray-300 text-gray-700 bg-gray-100 custom-place-picker'
+          'w-full h-full border-gray-300 text-gray-700 bg-gray-100 custom-place-picker',
+          "text-base leading-normal", 
+
         )}
+        style={{
+          fontSize: '16px', //prevent autozoom on ios/safari devices
+          touchAction: 'manipulation'
+        }}
         placeholder="Enter a location name or address"
         onPlaceChange={handlePlaceChange}
       />
