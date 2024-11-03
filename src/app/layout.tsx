@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import '../styles/output.css';
 import dynamic from 'next/dynamic';
@@ -20,6 +20,15 @@ export const metadata: Metadata = {
   description:
     "A React/NextJS Based Application that uses OpenWeather's web API to gather weather data and Geocodio's API to render weather conditions based on user's desired location",
 };
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+};
+
 
 const APILoaderWrapper = dynamic(
   () => import('../components/ApiLoaderWrapper'),
