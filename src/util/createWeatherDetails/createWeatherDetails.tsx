@@ -1,3 +1,4 @@
+import WindSpeed from 'src/icons/WindSpeed';
 import Icon from '../../components/Icon/Icon';
 import {
   AirQualityDescription,
@@ -49,7 +50,7 @@ export const createWeatherDetails = ({
     },
     {
       title: 'Wind Speed',
-      icon: <Icon name="wind_speed" fill="transparent" size={24} />,
+      icon: <WindSpeed />,
       value: `${Math.round(windSpeed)} ${units === 'imperial' ? 'mph' : 'm/s'}`,
     },
     {
