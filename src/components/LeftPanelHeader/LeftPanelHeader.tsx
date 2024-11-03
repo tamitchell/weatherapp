@@ -4,7 +4,7 @@ import Logo from 'src/icons/Logo';
 import { baseStyles } from 'src/styles/styles';
 import { Units } from 'src/types/types';
 import Search from '../Search/Search';
-import UnitsToggle from '../UnitsToggle';
+import UnitsToggle from '../UnitsToggle/UnitsToggle';
 
 export default memo(function LeftPanelHeader({
   units,

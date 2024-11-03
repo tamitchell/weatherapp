@@ -29,7 +29,6 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-
 const APILoaderWrapper = dynamic(
   () => import('../components/ApiLoaderWrapper'),
   {
