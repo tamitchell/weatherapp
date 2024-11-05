@@ -13,7 +13,6 @@ export default function TemperatureRange({
           LO
         </span>
         <div>
-          {/* <p className="text-sm text-gray-600">Low</p> */}
           <p
             className={clsx(
               'text-md font-bold',

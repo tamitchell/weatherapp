@@ -22,6 +22,7 @@ export default memo(function DayForecast({
 }: DayForecastProps) {
   const { main, weather, dt, wind, pop, rain, snow } = forecast;
   const precipType: PrecipitationType = snow ? 'snow' : rain ? 'rain' : 'none';
+  console.log(forecast)
   return (
     <AnimatePresence mode="wait">
       <motion.div
