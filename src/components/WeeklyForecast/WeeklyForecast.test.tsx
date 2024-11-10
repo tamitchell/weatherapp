@@ -52,13 +52,10 @@ jest.mock('../ForecastTransitionWrapper/ForecastTransitionWrapper', () => ({
   }) => <div className={className}>{children}</div>,
 }));
 
-jest.mock(
-  '../Skeletons/WeeklyForecastSkeletonLoader',
-  () => ({
-    __esModule: true,
-    default: () => <div data-testid="loading-skeleton">Loading...</div>,
-  })
-);
+jest.mock('../Skeletons/WeeklyForecastSkeletonLoader', () => ({
+  __esModule: true,
+  default: () => <div data-testid="loading-skeleton">Loading...</div>,
+}));
 
 jest.mock('../../hooks/queries/useGeolocationQuery');
 jest.mock('../../hooks/queries/useWeatherQuery');

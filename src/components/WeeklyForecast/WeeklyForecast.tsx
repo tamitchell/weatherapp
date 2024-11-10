@@ -56,7 +56,10 @@ export default function WeeklyForecast(): JSX.Element {
   if (error || !forecast) {
     return (
       <div className="w-full p-4 flex flex-col justify-between">
-        <h4 className="text-xl font-semibold w-full" data-testid="forecast-heading">
+        <h4
+          className="text-xl font-semibold w-full"
+          data-testid="forecast-heading"
+        >
           5 Day Forecast
         </h4>
         <p className="text-xl font-semibold mb-4 w-full text-white">
@@ -69,7 +72,10 @@ export default function WeeklyForecast(): JSX.Element {
   if (filterForecastByUserTime.length === 0) {
     return (
       <div className="w-full p-4 flex flex-col justify-between">
-        <h4 className="text-xl font-semibold w-full" data-testid="forecast-heading">
+        <h4
+          className="text-xl font-semibold w-full"
+          data-testid="forecast-heading"
+        >
           5 Day Forecast
         </h4>
         <p className="text-xl font-semibold mb-4 w-full text-white">
@@ -81,22 +87,25 @@ export default function WeeklyForecast(): JSX.Element {
 
   return (
     <div className="w-full p-4 flex flex-col">
-    <h4 className="text-xl font-semibold w-full" data-testid="forecast-heading">
-      5 Day Forecast
-    </h4>
-    <ForecastTransition
-      locationKey={locationKey}
-      className="flex self-end space-x-4 overflow-x-scroll w-full"
-    >
-      {filterForecastByUserTime.map((forecast, index) => (
-        <DayForecast
-          key={forecast.dt}
-          forecast={forecast}
-          units={units}
-          index={index}
-        />
-      ))}
-    </ForecastTransition>
-  </div>
+      <h4
+        className="text-xl font-semibold w-full"
+        data-testid="forecast-heading"
+      >
+        5 Day Forecast
+      </h4>
+      <ForecastTransition
+        locationKey={locationKey}
+        className="flex self-end space-x-4 overflow-x-scroll w-full"
+      >
+        {filterForecastByUserTime.map((forecast, index) => (
+          <DayForecast
+            key={forecast.dt}
+            forecast={forecast}
+            units={units}
+            index={index}
+          />
+        ))}
+      </ForecastTransition>
+    </div>
   );
 }

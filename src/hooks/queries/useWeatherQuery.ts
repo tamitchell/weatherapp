@@ -17,7 +17,11 @@ interface WeatherQueryParams {
   units: Units;
 }
 
-export default function useWeatherQuery({ lat, lng, units }: WeatherQueryParams) {
+export default function useWeatherQuery({
+  lat,
+  lng,
+  units,
+}: WeatherQueryParams) {
   // Current weather needs frequent updates
   const currentWeather = useQuery<WeatherData, Error>({
     queryKey: ['weather', 'current', { lat, lng, units }],
@@ -51,4 +55,4 @@ export default function useWeatherQuery({ lat, lng, units }: WeatherQueryParams)
       currentWeather.isLoading || forecast.isLoading || airQuality.isLoading,
     error: currentWeather.error || forecast.error || airQuality.error,
   };
-};
+}

@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import LeftPanel from './LeftPanel/LeftPanel';
 import ForecastSection from './ForecastSection/ForecastSection';
 
-
 export default function Home() {
   return (
     <div className={clsx('min-h-screen w-full', 'flex flex-col sm:flex-row')}>
