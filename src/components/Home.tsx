@@ -2,19 +2,8 @@
 
 import clsx from 'clsx';
 import LeftPanel from './LeftPanel/LeftPanel';
-import WeeklyForecast from './WeeklyForecast/WeeklyForecast';
+import ForecastSection from './ForecastSection/ForecastSection';
 
-/**
- * TODO:
- * - Clean up routes.ts, are all headers really needed there?
- * - add Sunrise/Sunset calculation
- * - add daily quote
- * - what to put in giant space.
- * - Add cypress integration testing
- * - instead of refetch, convert temp values
- * - add error state of weekly forecast
- * - add micro animations
- */
 
 export default function Home() {
   return (
@@ -33,14 +22,14 @@ export default function Home() {
       </div>
       <div
         className={clsx(
-          'w-full',
+          'w-full h-full',
           'sm:flex-1',
           'md:min-h-screen',
           'overflow-y-auto',
           'bg-charcoal'
         )}
       >
-        <WeeklyForecast />
+        <ForecastSection />
       </div>
     </div>
   );

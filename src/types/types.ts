@@ -323,3 +323,9 @@ export interface PrecipitationForecast {
   rainAmount: number;
   snowAmount: number;
 }
+
+export interface OutfitRecommendationRequest {
+  currentWeather: WeatherData;
+  forecast: ForecastItem[];
+  units: Units;
+}

@@ -3,8 +3,8 @@ import WeeklyForecast from './WeeklyForecast';
 import { ForecastItem, Units } from 'src/types/types';
 import { renderWithProviders } from 'src/test/util';
 import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
-import { useWeatherQuery } from 'src/hooks/queries/useWeatherQuery';
 import dayjs, { unix } from 'dayjs';
+import useWeatherQuery from 'src/hooks/queries/useWeatherQuery';
 
 // Mock components
 jest.mock('../DayForecast/DayForecast', () => ({
@@ -53,7 +53,7 @@ jest.mock('../ForecastTransitionWrapper/ForecastTransitionWrapper', () => ({
 }));
 
 jest.mock(
-  '../WeeklyForecastSkeletonLoader/WeeklyForecastSkeletonLoader',
+  '../Skeletons/WeeklyForecastSkeletonLoader',
   () => ({
     __esModule: true,
     default: () => <div data-testid="loading-skeleton">Loading...</div>,
@@ -161,9 +161,7 @@ describe('WeeklyForecast', () => {
     renderWithProviders(<WeeklyForecast />);
 
     // Check heading
-    expect(screen.getByTestId('forecast-heading')).toHaveTextContent(
-      '5 Day Forecast'
-    );
+    expect(screen.getByText('5 Day Forecast')).toBeInTheDocument();
 
     // Check number of cards - should be exactly 5 after filtering
     const forecastCards = screen.getAllByTestId(/^forecast-card-\d$/);

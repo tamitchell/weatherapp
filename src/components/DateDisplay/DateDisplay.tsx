@@ -13,7 +13,7 @@ export default function DateDisplay(): JSX.Element {
         'bg-black text-white p-2 px-4 h-[3.5em] rounded-md mb-4'
       )}
     >
-      <h2 data-testid="date-display" className="text-lg font-semibold">
+      <h2 data-testid="date-display" className="text-md font-semibold">
         Today is {formattedDate}
       </h2>
     </div>

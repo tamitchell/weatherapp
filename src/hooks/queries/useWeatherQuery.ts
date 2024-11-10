@@ -9,7 +9,7 @@ import {
   fetchCurrentWeather,
   fetchForecast,
   fetchAirQuality,
-} from 'src/util/api/weatherCalls';
+} from 'src/util/api/weatherCalls/weatherCalls';
 
 interface WeatherQueryParams {
   lat: number;
@@ -17,7 +17,7 @@ interface WeatherQueryParams {
   units: Units;
 }
 
-export const useWeatherQuery = ({ lat, lng, units }: WeatherQueryParams) => {
+export default function useWeatherQuery({ lat, lng, units }: WeatherQueryParams) {
   // Current weather needs frequent updates
   const currentWeather = useQuery<WeatherData, Error>({
     queryKey: ['weather', 'current', { lat, lng, units }],

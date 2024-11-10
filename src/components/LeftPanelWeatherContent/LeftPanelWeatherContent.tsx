@@ -7,7 +7,7 @@ import {
 import getPrecipitationForecast from 'src/util/calculateChanceOfPrecip/getPrecipitationForecast';
 import getAirQualityDescription from 'src/util/getAQIDescription/getAQIDescription';
 import DateDisplay from '../DateDisplay/DateDisplay';
-import { SkeletonLeftPanelLoader } from '../SkeletalLeftPanel';
+import { SkeletonLeftPanelLoader } from '../Skeletons/SkeletalLeftPanel';
 import TemperatureRange from '../TemperatureRange/TemperatureRange';
 import WeatherDetailsGrid from '../WeatherDetailsGrid';
 import WeatherSummary from '../WeatherSummary/WeatherSummary';
