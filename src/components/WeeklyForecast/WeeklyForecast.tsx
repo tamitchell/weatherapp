@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
-import WeeklyForecastSkeletonLoader from '../WeeklyForecastSkeletonLoader/WeeklyForecastSkeletonLoader';
+import WeeklyForecastSkeletonLoader from '../Skeletons/WeeklyForecastSkeletonLoader';
 import { useWeather } from 'src/hooks/useWeather';
 import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
-import { useWeatherQuery } from 'src/hooks/queries/useWeatherQuery';
 import { DEFAULT_NY_LAT, DEFAULT_NY_LNG } from 'src/data/defaultData';
 import DayForecast from '../DayForecast/DayForecast';
 import { ForecastTransition } from '../ForecastTransitionWrapper/ForecastTransitionWrapper';
+import useWeatherQuery from 'src/hooks/queries/useWeatherQuery';
 
 export default function WeeklyForecast(): JSX.Element {
   const { units } = useWeather();
@@ -54,34 +54,45 @@ export default function WeeklyForecast(): JSX.Element {
   }
 
   if (error || !forecast) {
-    // You might want to create a specific error state component for this
     return (
-      <div className="w-full h-full p-4 flex flex-col justify-between">
-        <h2 className="text-xl font-semibold mb-4 w-full">
+      <div className="w-full p-4 flex flex-col justify-between">
+        <h4
+          className="text-xl font-semibold w-full"
+          data-testid="forecast-heading"
+        >
+          5 Day Forecast
+        </h4>
+        <p className="text-xl font-semibold mb-4 w-full text-white">
           Unable to load forecast
-        </h2>
+        </p>
       </div>
     );
   }
 
   if (filterForecastByUserTime.length === 0) {
     return (
-      <div className="w-full h-full p-4 flex flex-col justify-between">
-        <h2 className="text-xl font-semibold mb-4 w-full">
+      <div className="w-full p-4 flex flex-col justify-between">
+        <h4
+          className="text-xl font-semibold w-full"
+          data-testid="forecast-heading"
+        >
+          5 Day Forecast
+        </h4>
+        <p className="text-xl font-semibold mb-4 w-full text-white">
           No forecast data available
-        </h2>
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-full p-4 flex flex-col justify-between overflow-x-hidden">
-      <h2
-        className="text-xl font-semibold mb-4 w-full"
+    <div className="w-full p-4 flex flex-col">
+      <h4
+        className="text-xl font-semibold w-full"
         data-testid="forecast-heading"
       >
         5 Day Forecast
-      </h2>
+      </h4>
       <ForecastTransition
         locationKey={locationKey}
         className="flex self-end space-x-4 overflow-x-scroll w-full"
