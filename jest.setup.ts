@@ -5,3 +5,5 @@ enableFetchMocks();
 beforeEach(() => {
   fetchMock.resetMocks();
 });
+
+global.ReadableStream = jest.fn();

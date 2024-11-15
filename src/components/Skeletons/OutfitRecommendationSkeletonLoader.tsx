@@ -6,8 +6,9 @@ export default function OutfitRecommendationSkeletonLoader() {
     >
       <div className="w-8 h-8 bg-gray-200 rounded" />
       <div className="flex-1">
-        <div className="h-6 w-48 bg-gray-200 rounded mb-2" />
-        <div className="space-y-2">
+        <div className="h-6 w-48 bg-gray-200 rounded m-2" />
+
+        <div className="space-y-2 gap-2">
           <div className="h-4 w-full bg-gray-200 rounded" />
           <div className="h-4 w-3/4 bg-gray-200 rounded" />
         </div>

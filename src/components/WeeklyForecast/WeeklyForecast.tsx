@@ -55,7 +55,7 @@ export default function WeeklyForecast(): JSX.Element {
 
   if (error || !forecast) {
     return (
-      <div className="w-full p-4 flex flex-col justify-between">
+      <div className="w-full flex flex-col justify-between">
         <h4
           className="text-xl font-semibold w-full"
           data-testid="forecast-heading"
@@ -71,7 +71,7 @@ export default function WeeklyForecast(): JSX.Element {
 
   if (filterForecastByUserTime.length === 0) {
     return (
-      <div className="w-full p-4 flex flex-col justify-between">
+      <div className="w-full flex flex-col justify-between">
         <h4
           className="text-xl font-semibold w-full"
           data-testid="forecast-heading"
@@ -86,7 +86,7 @@ export default function WeeklyForecast(): JSX.Element {
   }
 
   return (
-    <div className="w-full p-4 flex flex-col">
+    <div className="w-full flex flex-col">
       <h4
         className="text-xl font-semibold w-full"
         data-testid="forecast-heading"
