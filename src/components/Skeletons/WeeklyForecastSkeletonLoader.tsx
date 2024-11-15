@@ -1,10 +1,14 @@
 import clsx from 'clsx';
+import { ForecastTransition } from '../ForecastTransitionWrapper/ForecastTransitionWrapper';
 
 export default function WeeklyForecastSkeletonLoader(): JSX.Element {
   return (
-    <div className="w-full h-full p-4 flex flex-col justify-between overflow-x-hidden animate-pulse">
-      <div className="h-8 w-48 bg-gray-300 rounded mb-4"></div>
-      <div className="flex self-end space-x-4 overflow-x-scroll w-full">
+    <div className="w-full flex flex-col gap-2 overflow-x-scroll animate-pulse">
+      <div className="h-8 w-48 bg-gray-300 rounded"></div>
+      <ForecastTransition
+        locationKey={String(Math.random())}
+        className="flex self-end space-x-4 overflow-x-scroll w-full"
+      >
         {[...Array(5)].map((_, index) => (
           <div
             key={index}
@@ -26,7 +30,7 @@ export default function WeeklyForecastSkeletonLoader(): JSX.Element {
                 'h-20 w-full'
               )}
             >
-              {[...Array(4)].map((_, i) => (
+              {[...Array(3)].map((_, i) => (
                 <div key={i} className="flex flex-col items-center">
                   <div className="w-7 h-7 bg-gray-400 rounded-full mb-1"></div>
                   <div className="h-3 w-8 bg-gray-400 rounded"></div>
@@ -35,7 +39,7 @@ export default function WeeklyForecastSkeletonLoader(): JSX.Element {
             </div>
           </div>
         ))}
-      </div>
+      </ForecastTransition>
     </div>
   );
 }
