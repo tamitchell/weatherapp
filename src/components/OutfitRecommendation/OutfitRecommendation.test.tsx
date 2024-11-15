@@ -34,7 +34,7 @@ describe('OutfitRecommendation', () => {
   };
 
   const mockOutfitRecommendation = {
-    specialNotes:
+    recommendation:
       'With highs of 76°F, clear skies, and 92% humidity, choose light, breathable clothing. Sunglasses and sunscreen are recommended. A jacket for cooler 64°F evenings may be useful',
   };
 
@@ -117,10 +117,12 @@ describe('OutfitRecommendation', () => {
         'font-medium',
         'text-lg',
         'italic',
-        'mb-2'
+        'mb-4'
       );
       expect(
-        screen.getByText(mockOutfitRecommendation.specialNotes)
+        screen.getByText(
+          'With highs of 76°F, clear skies, and 92% humidity, choose light, breathable clothing. Sunglasses and sunscreen are recommended. A jacket for cooler 64°F evenings may be useful'
+        )
       ).toHaveClass('text-gray-800');
     });
 

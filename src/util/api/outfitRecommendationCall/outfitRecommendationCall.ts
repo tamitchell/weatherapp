@@ -1,11 +1,18 @@
-import { ForecastItem, Units, WeatherData } from 'src/types/types';
+import {
+  ForecastItem,
+  OutfitRecommendationResponse,
+  PrecipitationForecast,
+  Units,
+  WeatherData,
+} from 'src/types/types';
 import getBaseUrl from '../getBaseUrl';
 
 export const fetchOutfitRecommendation = async (
   currentWeather: WeatherData,
   forecast: ForecastItem[],
-  units: Units
-) => {
+  units: Units,
+  chanceOfPrecip: PrecipitationForecast
+): Promise<OutfitRecommendationResponse> => {
   const baseUrl = getBaseUrl();
   try {
     const response = await fetch(`${baseUrl}/api/outfit-recommendation`, {
@@ -17,6 +24,7 @@ export const fetchOutfitRecommendation = async (
         currentWeather,
         forecast,
         units,
+        chanceOfPrecip,
       }),
     });
 

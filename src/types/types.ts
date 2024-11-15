@@ -328,4 +328,9 @@ export interface OutfitRecommendationRequest {
   currentWeather: WeatherData;
   forecast: ForecastItem[];
   units: Units;
+  chanceOfPrecip: PrecipitationForecast;
+}
+
+export interface OutfitRecommendationResponse {
+  recommendation: string;
 }
