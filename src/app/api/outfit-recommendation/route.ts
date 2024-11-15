@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { OutfitRecommendationRequest } from 'src/types/types';
 import { PromptTemplate } from '@langchain/core/prompts';
-import { ChatOpenAI } from "@langchain/openai";
+import { ChatOpenAI } from '@langchain/openai';
 
 export async function POST(request: Request) {
   const apiKey = process.env.OPENAI_KEY;
@@ -23,18 +23,30 @@ export async function POST(request: Request) {
 
   const promptTemplate = new PromptTemplate({
     template: promptInstructions,
-    inputVariables: ["temp", "unit", "feelsLike", "conditions", "humidity", "windSpeed", "speedUnit", "chanceOfPrecip", "precipitationType"]
+    inputVariables: [
+      'temp',
+      'unit',
+      'feelsLike',
+      'conditions',
+      'humidity',
+      'windSpeed',
+      'speedUnit',
+      'chanceOfPrecip',
+      'precipitationType',
+    ],
   });
-  
 
   try {
-    const { currentWeather, units, chanceOfPrecip }: OutfitRecommendationRequest =
-      await request.json();
+    const {
+      currentWeather,
+      units,
+      chanceOfPrecip,
+    }: OutfitRecommendationRequest = await request.json();
 
     const model = new ChatOpenAI({
-      modelName: "gpt-3.5-turbo",
+      modelName: 'gpt-3.5-turbo',
       temperature: 0.7,
-      openAIApiKey: apiKey
+      openAIApiKey: apiKey,
     });
 
     const formattedPrompt = await promptTemplate.format({
@@ -46,11 +58,11 @@ export async function POST(request: Request) {
       windSpeed: Math.round(currentWeather.wind.speed),
       speedUnit: units === 'imperial' ? 'mph' : 'm/s',
       chanceOfPrecip: chanceOfPrecip.probability,
-      precipitationType: chanceOfPrecip.type
+      precipitationType: chanceOfPrecip.type,
     });
 
     const response = await model.invoke(formattedPrompt);
-    
+
     return NextResponse.json({ recommendation: response.content });
   } catch (error) {
     console.error('Error in outfit recommendation:', error);

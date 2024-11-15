@@ -22,7 +22,10 @@ export default function OutfitRecommendation() {
     units,
   });
 
-  const chanceOfPrecip = useMemo(() => getPrecipitationForecast(forecast), [forecast]);
+  const chanceOfPrecip = useMemo(
+    () => getPrecipitationForecast(forecast),
+    [forecast]
+  );
 
   const {
     data: outfitRecommendation,
@@ -32,7 +35,7 @@ export default function OutfitRecommendation() {
     currentWeather: currentWeather!,
     forecast: forecast!,
     units,
-    chanceOfPrecip
+    chanceOfPrecip,
   });
 
   if (isLoadingWeather || isLoadingOutfit || !chanceOfPrecip) {
@@ -42,14 +45,12 @@ export default function OutfitRecommendation() {
   if (outfitError || !outfitRecommendation) {
     return (
       <div className="bg-white p-4 rounded-md flex flex-row items-start gap- text-red-500">
-        <div className='m-2'>
+        <div className="m-2">
           <button className="bg-black rounded-md w-[4em] h-[4em] self-start p-4">
             <Icon name="tshirt" size={32} fill="white" />
           </button>
         </div>
-        <div className="m-2">
-          Unable to load clothing recommendation
-        </div>
+        <div className="m-2">Unable to load clothing recommendation</div>
       </div>
     );
   }
@@ -59,7 +60,7 @@ export default function OutfitRecommendation() {
       data-testid="outfit-recommendation"
       className="bg-white p-4 rounded-md text-black flex flex-row items-start gap-4"
     >
-      <div className='m-2'>
+      <div className="m-2">
         <button className="bg-black rounded-md w-[4em] h-[4em] self-start p-4">
           <Icon name="tshirt" size={32} fill="white" />
         </button>

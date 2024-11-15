@@ -1,11 +1,17 @@
-import { ForecastItem, OutfitRecommendationResponse, PrecipitationForecast, Units, WeatherData } from 'src/types/types';
+import {
+  ForecastItem,
+  OutfitRecommendationResponse,
+  PrecipitationForecast,
+  Units,
+  WeatherData,
+} from 'src/types/types';
 import getBaseUrl from '../getBaseUrl';
 
 export const fetchOutfitRecommendation = async (
   currentWeather: WeatherData,
   forecast: ForecastItem[],
   units: Units,
-  chanceOfPrecip: PrecipitationForecast,
+  chanceOfPrecip: PrecipitationForecast
 ): Promise<OutfitRecommendationResponse> => {
   const baseUrl = getBaseUrl();
   try {
@@ -18,7 +24,7 @@ export const fetchOutfitRecommendation = async (
         currentWeather,
         forecast,
         units,
-        chanceOfPrecip
+        chanceOfPrecip,
       }),
     });
 
