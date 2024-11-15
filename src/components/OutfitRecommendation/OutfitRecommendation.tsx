@@ -44,7 +44,7 @@ export default function OutfitRecommendation() {
 
   if (outfitError || !outfitRecommendation) {
     return (
-      <div className="bg-white p-4 rounded-md flex flex-row items-start gap- text-red-500">
+      <div className="bg-white p-4 rounded-md flex flex-row items-start gap-4 text-red-500">
         <div className="m-2">
           <button className="bg-black rounded-md w-[4em] h-[4em] self-start p-4">
             <Icon name="tshirt" size={32} fill="white" />
@@ -58,7 +58,7 @@ export default function OutfitRecommendation() {
   return (
     <div
       data-testid="outfit-recommendation"
-      className="bg-white p-4 rounded-md text-black flex flex-row items-start gap-4"
+      className="bg-white p-4 rounded-md text-black flex flex-row items-start gap-4 p-4"
     >
       <div className="m-2">
         <button className="bg-black rounded-md w-[4em] h-[4em] self-start p-4">
@@ -66,7 +66,7 @@ export default function OutfitRecommendation() {
         </button>
       </div>
 
-      <div className="m-2">
+      <div className="">
         <h3 className="font-medium text-lg italic mb-4">
           {"Today's clothing tip..."}
         </h3>

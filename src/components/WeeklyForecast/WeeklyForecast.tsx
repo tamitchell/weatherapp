@@ -57,7 +57,7 @@ export default function WeeklyForecast(): JSX.Element {
     return (
       <div className="w-full flex flex-col justify-between">
         <h4
-          className="text-xl font-semibold w-full"
+          className="text-lg font-semibold w-full"
           data-testid="forecast-heading"
         >
           5 Day Forecast
@@ -73,7 +73,7 @@ export default function WeeklyForecast(): JSX.Element {
     return (
       <div className="w-full flex flex-col justify-between">
         <h4
-          className="text-xl font-semibold w-full"
+          className="text-lg font-semibold w-full"
           data-testid="forecast-heading"
         >
           5 Day Forecast
@@ -86,9 +86,9 @@ export default function WeeklyForecast(): JSX.Element {
   }
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col gap-2">
       <h4
-        className="text-xl font-semibold w-full"
+        className="text-lg font-semibold w-full"
         data-testid="forecast-heading"
       >
         5 Day Forecast

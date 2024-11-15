@@ -36,36 +36,36 @@ export const createWeatherDetails = ({
       title: chanceOfPrecip.type === 'rain' ? '% of Rain' : '% of Snow',
       icon:
         chanceOfPrecip.type === 'rain' ? (
-          <Icon name="raindrops" size={24} />
+          <Icon name="raindrops" size={30} />
         ) : (
-          <Icon name="snowflake" size={24} />
+          <Icon name="snowflake" size={30} />
         ),
       value: `${chanceOfPrecip.probability}%`,
     },
     {
       title: 'Humidity',
-      icon: <Icon name="humidity" size={24} />,
+      icon: <Icon name="humidity" size={30} />,
       value: `${humidity}%`,
     },
     {
       title: 'Wind Speed',
-      icon: <Icon name="wind_speed" fill="transparent" size={24} />,
+      icon: <Icon name="wind_speed" fill="transparent" size={30} />,
       value: `${Math.round(windSpeed)} ${units === 'imperial' ? 'mph' : 'm/s'}`,
     },
     {
       title: 'Visibility',
-      icon: <Icon name="visibility" size={24} />,
+      icon: <Icon name="visibility" size={30} />,
       value: `${formatVisibility(visibility, units)}`,
     },
     {
       title: 'Pressure',
-      icon: <Icon name="pressure" size={24} />,
+      icon: <Icon name="pressure" size={30} />,
       value: `${pressure} ${units === 'imperial' ? 'inHg' : 'hPa'}`,
     },
     {
       title: 'Air Quality',
       icon: (
-        <Icon name="air_quality" fill="black" stroke="transparent" size={24} />
+        <Icon name="air_quality" fill="black" stroke="transparent" size={30} />
       ),
       value: `${airQuality}`,
     },

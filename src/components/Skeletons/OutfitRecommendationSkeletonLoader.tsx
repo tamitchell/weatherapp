@@ -2,18 +2,16 @@ export default function OutfitRecommendationSkeletonLoader() {
   return (
     <div
       data-testid="outfit-recommendation-skeleton"
-      className="bg-white p-4 rounded-md flex items-start gap-3 animate-pulse"
+      className="bg-white p-4 rounded-md flex flex-row items-start gap-4 animate-pulse w-full"
     >
-      <div className="w-8 h-8 bg-gray-200 rounded" />
-      <div className="flex-1">
-        <div className="h-6 w-48 bg-gray-200 rounded m-2" />
-
-        <div className="space-y-2 gap-2">
-          <div className="h-4 w-full bg-gray-200 rounded" />
-          <div className="h-4 w-3/4 bg-gray-200 rounded" />
+        <div className="m-2">
+        <div className="h-[4em] w-[4em] bg-gray-200 rounded border-red border-2" />
         </div>
-      </div>
-      <div className="w-5 h-5 bg-gray-200 rounded" />
+
+        <div className="w-1/2 mt-8">
+          <div className="h-5 w-1/4 bg-gray-200 rounded mb-4" />
+          <div className="h-5 w-3/4 bg-gray-200 rounded" />
+        </div>
     </div>
   );
 }

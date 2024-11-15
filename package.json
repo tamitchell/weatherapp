@@ -6,7 +6,7 @@
     "dev": "concurrently \"next dev\" \"npm run tailwind:css\"",
     "build": "next build",
     "start": "next start",
-    "tailwind:css": "tailwindcss -i ./src/app/styles/globals.css -o ./src/app/styles/output.css --watch",
+    "tailwind:css": "tailwindcss -i ./src/styles/globals.css -o ./src/styles/output.css --watch",
     "postinstall": "husky",
     "test-pre-push": "jest --watchAll=false",
     "test-and-build": "yarn test-pre-push && yarn build",
