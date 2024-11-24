@@ -43,3 +43,5 @@ next-env.d.ts
 # Jest
 coverage/
 .jest-cache
+
+/src/styles/output.css
