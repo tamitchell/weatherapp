@@ -28,22 +28,28 @@ jest.mock('../Icon/Icon', () => ({
 //mock fraemr
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: MotionComponentProps) => <div {...props}>{children}</div>,
-    button: ({ children, ...props }: MotionComponentProps) => <button {...props}>{children}</button>,
-    h3: ({ children, ...props }: MotionComponentProps) => <h3 {...props}>{children}</h3>,
-    span: ({ children, className, initial, 'data-testid': dataTestId }: MotionComponentProps) => (
-      <span
-        className={className}
-        style={initial}
-        data-testid={dataTestId}
-      >
+    div: ({ children, ...props }: MotionComponentProps) => (
+      <div {...props}>{children}</div>
+    ),
+    button: ({ children, ...props }: MotionComponentProps) => (
+      <button {...props}>{children}</button>
+    ),
+    h3: ({ children, ...props }: MotionComponentProps) => (
+      <h3 {...props}>{children}</h3>
+    ),
+    span: ({
+      children,
+      className,
+      initial,
+      'data-testid': dataTestId,
+    }: MotionComponentProps) => (
+      <span className={className} style={initial} data-testid={dataTestId}>
         {children}
       </span>
     ),
   },
-  AnimatePresence: ({ children }: {children: ReactNode}) => <>{children}</>,
+  AnimatePresence: ({ children }: { children: ReactNode }) => <>{children}</>,
 }));
-
 
 describe('OutfitRecommendation', () => {
   const mockWeatherData = {
@@ -137,12 +143,12 @@ describe('OutfitRecommendation', () => {
     it('renders the recommendation text with animation wrapper', () => {
       const recommendation = mockOutfitRecommendation.recommendation;
       const words = recommendation.split(' ');
-      
+
       words.forEach((word, index) => {
         const wordElement = screen.getByTestId(`word-${index}`);
         expect(wordElement).toBeInTheDocument();
         expect(wordElement).toHaveTextContent(word);
-        expect(wordElement).toHaveStyle({ opacity: 0 }); 
+        expect(wordElement).toHaveStyle({ opacity: 0 });
       });
     });
 
