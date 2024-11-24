@@ -605,10 +605,6 @@ video {
   position: relative;
 }
 
-.inset-0 {
-  inset: 0px;
-}
-
 .left-1 {
   left: 0.25rem;
 }
@@ -671,6 +667,10 @@ video {
   margin-left: auto;
 }
 
+.mr-\[0\.25em\] {
+  margin-right: 0.25em;
+}
+
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -685,10 +685,6 @@ video {
 
 .mt-auto {
   margin-top: auto;
-}
-
-.mr-\[0\.25em\] {
-  margin-right: 0.25em;
 }
 
 .block {

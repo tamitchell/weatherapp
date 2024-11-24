@@ -7,8 +7,8 @@ export default function WordReveal({ text }: { text: string }) {
     return null;
   }
 
-   // Check if word ends a sentence
-   const isEndOfSentence = (word: string): boolean => {
+  // Check if word ends a sentence
+  const isEndOfSentence = (word: string): boolean => {
     return /[.!?]$/.test(word);
   };
 
@@ -24,7 +24,7 @@ export default function WordReveal({ text }: { text: string }) {
     const baseDelay = 0.078;
     const pauseDelay = 0.25;
     let totalDelay = index * baseDelay;
-    
+
     const firstSentenceLength = getFirstSentenceLength();
     let foundFirstShortSentence = false;
 
@@ -32,7 +32,11 @@ export default function WordReveal({ text }: { text: string }) {
     for (let i = 0; i < index; i++) {
       if (isEndOfSentence(words[i])) {
         // Only add pause if this is the first sentence and it's short
-        if (!foundFirstShortSentence && i + 1 <= 5 && i + 1 === firstSentenceLength) {
+        if (
+          !foundFirstShortSentence &&
+          i + 1 <= 5 &&
+          i + 1 === firstSentenceLength
+        ) {
           totalDelay += pauseDelay;
           foundFirstShortSentence = true;
         }
