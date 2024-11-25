@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next dev\" \"npm run tailwind:css\"",
-    "build": "concurrently \"yarn run tailwind:build\" \"next build\"",
+    "build": "yarn tailwind:build && next build",
     "start": "next start",
     "tailwind:css": "tailwindcss -i ./src/styles/globals.css -o ./src/styles/output.css --watch",
     "tailwind:build": "tailwindcss -i ./src/styles/globals.css -o ./src/styles/output.css",

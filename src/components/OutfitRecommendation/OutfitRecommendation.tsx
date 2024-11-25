@@ -9,7 +9,6 @@ import { useMemo } from 'react';
 import getPrecipitationForecast from 'src/util/calculateChanceOfPrecip/getPrecipitationForecast';
 import WordReveal from '../WordReveal/WordReveal';
 
-
 export default function OutfitRecommendation() {
   const { units } = useWeather();
   const { data: location } = useGeolocationQuery();
