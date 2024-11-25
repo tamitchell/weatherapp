@@ -4,6 +4,8 @@ import useOutfitRecommendationQuery from 'src/hooks/queries/useOutfitRecommendat
 import useWeatherQuery from 'src/hooks/queries/useWeatherQuery';
 import { renderWithProviders } from 'src/test/util';
 import OutfitRecommendation from './OutfitRecommendation';
+import { MotionComponentProps } from 'src/types/types';
+import { ReactNode } from 'react';
 
 // Mock all the hooks
 jest.mock('../../hooks/queries/useGeolocationQuery');
@@ -21,6 +23,32 @@ jest.mock('../Icon/Icon', () => ({
   default: ({ name }: { name: string; size: number; fill?: string }) => (
     <div data-testid={`icon-${name}`}>Mock Icon: {name}</div>
   ),
+}));
+
+//mock fraemr
+jest.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, ...props }: MotionComponentProps) => (
+      <div {...props}>{children}</div>
+    ),
+    button: ({ children, ...props }: MotionComponentProps) => (
+      <button {...props}>{children}</button>
+    ),
+    h3: ({ children, ...props }: MotionComponentProps) => (
+      <h3 {...props}>{children}</h3>
+    ),
+    span: ({
+      children,
+      className,
+      initial,
+      'data-testid': dataTestId,
+    }: MotionComponentProps) => (
+      <span className={className} style={initial} data-testid={dataTestId}>
+        {children}
+      </span>
+    ),
+  },
+  AnimatePresence: ({ children }: { children: ReactNode }) => <>{children}</>,
 }));
 
 describe('OutfitRecommendation', () => {
@@ -112,18 +140,16 @@ describe('OutfitRecommendation', () => {
       expect(icon).toBeInTheDocument();
     });
 
-    it('renders the title and recommendation text', () => {
-      expect(screen.getByText("Today's clothing tip...")).toHaveClass(
-        'font-medium',
-        'text-lg',
-        'italic',
-        'mb-4'
-      );
-      expect(
-        screen.getByText(
-          'With highs of 76°F, clear skies, and 92% humidity, choose light, breathable clothing. Sunglasses and sunscreen are recommended. A jacket for cooler 64°F evenings may be useful'
-        )
-      ).toHaveClass('text-gray-800');
+    it('renders the recommendation text with animation wrapper', () => {
+      const recommendation = mockOutfitRecommendation.recommendation;
+      const words = recommendation.split(' ');
+
+      words.forEach((word, index) => {
+        const wordElement = screen.getByTestId(`word-${index}`);
+        expect(wordElement).toBeInTheDocument();
+        expect(wordElement).toHaveTextContent(word);
+        expect(wordElement).toHaveStyle({ opacity: 0 });
+      });
     });
 
     it('has correct layout structure', () => {

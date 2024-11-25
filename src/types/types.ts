@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface WeatherData {
   coord: Coordinates;
   weather: WeatherCondition[];
@@ -333,4 +335,13 @@ export interface OutfitRecommendationRequest {
 
 export interface OutfitRecommendationResponse {
   recommendation: string;
+}
+
+//For testing framer motion comps, not sure of the actual type, made this up
+export interface MotionComponentProps {
+  children?: ReactNode;
+  className?: string;
+  initial?: Record<string, number | string>;
+  'data-testid'?: string;
+  style?: Record<string, number | string>;
 }

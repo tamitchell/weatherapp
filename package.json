@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next dev\" \"npm run tailwind:css\"",
-    "build": "next build",
+    "build": "yarn tailwind:build && next build",
     "start": "next start",
     "tailwind:css": "tailwindcss -i ./src/styles/globals.css -o ./src/styles/output.css --watch",
+    "tailwind:build": "tailwindcss -i ./src/styles/globals.css -o ./src/styles/output.css",
     "postinstall": "husky",
     "test-pre-push": "jest --watchAll=false",
     "test-and-build": "yarn test-pre-push && yarn build",

@@ -7,6 +7,7 @@ import { DEFAULT_NY_LAT, DEFAULT_NY_LNG } from 'src/data/defaultData';
 import Icon from '../Icon/Icon';
 import { useMemo } from 'react';
 import getPrecipitationForecast from 'src/util/calculateChanceOfPrecip/getPrecipitationForecast';
+import WordReveal from '../WordReveal/WordReveal';
 
 export default function OutfitRecommendation() {
   const { units } = useWeather();
@@ -70,7 +71,7 @@ export default function OutfitRecommendation() {
         <h3 className="font-medium text-lg italic mb-4">
           {"Today's clothing tip..."}
         </h3>
-        <p className="text-gray-800">{outfitRecommendation.recommendation}</p>
+        <WordReveal text={outfitRecommendation.recommendation} />
       </div>
     </div>
   );
