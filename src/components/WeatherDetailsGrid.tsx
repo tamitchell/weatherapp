@@ -47,7 +47,7 @@ export default function WeatherDetailsGrid({
             'bg-white rounded-lg border-2 border-black',
             'flex flex-col items-center justify-between',
             'p-2',
-            'h-[clamp(130px,20vw,160px)]',
+            'h-[clamp(130px,20vw,140px)]',
             'w-full'
           )}
         >

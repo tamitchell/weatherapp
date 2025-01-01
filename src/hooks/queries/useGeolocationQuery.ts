@@ -1,7 +1,10 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useWeather } from '../useWeather';
-import { fetchCurrentWeather, fetchForecast } from 'src/util/api/weatherCalls';
+import {
+  fetchCurrentWeather,
+  fetchForecast,
+} from 'src/util/api/weatherCalls/weatherCalls';
 
 interface GeolocationData {
   lat: number;

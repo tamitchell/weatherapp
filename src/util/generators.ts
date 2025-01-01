@@ -5,8 +5,58 @@ import {
   ForecastSys,
   MainWeatherData,
   WeatherCondition,
+  WeatherData,
   Wind,
 } from 'src/types/types';
+
+export function generateWeatherData({
+  coord = { lon: -0.1257, lat: 51.5085 },
+  weather = [
+    {
+      id: 800,
+      main: 'Clear',
+      description: 'clear sky',
+      icon: '01d',
+    },
+  ],
+  base = 'stations',
+  main = generateMainWeatherData(),
+  visibility = 10000,
+  wind = generateWind(),
+  clouds = generateClouds(),
+  dt = 1605182400,
+  sys = {
+    type: 1,
+    id: 1414,
+    country: 'US',
+    sunrise: 1605167283,
+    sunset: 1605201724,
+  },
+  timezone = 0,
+  id = 2643743,
+  name = 'New York',
+  cod = 200,
+  rain,
+  snow,
+}: Partial<WeatherData> = {}): WeatherData {
+  return {
+    coord,
+    weather,
+    base,
+    main,
+    visibility,
+    wind,
+    clouds,
+    dt,
+    sys,
+    timezone,
+    id,
+    name,
+    cod,
+    ...(rain && { rain }),
+    ...(snow && { snow }),
+  };
+}
 
 export function generateMainWeatherData({
   temp = 20,
