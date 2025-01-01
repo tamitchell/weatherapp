@@ -33,7 +33,7 @@ describe('createWeatherDetails', () => {
 
     expect(details).toMatchObject([
       {
-        title: '% of Rain',
+        title: 'Chance of Rain',
         value: '50%',
       },
       {
@@ -74,7 +74,7 @@ describe('createWeatherDetails', () => {
 
     expect(details).toMatchObject([
       {
-        title: '% of Snow',
+        title: 'Chance of Snow',
         value: '70%',
       },
       {
@@ -114,7 +114,7 @@ describe('createWeatherDetails', () => {
     const details = createWeatherDetails(noPrecipMetrics);
 
     expect(details[0]).toMatchObject({
-      title: '% of Rain',
+      title: 'Chance of Rain',
       value: '0%',
     });
   });

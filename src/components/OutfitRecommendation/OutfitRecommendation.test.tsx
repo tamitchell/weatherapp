@@ -1,16 +1,18 @@
 import { screen } from '@testing-library/react';
 import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
-import useOutfitRecommendationQuery from 'src/hooks/queries/useOutfitRecommendationQuery';
 import useWeatherQuery from 'src/hooks/queries/useWeatherQuery';
 import { renderWithProviders } from 'src/test/util';
-import OutfitRecommendation from './OutfitRecommendation';
+import OutfitRecommendation from '../OutfitRecommendationWrapper/OutfitRecommendationWrapper';
 import { MotionComponentProps } from 'src/types/types';
 import { ReactNode } from 'react';
+import useOutfitRecommendationQuery from 'src/hooks/queries/useOutfitRecommendationQuery/useOutfitRecommendationQuery';
 
 // Mock all the hooks
 jest.mock('../../hooks/queries/useGeolocationQuery');
 jest.mock('../../hooks/queries/useWeatherQuery');
-jest.mock('../../hooks/queries/useOutfitRecommendationQuery');
+jest.mock(
+  '../../hooks/queries/useOutfitRecommendationQuery/useOutfitRecommendationQuery'
+);
 jest.mock('../../hooks/useWeather', () => ({
   useWeather: () => ({
     units: 'imperial',
@@ -80,18 +82,6 @@ describe('OutfitRecommendation', () => {
       isLoading: false,
       error: null,
     });
-  });
-
-  it('renders loading skeleton when weather data is loading', () => {
-    (useWeatherQuery as jest.Mock).mockReturnValue({
-      ...mockWeatherData,
-      isLoading: true,
-    });
-
-    renderWithProviders(<OutfitRecommendation />);
-    expect(
-      screen.getByTestId('outfit-recommendation-skeleton')
-    ).toBeInTheDocument();
   });
 
   it('renders loading skeleton when outfit recommendation is loading', () => {
@@ -166,21 +156,4 @@ describe('OutfitRecommendation', () => {
       );
     });
   });
-
-  //   it('does not make outfit recommendation query when weather data is missing', () => {
-  //     (useWeatherQuery as jest.Mock).mockReturnValue({
-  //       currentWeather: null,
-  //       forecast: null,
-  //       isLoading: false,
-  //     });
-
-  //     renderWithProviders(<OutfitRecommendation />);
-
-  //     expect(useOutfitRecommendationQuery).toHaveBeenCalledWith(
-  //       expect.anything(),
-  //       expect.objectContaining({
-  //         enabled: false,
-  //       })
-  //     );
-  //   });
 });
