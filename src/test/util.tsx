@@ -20,15 +20,19 @@ export function createTestQueryClient() {
   });
 }
 
-export function createWrapper() {
-  const testQueryClient = createTestQueryClient();
-  return function Wrapper({ children }: { children: ReactNode }) {
-    return (
-      <QueryClientProvider client={testQueryClient}>
-        <WeatherProvider>{children}</WeatherProvider>
-      </QueryClientProvider>
-    );
-  };
+//Added passing of client so that instances could be shared when making tests
+export function createWrapper(client?: QueryClient) {
+  const queryClient = client ?? createTestQueryClient();
+  
+  const TestWrapper = ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+  
+  TestWrapper.displayName = 'TestWrapper';
+  
+  return TestWrapper;
 }
 
 export function renderWithProviders(ui: React.ReactElement) {

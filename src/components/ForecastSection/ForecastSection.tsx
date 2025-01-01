@@ -1,4 +1,4 @@
-import OutfitRecommendation from '../OutfitRecommendation/OutfitRecommendation';
+import OutfitRecommendation from '../OutfitRecommendationWrapper/OutfitRecommendationWrapper';
 import WeeklyForecast from '../WeeklyForecast/WeeklyForecast';
 
 export default function ForecastSection(): JSX.Element {
