@@ -11,12 +11,14 @@ import {
 
 export function generateWeatherData({
   coord = { lon: -0.1257, lat: 51.5085 },
-  weather = [{
-    id: 800,
-    main: 'Clear',
-    description: 'clear sky',
-    icon: '01d'
-  }],
+  weather = [
+    {
+      id: 800,
+      main: 'Clear',
+      description: 'clear sky',
+      icon: '01d',
+    },
+  ],
   base = 'stations',
   main = generateMainWeatherData(),
   visibility = 10000,
@@ -28,14 +30,14 @@ export function generateWeatherData({
     id: 1414,
     country: 'US',
     sunrise: 1605167283,
-    sunset: 1605201724
+    sunset: 1605201724,
   },
   timezone = 0,
   id = 2643743,
   name = 'New York',
   cod = 200,
   rain,
-  snow
+  snow,
 }: Partial<WeatherData> = {}): WeatherData {
   return {
     coord,
@@ -52,7 +54,7 @@ export function generateWeatherData({
     name,
     cod,
     ...(rain && { rain }),
-    ...(snow && { snow })
+    ...(snow && { snow }),
   };
 }
 
@@ -98,7 +100,6 @@ export function generateWind({
 export function generateSys(pod = 'd'): ForecastSys {
   return { pod };
 }
-
 
 export function generateForecastItem({
   dt,

@@ -35,7 +35,7 @@ export const iconMap = {
   tshirt: tshirt,
   humidity: humidity,
   'alert-triangle': alertTriangle,
-  dots: dots
+  dots: dots,
 } as const;
 
 export const weatherIconMap = {

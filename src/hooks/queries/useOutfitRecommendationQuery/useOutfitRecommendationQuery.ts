@@ -1,4 +1,8 @@
-import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
+import {
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import {
   ForecastItem,
   OutfitRecommendationResponse,
@@ -28,36 +32,41 @@ export const generateOutfitQueryKey = (
   precipType: string,
   units: Units
 ) => {
-
   // Convert to Celsius for consistent bucketing
-  console.log("temperature", temp);
-  console.log("condition", condition);
-  const tempInC = units === 'imperial' ? (temp - 32) * 5 / 9 : temp;
+  console.log('temperature', temp);
+  console.log('condition', condition);
+  const tempInC = units === 'imperial' ? ((temp - 32) * 5) / 9 : temp;
   // Use 2°C buckets (roughly 3.6°F)
   const tempBucket = Math.round(tempInC / 2) * 2;
 
   return [
     'outfitRecommendation',
     tempBucket, // Temperature bucket in C
-    condition,                         // Weather condition
-    Math.round(precip / 20) * 20,     // Precip bucket (w/i 20%)
-    precipType,                        // Type of precip
-  ] as const
+    condition, // Weather condition
+    Math.round(precip / 20) * 20, // Precip bucket (w/i 20%)
+    precipType, // Type of precip
+  ] as const;
 };
 
 export default function useOutfitRecommendationQuery(
   props: OutfitRecommendationQueryProps,
-  options?: Omit<UseQueryOptions<OutfitRecommendationResponse, Error>, 'queryKey' | 'queryFn'>
-  ): UseQueryResult<OutfitRecommendationResponse, Error> {
+  options?: Omit<
+    UseQueryOptions<OutfitRecommendationResponse, Error>,
+    'queryKey' | 'queryFn'
+  >
+): UseQueryResult<OutfitRecommendationResponse, Error> {
   const { currentWeather, forecast, units, chanceOfPrecip } = props;
   // Generate key and log it
-  const queryKey = currentWeather && chanceOfPrecip ? generateOutfitQueryKey(
-    currentWeather.main.temp,
-    currentWeather.weather[0].main,
-    chanceOfPrecip.probability,
-    chanceOfPrecip.type,
-    units
-  ) : null;
+  const queryKey =
+    currentWeather && chanceOfPrecip
+      ? generateOutfitQueryKey(
+          currentWeather.main.temp,
+          currentWeather.weather[0].main,
+          chanceOfPrecip.probability,
+          chanceOfPrecip.type,
+          units
+        )
+      : null;
 
   console.log('Generated Query Key:', queryKey);
   console.log('Weather Condition:', currentWeather?.weather[0].main);
@@ -65,15 +74,17 @@ export default function useOutfitRecommendationQuery(
 
   return useQuery({
     queryKey: queryKey || ['outfitRecommendation', 'initial'],
-    queryFn: () => fetchOutfitRecommendation(
+    queryFn: () =>
+      fetchOutfitRecommendation(
         currentWeather,
         forecast,
         units,
         chanceOfPrecip
-    ),
-    enabled: !!queryKey && !!currentWeather && !!forecast && !!currentWeather.id,
+      ),
+    enabled:
+      !!queryKey && !!currentWeather && !!forecast && !!currentWeather.id,
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 90,
-    ...options
+    ...options,
   });
 }

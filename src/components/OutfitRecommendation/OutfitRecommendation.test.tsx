@@ -10,7 +10,9 @@ import useOutfitRecommendationQuery from 'src/hooks/queries/useOutfitRecommendat
 // Mock all the hooks
 jest.mock('../../hooks/queries/useGeolocationQuery');
 jest.mock('../../hooks/queries/useWeatherQuery');
-jest.mock('../../hooks/queries/useOutfitRecommendationQuery/useOutfitRecommendationQuery');
+jest.mock(
+  '../../hooks/queries/useOutfitRecommendationQuery/useOutfitRecommendationQuery'
+);
 jest.mock('../../hooks/useWeather', () => ({
   useWeather: () => ({
     units: 'imperial',

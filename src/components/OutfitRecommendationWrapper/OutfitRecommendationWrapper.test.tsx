@@ -39,7 +39,6 @@ describe('OutfitRecommendationWrapper', () => {
     });
 
     (useWeatherQuery as jest.Mock).mockReturnValue(mockWeatherData);
-
   });
 
   it('renders loading skeleton when weather data is loading', () => {
@@ -53,7 +52,6 @@ describe('OutfitRecommendationWrapper', () => {
       screen.getByTestId('outfit-recommendation-wrapper-skeleton')
     ).toBeInTheDocument();
   });
-
 
   it('renders error message when weather fails', () => {
     (useWeatherQuery as jest.Mock).mockReturnValue({

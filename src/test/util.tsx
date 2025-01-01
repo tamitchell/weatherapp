@@ -23,15 +23,13 @@ export function createTestQueryClient() {
 //Added passing of client so that instances could be shared when making tests
 export function createWrapper(client?: QueryClient) {
   const queryClient = client ?? createTestQueryClient();
-  
+
   const TestWrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
-  
+
   TestWrapper.displayName = 'TestWrapper';
-  
+
   return TestWrapper;
 }
 

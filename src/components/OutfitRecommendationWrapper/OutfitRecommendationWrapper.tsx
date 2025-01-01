@@ -16,7 +16,7 @@ export default memo(function OutfitRecommendationWrapper() {
     currentWeather,
     forecast,
     isLoading: isLoadingWeather,
-    error
+    error,
   } = useWeatherQuery({
     lat: location?.lat ?? DEFAULT_NY_LAT,
     lng: location?.lng ?? DEFAULT_NY_LNG,
@@ -41,11 +41,11 @@ export default memo(function OutfitRecommendationWrapper() {
   const chanceOfPrecip = getPrecipitationForecast(forecast);
 
   return (
-    <OutfitRecommendation 
-      chanceOfPrecip={chanceOfPrecip} 
-      currentWeather={currentWeather} 
-      forecast={forecast} 
-      units={units} 
+    <OutfitRecommendation
+      chanceOfPrecip={chanceOfPrecip}
+      currentWeather={currentWeather}
+      forecast={forecast}
+      units={units}
     />
   );
-})
+});
