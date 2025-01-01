@@ -30,6 +30,7 @@ export default function WeatherDetailsGrid({
   airQuality,
   units,
 }: WeatherDetailsGridProps): JSX.Element {
+  
   return (
     <div className="grid grid-cols-3 gap-2 w-full text-charcoal">
       {createWeatherDetails({

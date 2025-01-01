@@ -33,11 +33,11 @@ export const createWeatherDetails = ({
 }: WeatherMetrics): ReadonlyArray<WeatherCardDetail> =>
   Object.freeze([
     {
-      title: chanceOfPrecip.type === 'snow' ? 'Chance of Snow' : 'Chance of Rain',
+      title:
+        chanceOfPrecip.type === 'snow' ? 'Chance of Snow' : 'Chance of Rain',
       icon:
         chanceOfPrecip.type === 'snow' ? (
           <Icon name="snowflake" size={30} />
-          
         ) : (
           <Icon name="raindrops" size={30} />
         ),
