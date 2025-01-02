@@ -13,7 +13,6 @@ Like many projects, this app continuously grows in scale. It's more of a pet pro
 - **Location Auto-Detection:** The app attempts auto-detection of the user's current location upon being granted access to geolocation.
 - **Outfit Recommendations:** AI-powered suggestions (ChatGPT) for what to wear based on current weather conditions and forecast.
 
-
 ## Upcoming Features
 
 ### In Progress

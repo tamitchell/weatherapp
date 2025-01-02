@@ -754,6 +754,10 @@ video {
   height: 4em;
 }
 
+.h-\[7em\] {
+  height: 7em;
+}
+
 .h-\[clamp\(130px\2c 20vw\2c 140px\)\] {
   height: clamp(130px,20vw,140px);
 }
@@ -764,14 +768,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-\[7em\] {
-  height: 7em;
-}
-
-.h-\[clamp\(130px\2c 20vw\2c 160px\)\] {
-  height: clamp(130px,20vw,160px);
 }
 
 .min-h-screen {
@@ -1188,11 +1184,6 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-
-.text-gray-800 {
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
 }
 
 .antialiased {
