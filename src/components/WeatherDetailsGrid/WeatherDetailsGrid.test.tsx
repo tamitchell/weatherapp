@@ -6,24 +6,32 @@ import { createWeatherDetails } from 'src/util/createWeatherDetails/createWeathe
 // Mock the icons components
 jest.mock('../WeatherIcon/WeatherIcon', () => ({
   __esModule: true,
-  default: ({ name }: { name: string }) => <div data-testid={`weather-icon-${name}`}>Weather Icon: {name}</div>
+  default: ({ name }: { name: string }) => (
+    <div data-testid={`weather-icon-${name}`}>Weather Icon: {name}</div>
+  ),
 }));
 
 jest.mock('../../icons/ChanceOfRain', () => ({
   __esModule: true,
-  default: ({ size }: { size: number }) => <div data-testid="chance-of-rain-icon">ChanceOfRain Icon {size}</div>
+  default: ({ size }: { size: number }) => (
+    <div data-testid="chance-of-rain-icon">ChanceOfRain Icon {size}</div>
+  ),
 }));
 
 jest.mock('../../icons/Humidity', () => ({
   __esModule: true,
-  default: ({ size }: { size: number }) => <div data-testid="humidity-icon">Humidity Icon {size}</div>
+  default: ({ size }: { size: number }) => (
+    <div data-testid="humidity-icon">Humidity Icon {size}</div>
+  ),
 }));
 
 jest.mock('../Icon/Icon', () => ({
   __esModule: true,
   default: ({ name, size }: { name: string; size: number }) => (
-    <div data-testid={`icon-${name}`}>Icon: {name} {size}</div>
-  )
+    <div data-testid={`icon-${name}`}>
+      Icon: {name} {size}
+    </div>
+  ),
 }));
 
 describe('WeatherDetailsGrid', () => {
@@ -32,14 +40,14 @@ describe('WeatherDetailsGrid', () => {
       probability: 30,
       type: 'rain' as const,
       rainAmount: 2,
-      snowAmount: 0
+      snowAmount: 0,
     },
     humidity: 65,
     windSpeed: 10,
     visibility: 10000,
     pressure: 1015,
     airQuality: 'Good' as AirQualityDescription,
-    units: 'imperial' as Units
+    units: 'imperial' as Units,
   };
 
   it('renders all weather details correctly', () => {
@@ -47,7 +55,7 @@ describe('WeatherDetailsGrid', () => {
 
     // Check if all weather details are rendered
     const details = createWeatherDetails(defaultProps);
-    details.forEach(detail => {
+    details.forEach((detail) => {
       expect(screen.getByText(detail.value)).toBeInTheDocument();
       expect(screen.getByText(detail.title)).toBeInTheDocument();
     });
@@ -57,14 +65,19 @@ describe('WeatherDetailsGrid', () => {
     render(<WeatherDetailsGrid {...defaultProps} />);
     expect(screen.getByText('Chance of Rain')).toBeInTheDocument();
     expect(screen.getByText('30%')).toBeInTheDocument();
-    
+
     // Test with snow
-    render(<WeatherDetailsGrid {...defaultProps} chanceOfPrecip={{
-      probability: 40,
-      type: 'snow',
-      rainAmount: 0,
-      snowAmount: 2
-    }} />);
+    render(
+      <WeatherDetailsGrid
+        {...defaultProps}
+        chanceOfPrecip={{
+          probability: 40,
+          type: 'snow',
+          rainAmount: 0,
+          snowAmount: 2,
+        }}
+      />
+    );
     expect(screen.getByText('Chance of Snow')).toBeInTheDocument();
     expect(screen.getByText('40%')).toBeInTheDocument();
   });
@@ -107,8 +120,8 @@ describe('WeatherDetailsGrid', () => {
   it('applies correct styling to grid items', () => {
     const { container } = render(<WeatherDetailsGrid {...defaultProps} />);
     const gridItems = container.querySelectorAll('.bg-white');
-    
-    gridItems.forEach(item => {
+
+    gridItems.forEach((item) => {
       expect(item).toHaveClass(
         'rounded-lg',
         'border-2',
@@ -135,22 +148,28 @@ describe('WeatherDetailsGrid', () => {
 
   describe('edge cases', () => {
     it('handles zero values correctly', () => {
-      render(<WeatherDetailsGrid {...defaultProps} 
-        humidity={0}
-        windSpeed={0}
-        visibility={0}
-      />);
-      
+      render(
+        <WeatherDetailsGrid
+          {...defaultProps}
+          humidity={0}
+          windSpeed={0}
+          visibility={0}
+        />
+      );
+
       expect(screen.getByText('0%')).toBeInTheDocument(); // humidity
       expect(screen.getByText('0 mph')).toBeInTheDocument(); // wind speed
     });
 
     it('handles extremely large values', () => {
-      render(<WeatherDetailsGrid {...defaultProps}
-        humidity={100}
-        windSpeed={999}
-        pressure={9999}
-      />);
+      render(
+        <WeatherDetailsGrid
+          {...defaultProps}
+          humidity={100}
+          windSpeed={999}
+          pressure={9999}
+        />
+      );
 
       expect(screen.getByText('100%')).toBeInTheDocument();
       expect(screen.getByText('999 mph')).toBeInTheDocument();
