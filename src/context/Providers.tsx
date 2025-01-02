@@ -26,9 +26,9 @@ function WeatherDataProvider({ children }: { children: ReactNode }) {
   return <ThemeProvider weatherData={currentWeather}>{children}</ThemeProvider>;
 }
 
-// This component wraps all client-side providers
+// This component wraps all clientside providers
 export default function Providers({ children }: { children: ReactNode }) {
-  //OpenWeather updates their states every 10 minutes
+  //OpenWeather updates every 10 minutes
   const queryClient = useMemo(
     () =>
       new QueryClient({
