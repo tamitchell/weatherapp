@@ -209,7 +209,7 @@ export type AirQualityDescription =
   | 'Moderate'
   | 'Poor'
   | 'Very Poor'
-  | 'Unknown';
+  | 'Unknown AQI level';
 
 export type AirQualityResponse = {
   coord: Coordinates;
