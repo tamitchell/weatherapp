@@ -345,3 +345,5 @@ export interface MotionComponentProps {
   'data-testid'?: string;
   style?: Record<string, number | string>;
 }
+
+export type Theme = 'light' | 'dark';

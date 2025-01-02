@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { ThemeProvider } from './ThemeProvider/ThemeProvider';
 
 // This component wraps all client-side providers
 export default function Providers({ children }: { children: ReactNode }) {
@@ -29,9 +30,9 @@ export default function Providers({ children }: { children: ReactNode }) {
   const [persister] = useState(() =>
     typeof window !== 'undefined'
       ? createSyncStoragePersister({
-          storage: window.localStorage,
-          key: 'weather-cache',
-        })
+        storage: window.localStorage,
+        key: 'weather-cache',
+      })
       : null
   );
 
@@ -49,8 +50,9 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>
-        {' '}
-        <WeatherProvider>{children}</WeatherProvider>{' '}
+        <ThemeProvider>
+          <WeatherProvider>{children}</WeatherProvider>{' '}
+        </ThemeProvider>
       </SnackbarProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

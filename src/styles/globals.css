@@ -53,6 +53,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -69,6 +70,18 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Transition for theme changes */
+*,
+*::before,
+*::after {
+  transition: background-color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    fill 0.3s ease-in-out,
+    stroke 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
 }
 
 .custom-place-picker {

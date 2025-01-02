@@ -1,36 +1,30 @@
-import {
-  Units,
-  LastLocation,
-  WeatherState,
-  WeatherCacheKey,
-} from 'src/types/types';
-import getFromLocalStorage from './getFromLocalStorage/getFromLocalStorage';
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 
-// Specific getter functions for your use case
-export const getUnitsFromLocalStorage = (): Units =>
-  getFromLocalStorage<Units>('weatherUnits', 'imperial');
 
-export const getLastLocationFromLocalStorage = (): LastLocation | null =>
-  getFromLocalStorage<LastLocation | null>('lastLocation', null);
+export const createQueryPersister = () => {
+  if (typeof window === 'undefined') return null;
 
-export const getCachedWeatherData = (
-  lat: number,
-  lng: number,
-  units: Units
-): WeatherState | null => {
-  const cacheKey: WeatherCacheKey = `weather_${lat}_${lng}_${units}`;
-  const cachedData = getFromLocalStorage<{
-    data: WeatherState;
-    timestamp: number;
-  } | null>(cacheKey, null);
+  return createSyncStoragePersister({
+    storage: window.localStorage,
+    key: 'weather-cache',
+  });
+};
 
-  if (cachedData) {
-    const cacheAge = Date.now() - cachedData.timestamp;
-    if (cacheAge < 30 * 60 * 1000) {
-      // 30 minutes
-      return cachedData.data;
-    }
+
+export const themeStorage = {
+  get: (): 'light' | 'dark' => {
+    if (typeof window === 'undefined') return 'light';
+    
+    const theme = localStorage.getItem('theme');
+    if (theme === 'light' || theme === 'dark') return theme;
+    
+    return window.matchMedia('(prefers-color-scheme: dark)').matches 
+      ? 'dark' 
+      : 'light';
+  },
+  
+  set: (theme: 'light' | 'dark') => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('theme', theme);
   }
-
-  return null;
 };
