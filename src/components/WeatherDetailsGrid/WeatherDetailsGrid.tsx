@@ -3,8 +3,8 @@ import {
   Units,
   AirQualityDescription,
   PrecipitationForecast,
-} from '../types/types';
-import { createWeatherDetails } from '../util/createWeatherDetails/createWeatherDetails';
+} from '../../types/types';
+import { createWeatherDetails } from '../../util/createWeatherDetails/createWeatherDetails';
 
 interface WeatherDetailsGridProps {
   chanceOfPrecip: PrecipitationForecast;
