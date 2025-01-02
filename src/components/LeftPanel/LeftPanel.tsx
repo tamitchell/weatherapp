@@ -1,13 +1,13 @@
 'use client';
-import { SkeletonLeftPanelLoader } from '../SkeletalLeftPanel';
+import { SkeletonLeftPanelLoader } from '../Skeletons/SkeletalLeftPanel';
 import { useCallback } from 'react';
 import LeftPanelErrorState from '../LeftPanelErrorState';
 import { DEFAULT_NY_LAT, DEFAULT_NY_LNG } from 'src/data/defaultData';
 import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
-import { useWeatherQuery } from 'src/hooks/queries/useWeatherQuery';
 import { useWeather } from 'src/hooks/useWeather';
 import LeftPanelWeatherContent from '../LeftPanelWeatherContent/LeftPanelWeatherContent';
 import LeftPanelHeader from '../LeftPanelHeader/LeftPanelHeader';
+import useWeatherQuery from 'src/hooks/queries/useWeatherQuery';
 
 export default function LeftPanel() {
   const { units, setUnits } = useWeather();
