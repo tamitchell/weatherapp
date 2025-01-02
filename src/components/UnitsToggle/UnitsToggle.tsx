@@ -12,7 +12,8 @@ export default function UnitsToggle({ units, onToggle }: UnitsToggleProps) {
   return (
     <motion.button
       data-testid="units-toggle"
-      className="ml-auto relative w-[6.5em] h-[2.5em] bg-white border-2 border-black rounded-sm p-1 focus:outline-none"
+      aria-label={`Switch to ${units === 'imperial' ? 'imperial' : 'metric'} units`}
+      className="ml-auto relative w-[6.5em] h-[2.5em] bg-white border-2 border-border rounded-sm p-1 focus:outline-none"
       onClick={onToggle}
     >
       <motion.span
@@ -27,7 +28,7 @@ export default function UnitsToggle({ units, onToggle }: UnitsToggleProps) {
       <span
         className={clsx(
           'absolute w-[2em] left-2 top-1/2 transform -translate-y-1/2 text-xs font-bold',
-          units === 'imperial' ? 'text-white' : 'text-black'
+          units === 'imperial' ? 'text-primary-foreground' : 'text-black'
         )}
       >
         US
@@ -35,7 +36,7 @@ export default function UnitsToggle({ units, onToggle }: UnitsToggleProps) {
       <span
         className={clsx(
           'absolute w-[3.5em] right-4 top-1/2 transform -translate-y-1/2 text-xs font-bold',
-          units === 'metric' ? 'text-white' : 'text-black'
+          units === 'metric' ? 'text-primary-foreground' : 'text-black'
         )}
       >
         Metric
