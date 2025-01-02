@@ -10,12 +10,12 @@ export default function ThemeToggle() {
     <motion.button
       onClick={toggleTheme}
       className={clsx(
-        "h-[2.5em] w-[2.5em] border-border border-2 flex justify-center items-center",
-        "rounded-sm",
-        "focus:outline-none focus:ring-2 focus:ring-ring",
-        "hover:bg-accent hover:text-accent-foreground",
-        "bg-background text-foreground",
-        "transition-colors"
+        'h-[2.5em] w-[2.5em] border-border border-2 flex justify-center items-center',
+        'rounded-sm',
+        'focus:outline-none focus:ring-2 focus:ring-ring',
+        'hover:bg-accent hover:text-accent-foreground',
+        'bg-background text-foreground',
+        'transition-colors'
       )}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
       whileTap={{ scale: 0.95 }}

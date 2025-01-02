@@ -24,8 +24,8 @@ export default memo(function LeftPanelHeader({
       >
         <Logo width={250} height={18} />
         <div className="flex items-center gap-2 ml-auto">
-        <ThemeToggle />
-        <UnitsToggle units={units} onToggle={onUnitChange} />
+          <ThemeToggle />
+          <UnitsToggle units={units} onToggle={onUnitChange} />
         </div>
       </div>
       <div
