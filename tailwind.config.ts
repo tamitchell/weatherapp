@@ -16,7 +16,7 @@ const config: Config = {
       xl: ['clamp(1.56rem, 1vw + 1.31rem, 2.11rem)', '1.5'],
       '2xl': ['clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem)', '1.5'],
     },
-    //Follow Radiux UI's color naming convention 
+    //Follow Radiux UI's color naming convention
     extend: {
       colors: {
         charcoal: '#333',

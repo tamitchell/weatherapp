@@ -11,9 +11,9 @@ export default memo(function GooglePlacesPicker({
     <div className="custom-place-picker w-full">
       <PlacePicker
         className={clsx(
-          "w-full h-full",
-          "transition-colors duration-200",
-          "focus:outline-none focus:ring-2 focus:ring-ring",
+          'w-full h-full',
+          'transition-colors duration-200',
+          'focus:outline-none focus:ring-2 focus:ring-ring'
         )}
         style={{
           fontSize: '16px', //prevent autozoom on ios/safari devices
