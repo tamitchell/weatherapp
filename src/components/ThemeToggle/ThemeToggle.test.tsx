@@ -1,7 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import ThemeToggle from './ThemeToggle';
 import { ThemeProvider } from 'src/context/ThemeProvider/ThemeProvider';
-import { ButtonHTMLAttributes, DetailedHTMLProps, HTMLAttributes, PropsWithChildren } from 'react';
+import {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  HTMLAttributes,
+  PropsWithChildren,
+} from 'react';
 import { HTMLMotionProps } from 'framer-motion';
 
 // Mock icon
@@ -12,38 +17,43 @@ jest.mock('../Icon/Icon', () => ({
 
 // Mock framer
 jest.mock('framer-motion', () => ({
-    motion: {
-      button: ({ 
-        children, 
-        ...props 
-      }: PropsWithChildren<HTMLMotionProps<"button">>) => {
-        const { 
-          ...htmlProps 
-        } = props;
-  
-        return (
-          <button 
-          {...htmlProps as DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>}>
-            {children}
-          </button>
-        );
-      },
-      span: ({ 
-        children, 
-        ...props 
-      }: PropsWithChildren<HTMLMotionProps<"span">>) => {
-        const { 
-          ...htmlProps 
-        } = props;
-  
-        return (
-          <span {...htmlProps as DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>}>
-            {children}
-          </span>
-        );
-      },
+  motion: {
+    button: ({
+      children,
+      ...props
+    }: PropsWithChildren<HTMLMotionProps<'button'>>) => {
+      const { ...htmlProps } = props;
+
+      return (
+        <button
+          {...(htmlProps as DetailedHTMLProps<
+            ButtonHTMLAttributes<HTMLButtonElement>,
+            HTMLButtonElement
+          >)}
+        >
+          {children}
+        </button>
+      );
     },
-  }));
+    span: ({
+      children,
+      ...props
+    }: PropsWithChildren<HTMLMotionProps<'span'>>) => {
+      const { ...htmlProps } = props;
+
+      return (
+        <span
+          {...(htmlProps as DetailedHTMLProps<
+            HTMLAttributes<HTMLSpanElement>,
+            HTMLSpanElement
+          >)}
+        >
+          {children}
+        </span>
+      );
+    },
+  },
+}));
 
 describe('ThemeToggle', () => {
   it('shows correct icon for current theme', () => {
