@@ -20,8 +20,8 @@ import snowflake from '../public/img/icons/weather/snowflake.svg';
 import humidity from '../public/img/icons/weather/humidity.svg';
 import tshirt from '../public/img/icons/util/t-shirt.svg';
 import dots from '../public/img/icons/util/dots.svg';
-import theme_sun from "../public/img/icons/util/sun.svg";
-import theme_moon from "../public/img/icons/util/moon.svg";
+import theme_sun from '../public/img/icons/util/sun.svg';
+import theme_moon from '../public/img/icons/util/moon.svg';
 export const iconMap = {
   balloon: balloon,
   settings: settings,

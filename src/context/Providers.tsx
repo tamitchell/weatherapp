@@ -30,9 +30,9 @@ export default function Providers({ children }: { children: ReactNode }) {
   const [persister] = useState(() =>
     typeof window !== 'undefined'
       ? createSyncStoragePersister({
-        storage: window.localStorage,
-        key: 'weather-cache',
-      })
+          storage: window.localStorage,
+          key: 'weather-cache',
+        })
       : null
   );
 

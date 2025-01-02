@@ -5,7 +5,7 @@ import { ThemeProvider, useTheme } from './ThemeProvider';
 const mockMatchMedia = (matches: boolean) => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
-    value: jest.fn().mockImplementation(query => ({
+    value: jest.fn().mockImplementation((query) => ({
       matches,
       media: query,
       onchange: null,
@@ -46,7 +46,7 @@ describe('ThemeProvider', () => {
   });
 
   it('uses stored theme over system preference', () => {
-    mockMatchMedia(true)
+    mockMatchMedia(true);
     localStorage.setItem('theme', 'light');
 
     render(
@@ -61,7 +61,7 @@ describe('ThemeProvider', () => {
 
   it('toggles theme correctly', () => {
     mockMatchMedia(false);
-    
+
     render(
       <ThemeProvider>
         <TestComponent />
@@ -82,7 +82,7 @@ describe('ThemeProvider', () => {
 
   it('persists theme changes to localStorage', () => {
     mockMatchMedia(false);
-    
+
     render(
       <ThemeProvider>
         <TestComponent />
