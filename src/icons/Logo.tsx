@@ -1,4 +1,4 @@
-import { themeStyles } from "src/styles/styles";
+import { themeStyles } from 'src/styles/styles';
 
 export default function Logo({
   width,

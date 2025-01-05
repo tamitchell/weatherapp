@@ -22,7 +22,10 @@ export default function DayWeatherStats({
   return (
     <div
       data-testid="day-weather-stats"
-      className={clsx(themeStyles.complementaryOffset, "flex justify-between w-full p-2 rounded-lg text-sm")}
+      className={clsx(
+        themeStyles.complementaryOffset,
+        'flex justify-between w-full p-2 rounded-lg text-sm'
+      )}
     >
       <div className="flex flex-col items-center">
         <Icon name={precipIconName} size={28} />
@@ -33,7 +36,7 @@ export default function DayWeatherStats({
         <p>{humidity}%</p>
       </div>
       <div className="flex flex-col items-center">
-        <Icon name="wind_speed" fill="transparent"  size={28} />
+        <Icon name="wind_speed" fill="transparent" size={28} />
         <p>
           {Math.round(windSpeed)} {units === 'imperial' ? 'mph' : 'm/s'}
         </p>

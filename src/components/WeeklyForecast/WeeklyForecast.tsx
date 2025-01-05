@@ -90,7 +90,7 @@ export default function WeeklyForecast(): JSX.Element {
   return (
     <div className="w-full flex flex-col gap-2">
       <h4
-        className={clsx(themeStyles.text, "text-lg font-semibold w-full")}
+        className={clsx(themeStyles.text, 'text-lg font-semibold w-full')}
         data-testid="forecast-heading"
       >
         5 Day Forecast

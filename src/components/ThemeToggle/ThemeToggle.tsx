@@ -29,10 +29,7 @@ export default function ThemeToggle() {
         exit={{ scale: 0.5, opacity: 0 }}
         key={theme}
       >
-        <Icon
-          name={theme === 'dark' ? 'theme_sun' : 'theme_moon'}
-          size={24}
-        />
+        <Icon name={theme === 'dark' ? 'theme_sun' : 'theme_moon'} size={24} />
       </motion.span>
     </motion.button>
   );

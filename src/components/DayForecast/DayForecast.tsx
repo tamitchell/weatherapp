@@ -32,7 +32,7 @@ export default memo(function DayForecast({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
-        className={clsx(themeStyles.card, "forecast-card rounded-sm")}
+        className={clsx(themeStyles.card, 'forecast-card rounded-sm')}
       >
         <div
           key={index}

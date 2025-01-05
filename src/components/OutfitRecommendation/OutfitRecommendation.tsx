@@ -28,10 +28,17 @@ export default memo(function OutfitRecommendation({
   return (
     <div
       data-testid="outfit-recommendation"
-      className={clsx(themeStyles.card, " p-4 rounded-md text-foreground flex flex-row items-start gap-4 p-4")}
+      className={clsx(
+        themeStyles.card,
+        ' p-4 rounded-md text-foreground flex flex-row items-start gap-4 p-4'
+      )}
     >
       <div className="m-2 bg-foreground dark:bg-muted-foreground rounded-md">
-        <button className={clsx("dark:text-secondary-foreground text-primary-foreground w-[4em] h-[4em] self-start p-4")}>
+        <button
+          className={clsx(
+            'dark:text-secondary-foreground text-primary-foreground w-[4em] h-[4em] self-start p-4'
+          )}
+        >
           <Icon name="tshirt" size={32} />
         </button>
       </div>

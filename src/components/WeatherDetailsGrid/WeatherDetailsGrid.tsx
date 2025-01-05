@@ -56,9 +56,7 @@ export default function WeatherDetailsGrid({
           <div className="font-bold p-[clamp(0.25rem,0.75vw,0.5rem)] text-center">
             {detail.icon}
           </div>
-          <div className="font-bold text-md text-center">
-            {detail.value}
-          </div>
+          <div className="font-bold text-md text-center">{detail.value}</div>
           <div className="text-xs text-center">{detail.title}</div>
         </div>
       ))}

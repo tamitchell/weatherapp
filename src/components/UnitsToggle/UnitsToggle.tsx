@@ -33,7 +33,8 @@ export default function UnitsToggle({ units, onToggle }: UnitsToggleProps) {
         className={clsx(
           'absolute w-[2em] left-2 top-1/2 transform -translate-y-1/2 text-xs font-bold',
           units === 'imperial'
-            ? 'text-primary-foreground dark:text-background-tertiary' : themeStyles.text
+            ? 'text-primary-foreground dark:text-background-tertiary'
+            : themeStyles.text
         )}
       >
         US
@@ -42,7 +43,8 @@ export default function UnitsToggle({ units, onToggle }: UnitsToggleProps) {
         className={clsx(
           'absolute w-[3.5em] right-4 top-1/2 transform -translate-y-1/2 text-xs font-bold',
           units === 'metric'
-            ? 'text-primary-foreground dark:text-background-tertiary' : themeStyles.text
+            ? 'text-primary-foreground dark:text-background-tertiary'
+            : themeStyles.text
         )}
       >
         Metric

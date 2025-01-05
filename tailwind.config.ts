@@ -23,7 +23,7 @@ const config: Config = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-       background: {
+        background: {
           DEFAULT: 'hsl(var(--background))',
           secondary: 'hsl(var(--background-secondary))',
           tertiary: 'hsl(var(--background-tertiary))',
@@ -34,7 +34,7 @@ const config: Config = {
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
+          foreground: 'hsl(var(--muted-foreground))',
         },
         foreground: 'hsl(0, 0%, 10%)', // Soft black
         card: {
@@ -48,8 +48,10 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        'gradient-border': 'linear-gradient(to right, hsl(280, 75%, 65%), transparent)',
-        'gradient-hover': 'linear-gradient(135deg, hsl(280, 75%, 85%), hsl(280, 75%, 65%))',
+        'gradient-border':
+          'linear-gradient(to right, hsl(280, 75%, 65%), transparent)',
+        'gradient-hover':
+          'linear-gradient(135deg, hsl(280, 75%, 85%), hsl(280, 75%, 65%))',
       },
       borderRadius: {
         lg: 'var(--radius)',

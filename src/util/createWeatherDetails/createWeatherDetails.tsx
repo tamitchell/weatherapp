@@ -37,9 +37,17 @@ export const createWeatherDetails = ({
         chanceOfPrecip.type === 'snow' ? 'Chance of Snow' : 'Chance of Rain',
       icon:
         chanceOfPrecip.type === 'snow' ? (
-          <Icon name="snowflake" size={30} className="text-secondary-foreground dark:text-primary" />
+          <Icon
+            name="snowflake"
+            size={30}
+            className="text-secondary-foreground dark:text-primary"
+          />
         ) : (
-          <Icon name="raindrops" size={30} className="text-secondary-foreground dark:text-primary" />
+          <Icon
+            name="raindrops"
+            size={30}
+            className="text-secondary-foreground dark:text-primary"
+          />
         ),
       value: `${chanceOfPrecip.probability}%`,
     },
@@ -65,9 +73,7 @@ export const createWeatherDetails = ({
     },
     {
       title: 'Air Quality',
-      icon: (
-        <Icon name="air_quality" stroke="transparent" size={30} />
-      ),
+      icon: <Icon name="air_quality" stroke="transparent" size={30} />,
       value: `${airQuality}`,
     },
   ]);
