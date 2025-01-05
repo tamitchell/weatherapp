@@ -32,7 +32,7 @@ describe('UnitsToggle', () => {
 
       //White(Active), Black(Inactive)
       expect(usText).toHaveClass('text-primary-foreground');
-      expect(metricText).toHaveClass('text-black');
+      expect(metricText).toHaveClass('text-foreground');
     });
     it('renders Metric unit system as active when metric', () => {
       render(<UnitsToggle units={'metric'} onToggle={onToggle} />);
@@ -40,7 +40,7 @@ describe('UnitsToggle', () => {
       const usText = screen.getByText('US');
       const metricText = screen.getByText('Metric');
 
-      expect(usText).toHaveClass('text-black');
+      expect(usText).toHaveClass('text-foreground');
       expect(metricText).toHaveClass('text-primary-foreground');
     });
   });

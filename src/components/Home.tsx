@@ -14,7 +14,7 @@ export default function Home() {
           'sm:max-w-[425px]',
           'md:max-w-[30vw]',
           'md:min-h-screen',
-          'bg-background'
+          'bg-background dark:bg-background'
         )}
       >
         <LeftPanel />
@@ -25,7 +25,7 @@ export default function Home() {
           'sm:flex-1',
           'md:min-h-screen',
           'overflow-y-auto',
-          'bg-primary'
+          'bg-background-secondary dark:bg-background-secondary'
         )}
       >
         <ForecastSection />

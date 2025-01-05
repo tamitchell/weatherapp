@@ -6,6 +6,8 @@ import { DEFAULT_NY_LAT, DEFAULT_NY_LNG } from 'src/data/defaultData';
 import DayForecast from '../DayForecast/DayForecast';
 import { ForecastTransition } from '../ForecastTransitionWrapper/ForecastTransitionWrapper';
 import useWeatherQuery from 'src/hooks/queries/useWeatherQuery';
+import clsx from 'clsx';
+import { themeStyles } from 'src/styles/styles';
 
 export default function WeeklyForecast(): JSX.Element {
   const { units } = useWeather();
@@ -62,7 +64,7 @@ export default function WeeklyForecast(): JSX.Element {
         >
           5 Day Forecast
         </h4>
-        <p className="text-xl font-semibold mb-4 w-full text-white">
+        <p className="text-xl font-semibold mb-4 w-full">
           Unable to load forecast
         </p>
       </div>
@@ -78,7 +80,7 @@ export default function WeeklyForecast(): JSX.Element {
         >
           5 Day Forecast
         </h4>
-        <p className="text-xl font-semibold mb-4 w-full text-white">
+        <p className="text-xl font-semibold mb-4 w-full">
           No forecast data available
         </p>
       </div>
@@ -88,7 +90,7 @@ export default function WeeklyForecast(): JSX.Element {
   return (
     <div className="w-full flex flex-col gap-2">
       <h4
-        className="text-lg font-semibold w-full"
+        className={clsx(themeStyles.text, "text-lg font-semibold w-full")}
         data-testid="forecast-heading"
       >
         5 Day Forecast

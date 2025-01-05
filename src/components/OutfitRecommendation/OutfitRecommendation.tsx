@@ -5,6 +5,8 @@ import Icon from '../Icon/Icon';
 import WordReveal from '../WordReveal/WordReveal';
 import { memo } from 'react';
 import OutfitRecommendationSkeletonLoader from '../Skeletons/OutfitRecommendationSkeletonLoader';
+import clsx from 'clsx';
+import { themeStyles } from 'src/styles/styles';
 
 type OutfitRecommendationProps = OutfitRecommendationQueryProps;
 
@@ -26,11 +28,11 @@ export default memo(function OutfitRecommendation({
   return (
     <div
       data-testid="outfit-recommendation"
-      className="bg-white p-4 rounded-md text-black flex flex-row items-start gap-4 p-4"
+      className={clsx(themeStyles.card, " p-4 rounded-md text-foreground flex flex-row items-start gap-4 p-4")}
     >
-      <div className="m-2">
-        <button className="bg-black rounded-md w-[4em] h-[4em] self-start p-4">
-          <Icon name="tshirt" size={32} fill="white" />
+      <div className="m-2 bg-foreground dark:bg-muted-foreground rounded-md">
+        <button className={clsx("dark:text-secondary-foreground text-primary-foreground w-[4em] h-[4em] self-start p-4")}>
+          <Icon name="tshirt" size={32} />
         </button>
       </div>
 

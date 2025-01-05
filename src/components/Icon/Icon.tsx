@@ -5,13 +5,15 @@ interface IconProps {
   size?: number;
   fill?: string;
   stroke?: string;
+  className?: string;
 }
 
 export default function Icon({
   name,
   size = 24,
   stroke,
-  fill = 'black',
+  fill = 'currentColor',
+  className,
   ...props
 }: IconProps) {
   const SVGIcon = iconMap[name];
@@ -20,6 +22,7 @@ export default function Icon({
     <SVGIcon
       width={size}
       height={size}
+      className={className}
       fill={fill}
       data-testid={`icon-${name}`}
       stroke={stroke}

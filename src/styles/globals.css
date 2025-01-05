@@ -4,48 +4,108 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    /* Base colors */
+    --background: 0 0% 100%;            /* #FFFFFF - White */
+    --background-secondary: 0 0% 96%;    /* #F4F3F4 - Anti-flash White */
+    --background-tertiary: 270 3% 83%;   /* #D4D2D6 - Light Gray */
+    --foreground: 0 0% 10%;             /* #1A1A1A - Eerie Black */
+    
+    /* Component colors */
+    --card: 0 0% 100%;                  /* #FFFFFF - White */
+    --card-foreground: 0 0% 15%;        /* #262626 - Raisin Black */
+    --popover: 0 0% 100%;               /* #FFFFFF - White */
+    --popover-foreground: 0 0% 15%;     /* #262626 - Raisin Black */
+    
+    /* Accent colors */
+    --accent-light: 280 75% 85%;        /* #E5B3FF - Mauve */
+    --accent: 280 75% 65%;              /* #C966FF - Heliotrope */
+    --accent-dark: 280 75% 45%;         /* #8C1AFF - Electric Purple */
+    --accent-foreground: 0 0% 15%;      /* #262626 - Raisin Black */
+    
+    /* Functional colors */
+    --primary: 280 75% 65%;             /* #C966FF - Heliotrope */
+    --primary-foreground: 0 0% 100%;    /* #FFFFFF - White */
+    --secondary: 0 0% 97%;              /* #F7F7F7 - Cultured */
+    --secondary-foreground: 0 0% 15%;   /* #262626 - Raisin Black */
+    --muted: 0 0% 97%;                  /* #F7F7F7 - Cultured */
+    --muted-foreground: 0 0% 45%;       /* #737373 - Sonic Silver */
+    --destructive: 0 84% 60%;           /* #F24646 - Red Orange */
+    --destructive-foreground: 0 0% 98%; /* #FAFAFA - Snow */
+    
+    /* UI elements */
+    --border: 0 0% 92%;                 /* #EBEBEB - Platinum */
+    --input: 0 0% 92%;                  /* #EBEBEB - Platinum */
+    --ring: 280 75% 65%;                /* #C966FF - Heliotrope */
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    /* Base colors */
+    --background: 225 6% 10%;           /* #17181C - Eerie Black */
+    --background-secondary: 0 0% 1%;     /* #030303 - Almost Black */
+    --background-tertiary: 300 5% 8%;    /* #181018 - Licorice */
+    
+    /* Component colors */
+    --card: 240 10% 3.9%;               /* #0C0C0F - Rich Black */
+    --card-foreground: 0 0% 98%;        /* #FAFAFA - Snow */
+    --popover: 240 10% 3.9%;            /* #0C0C0F - Rich Black */
+    --popover-foreground: 0 0% 98%;     /* #FAFAFA - Snow */
+    
+    /* Functional colors */
+    --primary: 0 0% 98%;                /* #FAFAFA - Snow */
+    --primary-foreground: 240 5.9% 10%; /* #191919 - Eerie Black */
+    --secondary: 240 3.7% 15.9%;        /* #272729 - Charleston Green */
+    --secondary-foreground: 0 0% 98%;   /* #FAFAFA - Snow */
+    --muted: 240 3.7% 15.9%;           /* #272729 - Charleston Green */
+    --foreground: 0 0% 90%;            /* #FAFAFA - Snow */
+    --muted-foreground: 0 0% 85%;      /* #D9D9D9 - Gainsboro */
+    --accent: 240 3.7% 15.9%;          /* #272729 - Charleston Green */
+    --accent-foreground: 0 0% 98%;     /* #FAFAFA - Snow */
+    --destructive: 0 62.8% 30.6%;      /* #990000 - Dark Red */
+    --destructive-foreground: 0 0% 98%; /* #FAFAFA - Snow */
+    
+    /* UI elements */
+    --border: 240 3.7% 15.9%;          /* #272729 - Charleston Green */
+    --input: 240 3.7% 15.9%;           /* #272729 - Charleston Green */
+    --ring: 240 4.9% 83.9%;            /* #D4D4D6 - Light Gray */
+  }
+}
+
+@layer components {
+  .gradient-border {
+    position: relative;
+  }
+  
+  .gradient-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, hsl(var(--accent)), transparent);
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .hover-gradient {
+    background-size: 200% 200%;
+    background-position: 0% 0%;
+    transition: all 0.3s ease;
+  }
+
+  .hover-gradient:hover {
+    background-image: linear-gradient(
+      135deg, 
+      hsl(var(--accent-light)), 
+      hsl(var(--accent))
+    );
+    background-position: 100% 100%;
   }
 }
 
@@ -53,25 +113,10 @@
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
   }
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 /* Transition for theme changes */
 *,
 *::before,

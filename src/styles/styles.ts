@@ -31,7 +31,7 @@ export const buttonStyles = {
 
 export const inputStyles = {
   searchInput:
-    'border border-whitesmoke text-whitesmoke bg-transparent p-2 w-full h-12 pr-6 bg-no-repeat bg-right focus:outline-none',
+    'border border-whitesmoke text-primary-foregroundsmoke bg-transparent p-2 w-full h-12 pr-6 bg-no-repeat bg-right focus:outline-none',
 };
 
 export const imageStyles = {
@@ -51,3 +51,9 @@ export const weatherStyles = {
     'absolute top-[85%] left-1/2 transform -translate-x-1/2 -translate-y-1/2',
   weatherDetails: clsx(baseStyles.flexRow, baseStyles.scroll),
 };
+
+export const themeStyles = {
+  complementaryOffset: "bg-background-tertiary text-foreground dark:bg-background-secondary dark:text-primary",
+  text: "text-foreground dark:text-primary",
+  card: "bg-background text-foreground dark:bg-card dark:text-primary dark:gradient-border"
+}

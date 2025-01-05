@@ -2,6 +2,7 @@ import Icon from '../Icon/Icon';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import { useTheme } from 'src/context/ThemeProvider/ThemeProvider';
+import { themeStyles } from 'src/styles/styles';
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -10,8 +11,9 @@ export default function ThemeToggle() {
     <motion.button
       onClick={toggleTheme}
       className={clsx(
-        'h-[2.5em] w-[2.5em] border-border border-2 flex justify-center items-center',
-        'rounded-sm',
+        themeStyles.text,
+        'h-[2.5em] w-[2.5em] flex justify-center items-center',
+        'rounded-full',
         'focus:outline-none focus:ring-2 focus:ring-ring',
         'hover:bg-accent hover:text-accent-foreground',
         'bg-background text-foreground',
@@ -30,7 +32,6 @@ export default function ThemeToggle() {
         <Icon
           name={theme === 'dark' ? 'theme_sun' : 'theme_moon'}
           size={24}
-          fill="currentColor"
         />
       </motion.span>
     </motion.button>
