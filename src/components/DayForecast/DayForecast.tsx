@@ -32,7 +32,11 @@ export default memo(function DayForecast({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
-        className={clsx(themeStyles.card, themeStyles.text, 'forecast-card rounded-sm min-w-[250px]')}
+        className={clsx(
+          themeStyles.card,
+          themeStyles.text,
+          'forecast-card rounded-sm min-w-[250px]'
+        )}
       >
         <div
           key={index}
@@ -47,7 +51,7 @@ export default memo(function DayForecast({
           <div className="flex flex-col items-center gap-2">
             <div
               data-testid={`forecast-weather-${index}`}
-              className={clsx(themeStyles.text, "flex flex-col items-center")}
+              className={clsx(themeStyles.text, 'flex flex-col items-center')}
             >
               <WeatherIcon
                 data-testid={`weather-icon-${index}`}

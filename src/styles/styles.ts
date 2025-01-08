@@ -66,7 +66,9 @@ export const glassStyles = {
   complementaryOffset: 'glass-panel backdrop-blur-lg p-2 rounded-sm',
   interactiveCard: 'glass-panel glass-panel-hover glass-shimmer rounded-sm',
   text: 'text-foreground/90 dark:text-primary/90',
-  gridCard: 'glass-panel p-4 rounded-sm h-[clamp(130px,20vw,140px)] glass-panel-hover',
-  detailsPanel: 'glass-panel backdrop-blur-2xl rounded-2xl p-4 glass-panel-hover',
+  gridCard:
+    'glass-panel p-4 rounded-sm h-[clamp(130px,20vw,140px)] glass-panel-hover',
+  detailsPanel:
+    'glass-panel backdrop-blur-2xl rounded-2xl p-4 glass-panel-hover',
   contentPanel: 'glass-panel backdrop-blur-md p-6 rounded-xl',
-}
+};

@@ -51,11 +51,10 @@ export default function WeatherDetailsGrid({
             'p-4',
             'h-[clamp(130px,20vw,140px)]',
             'w-full',
-            'relative',
+            'relative'
           )}
         >
-          <div
-          />
+          <div />
 
           <div className="font-bold p-[clamp(0.25rem,0.75vw,0.5rem)] text-center relative z-10">
             {detail.icon}

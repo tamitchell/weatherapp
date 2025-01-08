@@ -18,8 +18,7 @@ const config: Config = {
     'dark:bg-card',
     'glass-panel',
     'glass-panel-hover',
-    'glass-shimmer'
-
+    'glass-shimmer',
   ],
   theme: {
     fontSize: {
