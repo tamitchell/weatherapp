@@ -54,7 +54,8 @@ export const weatherStyles = {
 
 export const themeStyles = {
   complementaryOffset:
-    'bg-background-tertiary text-foreground dark:bg-background-secondary dark:text-primary',
+    'bg-background-secondary text-foreground dark:bg-background-secondary dark:text-primary',
   text: 'text-foreground dark:text-primary',
-  card: 'bg-background text-foreground dark:bg-card dark:text-primary dark:gradient-border',
+  card: 'bg-background text-foreground dark:bg-background dark:text-primary dark:gradient-border',
+  gridCard: 'bg-background-tertiary text-foreground dark:bg-background-secondary dark:text-primary',
 };

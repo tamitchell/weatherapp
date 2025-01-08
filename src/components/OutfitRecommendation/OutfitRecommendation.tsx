@@ -26,11 +26,18 @@ export default memo(function OutfitRecommendation({
   if (isLoading) return <OutfitRecommendationSkeletonLoader />;
 
   return (
+    <div className="w-full flex flex-col gap-2">
+       <h4
+              className={clsx(themeStyles.text, 'text-lg font-semibold w-full')}
+              data-testid="forecast-heading"
+            >
+          {"Today's Clothing Tip"}
+          </h4>
     <div
       data-testid="outfit-recommendation"
       className={clsx(
         themeStyles.card,
-        ' p-4 rounded-md text-foreground flex flex-row items-start gap-4 p-4'
+        ' p-4 rounded-md text-foreground flex flex-row items-center gap-4 p-4'
       )}
     >
       <div className="m-2 bg-foreground dark:bg-muted-foreground rounded-md">
@@ -44,9 +51,6 @@ export default memo(function OutfitRecommendation({
       </div>
 
       <div className="">
-        <h3 className="font-medium text-lg italic mb-4">
-          {"Today's clothing tip..."}
-        </h3>
         {error || !data ? (
           <p>Unable to load clothing recommendation</p>
         ) : (
@@ -54,5 +58,7 @@ export default memo(function OutfitRecommendation({
         )}
       </div>
     </div>
+    </div>
+
   );
 });

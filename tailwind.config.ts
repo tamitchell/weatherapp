@@ -7,6 +7,16 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   darkMode: 'class',
+  safelist: [
+    'text-foreground',
+    'text-primary',
+    'dark:text-foreground',
+    'dark:text-primary',
+    'bg-background',
+    'dark:bg-background',
+    'bg-card',
+    'dark:bg-card'
+  ],
   theme: {
     fontSize: {
       xs: ['clamp(0.75rem, 0.12vw + 0.72rem, 0.84rem)', '1.5'],

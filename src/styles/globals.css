@@ -5,7 +5,7 @@
 @layer base {
   :root {
     /* Base colors */
-    --background: 0 0% 100%; /* #FFFFFF - White */
+    --background: 0 0% 89%; /* #FFFFFF - White */
     --background-secondary: 0 0% 96%; /* #F4F3F4 - Anti-flash White */
     --background-tertiary: 270 3% 83%; /* #D4D2D6 - Light Gray */
     --foreground: 0 0% 10%; /* #1A1A1A - Eerie Black */
@@ -30,7 +30,7 @@
     --muted: 0 0% 97%; /* #F7F7F7 - Cultured */
     --muted-foreground: 0 0% 45%; /* #737373 - Sonic Silver */
     --destructive: 0 84% 60%; /* #F24646 - Red Orange */
-    --destructive-foreground: 0 0% 98%; /* #FAFAFA - Snow */
+    --destructive-foreground: 0 0% 94%; /* #FAFAFA - Snow */
 
     /* UI elements */
     --border: 0 0% 92%; /* #EBEBEB - Platinum */
@@ -47,22 +47,22 @@
 
     /* Component colors */
     --card: 240 10% 3.9%; /* #0C0C0F - Rich Black */
-    --card-foreground: 0 0% 98%; /* #FAFAFA - Snow */
+    --card-foreground: 0 0% 94%; /* #FAFAFA - Snow */
     --popover: 240 10% 3.9%; /* #0C0C0F - Rich Black */
-    --popover-foreground: 0 0% 98%; /* #FAFAFA - Snow */
+    --popover-foreground: 0 0% 94%; /* #FAFAFA - Snow */
 
     /* Functional colors */
-    --primary: 0 0% 98%; /* #FAFAFA - Snow */
+    --primary: 0 0% 94%; /* #FAFAFA - Snow */
     --primary-foreground: 240 5.9% 10%; /* #191919 - Eerie Black */
     --secondary: 240 3.7% 15.9%; /* #272729 - Charleston Green */
-    --secondary-foreground: 0 0% 98%; /* #FAFAFA - Snow */
+    --secondary-foreground: 0 0% 94%; /* #FAFAFA - Snow */
     --muted: 240 3.7% 15.9%; /* #272729 - Charleston Green */
     --foreground: 0 0% 90%; /* #FAFAFA - Snow */
     --muted-foreground: 0 0% 85%; /* #D9D9D9 - Gainsboro */
     --accent: 240 3.7% 15.9%; /* #272729 - Charleston Green */
-    --accent-foreground: 0 0% 98%; /* #FAFAFA - Snow */
+    --accent-foreground: 0 0% 94%; /* #FAFAFA - Snow */
     --destructive: 0 62.8% 30.6%; /* #990000 - Dark Red */
-    --destructive-foreground: 0 0% 98%; /* #FAFAFA - Snow */
+    --destructive-foreground: 0 0% 94%; /* #FAFAFA - Snow */
 
     /* UI elements */
     --border: 240 3.7% 15.9%; /* #272729 - Charleston Green */
@@ -176,5 +176,140 @@
 
   & gmpx-place-picker::placeholder {
     color: var(--picker-placeholder) !important;
+  }
+}
+
+@layer utilities {
+  .neumorphic-shadow {
+    box-shadow: 
+      -5px -5px 10px rgba(255, 255, 255, 0.8),
+      5px 5px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .neumorphic-inset {
+    box-shadow: 
+      inset -5px -5px 10px rgba(255, 255, 255, 0.8),
+      inset 5px 5px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .neumorphic-shadow {
+    box-shadow: 
+      -5px -5px 10px rgba(255, 255, 255, 0.05),
+      5px 5px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .dark .neumorphic-inset {
+    box-shadow: 
+      inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+      inset 5px 5px 10px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* @layer utilities {
+  .glass-effect {
+    @apply bg-gradient-to-br from-white/60 to-white/20 
+           backdrop-blur-md 
+           border border-white/20
+           shadow-[0_8px_32px_-8px_rgba(122,111,105,0.15)];
+  }
+
+  .dark .glass-effect {
+    @apply from-white/10 to-white/5 
+           border-white/10
+           shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3)];
+  }
+} */
+
+@layer utilities {
+  .ultra-glass {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.1)
+    );
+    backdrop-filter: blur(21px);
+    -webkit-backdrop-filter: blur(21px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+  .ultra-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      225deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    border-radius: inherit;
+    z-index: -1;
+  }
+
+  .ultra-glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+    z-index: -1;
+  }
+
+  .dark .ultra-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.05)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translate(-100%, -100%) rotate(30deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.5;
+    }
+    90% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(100%, 100%) rotate(30deg);
+      opacity: 0;
+    }
+  }
+
+  .shimmer-hover {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer-hover::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%
+    );
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .shimmer-hover:hover::before {
+    animation: shimmer 1.5s ease-in-out;
   }
 }
