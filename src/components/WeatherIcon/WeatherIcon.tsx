@@ -5,6 +5,7 @@ interface IconProps {
   size?: number;
   fill?: string;
   stroke?: string;
+  className?: string;
 }
 
 export default function WeatherIcon({
@@ -12,6 +13,7 @@ export default function WeatherIcon({
   size = 24,
   fill = 'currentColor',
   stroke = 'currentColor',
+  className,
   ...props
 }: IconProps) {
   const SVGIcon = weatherIconMap[name];
@@ -22,6 +24,7 @@ export default function WeatherIcon({
       height={size}
       fill={fill}
       stroke={stroke}
+      className={className}
       {...props}
     />
   );

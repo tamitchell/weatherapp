@@ -56,7 +56,17 @@ export const themeStyles = {
   complementaryOffset:
     'bg-background-secondary text-foreground dark:bg-background-secondary dark:text-primary',
   text: 'text-foreground dark:text-primary',
-  card: 'bg-background text-foreground dark:bg-background dark:text-primary dark:gradient-border',
+  card: 'bg-background text-foreground dark:bg-background dark:text-primary text-foreground dark:text-primary dark:gradient-border',
   gridCard:
     'bg-background-tertiary text-foreground dark:bg-background-secondary dark:text-primary',
 };
+
+export const glassStyles = {
+  card: 'glass-panel glass-panel-hover p-4 rounded-sm',
+  complementaryOffset: 'glass-panel backdrop-blur-lg p-2 rounded-sm',
+  interactiveCard: 'glass-panel glass-panel-hover glass-shimmer rounded-sm',
+  text: 'text-foreground/90 dark:text-primary/90',
+  gridCard: 'glass-panel p-4 rounded-sm h-[clamp(130px,20vw,140px)] glass-panel-hover',
+  detailsPanel: 'glass-panel backdrop-blur-2xl rounded-2xl p-4 glass-panel-hover',
+  contentPanel: 'glass-panel backdrop-blur-md p-6 rounded-xl',
+}

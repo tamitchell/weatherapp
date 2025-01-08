@@ -32,11 +32,11 @@ export default memo(function DayForecast({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
-        className={clsx(themeStyles.card, 'forecast-card rounded-sm')}
+        className={clsx(themeStyles.card, themeStyles.text, 'forecast-card rounded-sm min-w-[250px]')}
       >
         <div
           key={index}
-          className=" min-w-[250px] h-[320px] p-2 flex flex-col gap-2 justify-between rounded-lg shadow-lg text-center"
+          className="  h-[320px] p-2 flex flex-col gap-2 justify-between rounded-lg shadow-lg text-center"
         >
           <p
             data-testid={`forecast-date-${index}`}
@@ -47,14 +47,12 @@ export default memo(function DayForecast({
           <div className="flex flex-col items-center gap-2">
             <div
               data-testid={`forecast-weather-${index}`}
-              className="flex flex-col items-center"
+              className={clsx(themeStyles.text, "flex flex-col items-center")}
             >
               <WeatherIcon
                 data-testid={`weather-icon-${index}`}
                 name={weather[0].icon}
                 size={56}
-                fill="transparent"
-                // stroke="black"
               />
               <MainTemperatureDisplay
                 data-testid={`main-temp-${index}`}
