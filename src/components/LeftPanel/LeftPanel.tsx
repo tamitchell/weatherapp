@@ -36,7 +36,7 @@ export default function LeftPanel() {
   }
 
   return (
-  <div className="p-4 w-full h-full flex flex-col">
+    <div className="p-4 w-full h-full flex flex-col">
       <LeftPanelHeader units={units} onUnitChange={handleUnitChange} />
 
       {currentWeather && forecast && airQuality && (

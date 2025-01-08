@@ -57,5 +57,6 @@ export const themeStyles = {
     'bg-background-secondary text-foreground dark:bg-background-secondary dark:text-primary',
   text: 'text-foreground dark:text-primary',
   card: 'bg-background text-foreground dark:bg-background dark:text-primary dark:gradient-border',
-  gridCard: 'bg-background-tertiary text-foreground dark:bg-background-secondary dark:text-primary',
+  gridCard:
+    'bg-background-tertiary text-foreground dark:bg-background-secondary dark:text-primary',
 };

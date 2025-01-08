@@ -181,25 +181,25 @@
 
 @layer utilities {
   .neumorphic-shadow {
-    box-shadow: 
+    box-shadow:
       -5px -5px 10px rgba(255, 255, 255, 0.8),
       5px 5px 10px rgba(0, 0, 0, 0.05);
   }
 
   .neumorphic-inset {
-    box-shadow: 
+    box-shadow:
       inset -5px -5px 10px rgba(255, 255, 255, 0.8),
       inset 5px 5px 10px rgba(0, 0, 0, 0.05);
   }
 
   .dark .neumorphic-shadow {
-    box-shadow: 
+    box-shadow:
       -5px -5px 10px rgba(255, 255, 255, 0.05),
       5px 5px 10px rgba(0, 0, 0, 0.5);
   }
 
   .dark .neumorphic-inset {
-    box-shadow: 
+    box-shadow:
       inset -5px -5px 10px rgba(255, 255, 255, 0.05),
       inset 5px 5px 10px rgba(0, 0, 0, 0.5);
   }

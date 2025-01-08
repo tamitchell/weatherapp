@@ -15,7 +15,7 @@ const config: Config = {
     'bg-background',
     'dark:bg-background',
     'bg-card',
-    'dark:bg-card'
+    'dark:bg-card',
   ],
   theme: {
     fontSize: {
