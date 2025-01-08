@@ -26,7 +26,7 @@ describe('TemperatureRange Component', () => {
     // Check if the low temperature is displayed correctly
     const lowTemp = screen.getByText('32°F');
     expect(lowTemp).toBeInTheDocument();
-    expect(lowTemp).toHaveClass('text-black'); // No special color for normal temps
+    expect(lowTemp).toHaveClass('text-foreground'); // No special color for normal temps
 
     // Check if the high temperature is displayed correctly
     const highTemp = screen.getByText('100°F');

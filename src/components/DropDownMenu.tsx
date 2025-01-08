@@ -31,8 +31,8 @@ export default function DropdownMenu(): JSX.Element {
     <div className="relative inline-block text-left ml-auto" ref={dropdownRef}>
       <button
         className={clsx(
-          'rounded-md hover:bg-gray-100 p-2',
-          isOpen ? 'bg-gray-100' : ''
+          'rounded-md hover:bg-background-secondary p-2',
+          isOpen ? 'bg-background-secondary' : ''
         )}
         onClick={toggleDropdown}
       >
@@ -41,9 +41,9 @@ export default function DropdownMenu(): JSX.Element {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-1 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-10 focus:outline-none">
+        <div className="absolute right-0 mt-1 w-48 origin-top-right rounded-md bg-background shadow-lg ring-1 ring-black ring-opacity-5 z-10 focus:outline-none">
           <div className="py-1">
-            {/* <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            {/* <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-background-secondary">
               Change Units:  <Toggle
               isOn={units === 'metric'}
               onToggle={handleUnitChange}

@@ -145,10 +145,10 @@ describe('OutfitRecommendation', () => {
     it('has correct layout structure', () => {
       const container = screen.getByTestId('outfit-recommendation');
       expect(container).toHaveClass(
-        'bg-white',
+        'bg-background',
         'p-4',
         'rounded-md',
-        'text-black',
+        'text-foreground',
         'flex',
         'flex-row',
         'items-start',

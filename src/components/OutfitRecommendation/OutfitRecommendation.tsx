@@ -5,6 +5,8 @@ import Icon from '../Icon/Icon';
 import WordReveal from '../WordReveal/WordReveal';
 import { memo } from 'react';
 import OutfitRecommendationSkeletonLoader from '../Skeletons/OutfitRecommendationSkeletonLoader';
+import clsx from 'clsx';
+import { themeStyles } from 'src/styles/styles';
 
 type OutfitRecommendationProps = OutfitRecommendationQueryProps;
 
@@ -24,25 +26,37 @@ export default memo(function OutfitRecommendation({
   if (isLoading) return <OutfitRecommendationSkeletonLoader />;
 
   return (
-    <div
-      data-testid="outfit-recommendation"
-      className="bg-white p-4 rounded-md text-black flex flex-row items-start gap-4 p-4"
-    >
-      <div className="m-2">
-        <button className="bg-black rounded-md w-[4em] h-[4em] self-start p-4">
-          <Icon name="tshirt" size={32} fill="white" />
-        </button>
-      </div>
-
-      <div className="">
-        <h3 className="font-medium text-lg italic mb-4">
-          {"Today's clothing tip..."}
-        </h3>
-        {error || !data ? (
-          <p>Unable to load clothing recommendation</p>
-        ) : (
-          <WordReveal text={data.recommendation} />
+    <div className="w-full flex flex-col gap-2">
+      <h4
+        className={clsx(themeStyles.text, 'text-lg font-semibold w-full')}
+        data-testid="forecast-heading"
+      >
+        {"Today's Clothing Tip"}
+      </h4>
+      <div
+        data-testid="outfit-recommendation"
+        className={clsx(
+          themeStyles.card,
+          ' p-4 rounded-md text-foreground flex flex-row items-center gap-4 p-4'
         )}
+      >
+        <div className="m-2 bg-foreground dark:bg-muted-foreground rounded-md">
+          <button
+            className={clsx(
+              'dark:text-secondary-foreground text-primary-foreground w-[4em] h-[4em] self-start p-4'
+            )}
+          >
+            <Icon name="tshirt" size={32} />
+          </button>
+        </div>
+
+        <div className="">
+          {error || !data ? (
+            <p>Unable to load clothing recommendation</p>
+          ) : (
+            <WordReveal text={data.recommendation} />
+          )}
+        </div>
       </div>
     </div>
   );

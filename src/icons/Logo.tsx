@@ -1,3 +1,5 @@
+import { themeStyles } from 'src/styles/styles';
+
 export default function Logo({
   width,
   height,
@@ -13,6 +15,7 @@ export default function Logo({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       role="site logo"
+      className={themeStyles.text}
       aria-label="First Watch Weather"
     >
       <title>First Watch Weather logo</title>

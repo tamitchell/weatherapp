@@ -19,7 +19,7 @@ export default memo(function LeftPanelHeader({
       <div
         className={clsx(
           'flex items-center justify-start space-between flex-wrap',
-          'w-full text-black h-[3.5em]'
+          'w-full text-foreground h-[3.5em]'
         )}
       >
         <Logo width={250} height={18} />
@@ -29,7 +29,10 @@ export default memo(function LeftPanelHeader({
         </div>
       </div>
       <div
-        className={clsx(baseStyles.flexCenter, 'w-full text-black h-[3.5em]')}
+        className={clsx(
+          baseStyles.flexCenter,
+          'w-full text-foreground h-[3.5em]'
+        )}
       >
         <Search />
       </div>
