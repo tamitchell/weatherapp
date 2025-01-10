@@ -47,7 +47,9 @@ export default function WordReveal({ text }: { text: string }) {
   };
 
   return (
-    <span className="inline">
+    <>
+    <span className='sr-only'>{text}</span>
+    <span className="inline" aria-hidden="true">
       {words.map((word, index) => (
         <motion.span
           key={index}
@@ -65,5 +67,6 @@ export default function WordReveal({ text }: { text: string }) {
         </motion.span>
       ))}
     </span>
+    </>
   );
 }

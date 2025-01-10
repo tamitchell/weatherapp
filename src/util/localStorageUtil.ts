@@ -1,4 +1,5 @@
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { Theme } from 'src/types/types';
 
 export const createQueryPersister = () => {
   if (typeof window === 'undefined') return null;
@@ -9,19 +10,38 @@ export const createQueryPersister = () => {
   });
 };
 
-export const themeStorage = {
-  get: (): 'light' | 'dark' => {
+const getSystemTheme = (): Theme => {
+  try {
+    // Check if window is defined (for SSR)
     if (typeof window === 'undefined') return 'light';
-
-    const theme = localStorage.getItem('theme');
-    if (theme === 'light' || theme === 'dark') return theme;
-
+    
+    // Check if matchMedia is available
+    if (!window.matchMedia) return 'light';
+    
     return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
       : 'light';
-  },
+  } catch (error) {
+    console.warn('Error detecting system theme:', error);
+    return 'light';
+  }
+};
 
-  set: (theme: 'light' | 'dark') => {
+export const themeStorage = {
+  get: (): Theme => {
+    if (typeof window === 'undefined') return 'light';
+    
+    // First check localStorage
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      return storedTheme;
+    }
+
+    // If no, Fallback
+    return getSystemTheme();
+  },
+  
+  set: (theme: Theme) => {
     if (typeof window === 'undefined') return;
     localStorage.setItem('theme', theme);
   },

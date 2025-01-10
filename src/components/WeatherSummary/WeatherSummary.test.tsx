@@ -63,17 +63,23 @@ describe('WeatherSummary - Data Flow', () => {
 
   it('passes the correct data to FeelsLikeTemperature', () => {
     render(<WeatherSummary {...mockProps} />);
-    expect(mockFeelsLikeTemperature).toHaveBeenCalledWith({
-      feelsLike: 70,
-      units: 'imperial',
-    });
+    expect(mockFeelsLikeTemperature).toHaveBeenCalledWith(
+      expect.objectContaining({
+        feelsLike: 70,
+        units: 'imperial',
+        className: expect.any(String)
+      })
+    );
   });
 
   it('passes the correct data to WeatherDescription', () => {
     render(<WeatherSummary {...mockProps} />);
-    expect(mockWeatherDescription).toHaveBeenCalledWith({
-      description: 'clear sky',
-    });
+    expect(mockWeatherDescription).toHaveBeenCalledWith(
+      expect.objectContaining({
+        description: 'clear sky',
+        className: expect.any(String)
+      })
+    );
   });
 
   it('correctly transforms data for metric units', () => {
@@ -90,6 +96,7 @@ describe('WeatherSummary - Data Flow', () => {
     expect(mockFeelsLikeTemperature).toHaveBeenCalledWith({
       feelsLike: 70,
       units: 'metric',
+      className: expect.any(String),
     });
   });
 });

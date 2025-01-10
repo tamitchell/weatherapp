@@ -48,7 +48,7 @@ export default function WeatherDetailsGrid({
             themeStyles.complementaryOffset,
             'rounded-sm',
             'flex flex-col items-center justify-between',
-            'p-4',
+            'px-2 py-4',
             'h-[clamp(130px,20vw,140px)]',
             'w-full',
             'relative'
@@ -62,7 +62,7 @@ export default function WeatherDetailsGrid({
           <div className="font-bold text-md text-center text-gray-800/90 dark:text-white/90 relative z-10">
             {detail.value}
           </div>
-          <div className="text-xs text-gray-600/80 dark:text-gray-300/80 relative z-10">
+          <div className="text-xs text-gray-600/80 dark:text-gray-300/80 relative z-10 text-center">
             {detail.title}
           </div>
         </div>

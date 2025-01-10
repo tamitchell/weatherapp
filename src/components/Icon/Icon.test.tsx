@@ -47,11 +47,11 @@ describe('Icon', () => {
     );
   });
 
-  it('applies default fill color', () => {
+  it('applies default fill color as currentColor', () => {
     render(<Icon name="visibility" />);
     expect(iconMap.visibility).toHaveBeenCalledWith(
       expect.objectContaining({
-        fill: 'black',
+        fill: 'currentColor',
       }),
       expect.anything()
     );
