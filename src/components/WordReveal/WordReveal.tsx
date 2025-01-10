@@ -48,25 +48,25 @@ export default function WordReveal({ text }: { text: string }) {
 
   return (
     <>
-    <span className='sr-only'>{text}</span>
-    <span className="inline" aria-hidden="true">
-      {words.map((word, index) => (
-        <motion.span
-          key={index}
-          className="inline-block mr-[0.25em]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: 0.3,
-            delay: getDelay(index),
-            ease: 'easeOut',
-          }}
-          data-testid={`word-${index}`}
-        >
-          {word}
-        </motion.span>
-      ))}
-    </span>
+      <span className="sr-only">{text}</span>
+      <span className="inline" aria-hidden="true">
+        {words.map((word, index) => (
+          <motion.span
+            key={index}
+            className="inline-block mr-[0.25em]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.3,
+              delay: getDelay(index),
+              ease: 'easeOut',
+            }}
+            data-testid={`word-${index}`}
+          >
+            {word}
+          </motion.span>
+        ))}
+      </span>
     </>
   );
 }

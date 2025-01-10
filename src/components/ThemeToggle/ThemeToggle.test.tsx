@@ -12,7 +12,7 @@ import { HTMLMotionProps } from 'framer-motion';
 const mockMatchMedia = (matches: boolean) => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
-    value: jest.fn().mockImplementation(query => ({
+    value: jest.fn().mockImplementation((query) => ({
       matches,
       media: query,
       onchange: null,
@@ -74,7 +74,7 @@ describe('ThemeToggle', () => {
     // Clear localStorage and DOM classes before each test
     localStorage.clear();
     document.documentElement.classList.remove('light', 'dark');
-    
+
     // Default to light theme preference
     mockMatchMedia(false);
   });
@@ -82,7 +82,7 @@ describe('ThemeToggle', () => {
   it('shows sun icon when in dark mode', () => {
     // Set dark theme preference
     localStorage.setItem('theme', 'dark');
-    
+
     render(
       <ThemeProvider>
         <ThemeToggle />
@@ -93,8 +93,7 @@ describe('ThemeToggle', () => {
     expect(screen.queryByTestId('icon-theme_moon')).not.toBeInTheDocument();
   });
 
-
- it('toggles theme when clicked', () => {
+  it('toggles theme when clicked', () => {
     render(
       <ThemeProvider>
         <ThemeToggle />
@@ -116,7 +115,7 @@ describe('ThemeToggle', () => {
   it('respects system dark mode preference', () => {
     // Mock system dark mode preference
     mockMatchMedia(true);
-    
+
     render(
       <ThemeProvider>
         <ThemeToggle />

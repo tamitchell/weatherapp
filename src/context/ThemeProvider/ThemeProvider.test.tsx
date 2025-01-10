@@ -2,12 +2,11 @@ import { render, screen, act } from '@testing-library/react';
 import { ThemeProvider, useTheme } from './ThemeProvider';
 import { WeatherData } from 'src/types/types';
 
-
 // Mock matchMedia
 const mockMatchMedia = (matches: boolean) => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
-    value: jest.fn().mockImplementation(query => ({
+    value: jest.fn().mockImplementation((query) => ({
       matches,
       media: query,
       onchange: null,
@@ -110,7 +109,7 @@ describe('ThemeProvider', () => {
 
   it('toggles theme correctly', () => {
     mockMatchMedia(false);
-    
+
     render(
       <ThemeProvider>
         <TestComponent />
@@ -131,7 +130,7 @@ describe('ThemeProvider', () => {
 
   it('persists theme changes to localStorage', () => {
     mockMatchMedia(false);
-    
+
     render(
       <ThemeProvider>
         <TestComponent />
@@ -153,16 +152,12 @@ describe('ThemeProvider', () => {
 
     it('switches to dark theme after sunset', () => {
       const currentTime = 1700000000; // After sunset
-      const sunrise = 1699950000;    // Early sunrise
-      const sunset = 1699990000;     // Early sunset
-      
+      const sunrise = 1699950000; // Early sunrise
+      const sunset = 1699990000; // Early sunset
+
       mockTime(currentTime);
-      
-      const mockWeather = createMockWeatherData(
-        currentTime,
-        sunrise,
-        sunset
-      );
+
+      const mockWeather = createMockWeatherData(currentTime, sunrise, sunset);
 
       render(
         <ThemeProvider weatherData={mockWeather}>
@@ -175,16 +170,12 @@ describe('ThemeProvider', () => {
 
     it('switches to light theme after sunrise', () => {
       const currentTime = 1699970000; // During day
-      const sunrise = 1699950000;    // Early sunrise
-      const sunset = 1699990000;     // Later sunset
-      
+      const sunrise = 1699950000; // Early sunrise
+      const sunset = 1699990000; // Later sunset
+
       mockTime(currentTime);
-      
-      const mockWeather = createMockWeatherData(
-        currentTime,
-        sunrise,
-        sunset
-      );
+
+      const mockWeather = createMockWeatherData(currentTime, sunrise, sunset);
 
       render(
         <ThemeProvider weatherData={mockWeather}>
@@ -197,17 +188,13 @@ describe('ThemeProvider', () => {
 
     it('schedules theme switch for next sunrise', () => {
       const currentTime = 1700000000; // Night time
-      const sunrise = 1699950000;    // Prev sunrise
-      const sunset = 1699990000;     // Prev sunset
+      const sunrise = 1699950000; // Prev sunrise
+      const sunset = 1699990000; // Prev sunset
       const nextSunrise = sunrise + 24 * 60 * 60; // Next day sunrise
-      
+
       mockTime(currentTime);
-      
-      const mockWeather = createMockWeatherData(
-        currentTime,
-        sunrise,
-        sunset
-      );
+
+      const mockWeather = createMockWeatherData(currentTime, sunrise, sunset);
 
       render(
         <ThemeProvider weatherData={mockWeather}>
@@ -233,9 +220,9 @@ describe('ThemeProvider', () => {
       const sunrise = 1699950000;
       const sunset = 1699990000;
       const timezone = 3600; // UTC+1
-      
+
       mockTime(currentTime);
-      
+
       const mockWeather = createMockWeatherData(
         currentTime,
         sunrise,
@@ -257,14 +244,10 @@ describe('ThemeProvider', () => {
       const currentTime = 1699970000; // During day
       const sunrise = 1699950000;
       const sunset = 1699990000;
-      
+
       mockTime(currentTime);
-      
-      const mockWeather = createMockWeatherData(
-        currentTime,
-        sunrise,
-        sunset
-      );
+
+      const mockWeather = createMockWeatherData(currentTime, sunrise, sunset);
 
       render(
         <ThemeProvider weatherData={mockWeather}>

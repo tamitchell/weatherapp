@@ -16,18 +16,14 @@ import { useWeather } from 'src/hooks/useWeather';
 function WeatherDataProvider({ children }: { children: ReactNode }) {
   const { units } = useWeather();
   const { data: location } = useGeolocationQuery();
-  
+
   const { currentWeather } = useWeatherQuery({
     lat: location?.lat ?? DEFAULT_NY_LAT,
     lng: location?.lng ?? DEFAULT_NY_LNG,
     units,
   });
 
-  return (
-    <ThemeProvider weatherData={currentWeather}>
-      {children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider weatherData={currentWeather}>{children}</ThemeProvider>;
 }
 
 // This component wraps all client-side providers
@@ -71,10 +67,8 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>
-      <WeatherProvider>
-          <WeatherDataProvider>
-            {children}
-          </WeatherDataProvider>
+        <WeatherProvider>
+          <WeatherDataProvider>{children}</WeatherDataProvider>
         </WeatherProvider>
       </SnackbarProvider>
       <ReactQueryDevtools initialIsOpen={false} />

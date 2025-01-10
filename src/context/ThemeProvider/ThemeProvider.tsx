@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
   useCallback,
-  useRef
+  useRef,
 } from 'react';
 import { Theme, WeatherData } from 'src/types/types';
 import { themeStorage } from 'src/util/localStorageUtil';
@@ -16,12 +16,14 @@ interface ThemeContextType {
   autoTheme: boolean;
 }
 
-const calculateLocalTime = (timestamp: number, timezone: number = 0): number => {
+const calculateLocalTime = (
+  timestamp: number,
+  timezone: number = 0
+): number => {
   return timestamp + timezone;
 };
 
 const isNighttime = (weatherData?: WeatherData | null): boolean => {
-  
   if (!weatherData?.sys) {
     console.log('No weather data available');
     return false;
@@ -30,16 +32,16 @@ const isNighttime = (weatherData?: WeatherData | null): boolean => {
   const currentTime = Math.floor(Date.now() / 1000);
   const { sunrise, sunset } = weatherData.sys;
   const timezone = weatherData.timezone || 0;
-  
+
   // Adjust times for local timezone
   const localCurrentTime = currentTime + timezone;
   const localSunrise = sunrise + timezone;
   const localSunset = sunset + timezone;
 
-  const isDaytime = localCurrentTime >= localSunrise && localCurrentTime <= localSunset;
-    return !isDaytime;
+  const isDaytime =
+    localCurrentTime >= localSunrise && localCurrentTime <= localSunset;
+  return !isDaytime;
 };
-
 
 const getNextTransitionTime = (weatherData: WeatherData): number | null => {
   if (!weatherData?.sys) {
@@ -52,7 +54,9 @@ const getNextTransitionTime = (weatherData: WeatherData): number | null => {
   const timezone = weatherData.timezone || 0;
   const dayLength = 24 * 60 * 60;
 
-  console.log(`getNextTransitionTime: currentTime=${currentTime}, sunrise=${sunrise}, sunset=${sunset}, timezone=${timezone}`);
+  console.log(
+    `getNextTransitionTime: currentTime=${currentTime}, sunrise=${sunrise}, sunset=${sunset}, timezone=${timezone}`
+  );
 
   const localCurrentTime = calculateLocalTime(currentTime, timezone);
   const localSunrise = calculateLocalTime(sunrise, timezone);
@@ -65,27 +69,36 @@ const getNextTransitionTime = (weatherData: WeatherData): number | null => {
   // If we're past today's sunrise, get tomorrow's
   if (localCurrentTime >= localSunrise) {
     nextSunrise += dayLength;
-    console.log(`Current time past sunrise, using tomorrow's sunrise: ${nextSunrise}`);
+    console.log(
+      `Current time past sunrise, using tomorrow's sunrise: ${nextSunrise}`
+    );
   }
 
   // If we're past today's sunset, get tomorrow's
   if (localCurrentTime >= localSunset) {
     nextSunset += dayLength;
-    console.log(`Current time past sunset, using tomorrow's sunset: ${nextSunset}`);
+    console.log(
+      `Current time past sunset, using tomorrow's sunset: ${nextSunset}`
+    );
   }
 
-  const nextTransition = localCurrentTime < localSunset ? localSunset : nextSunrise;
-  console.log(`getNextTransitionTime: localCurrentTime=${localCurrentTime}, nextSunrise=${nextSunrise}, nextSunset=${nextSunset}, nextTransition=${nextTransition}`);
-  
+  const nextTransition =
+    localCurrentTime < localSunset ? localSunset : nextSunrise;
+  console.log(
+    `getNextTransitionTime: localCurrentTime=${localCurrentTime}, nextSunrise=${nextSunrise}, nextSunset=${nextSunset}, nextTransition=${nextTransition}`
+  );
+
   return nextTransition;
 };
 
-export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined
+);
 
-export function ThemeProvider({ 
-  children, 
-  weatherData 
-}: { 
+export function ThemeProvider({
+  children,
+  weatherData,
+}: {
   children: ReactNode;
   weatherData?: WeatherData | null;
 }) {
@@ -95,12 +108,11 @@ export function ThemeProvider({
     return localStorage.getItem('autoTheme') === 'true';
   });
 
-
   const timeoutRef = useRef<NodeJS.Timeout>();
 
   const updateThemeBasedOnTime = useCallback(() => {
     if (!weatherData || !autoTheme) return;
-    
+
     const shouldBeDark = isNighttime(weatherData);
     setTheme(shouldBeDark ? 'dark' : 'light');
 
@@ -155,18 +167,20 @@ export function ThemeProvider({
     if (autoTheme) {
       setAutoTheme(false);
     }
-    setTheme(prevTheme => {
+    setTheme((prevTheme) => {
       const newTheme = prevTheme === 'light' ? 'dark' : 'light';
       return newTheme;
     });
   };
 
   return (
-    <ThemeContext.Provider value={{
-      theme,
-      toggleTheme,
-      autoTheme
-    }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        toggleTheme,
+        autoTheme,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

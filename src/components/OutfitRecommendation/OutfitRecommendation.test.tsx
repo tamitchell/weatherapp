@@ -65,8 +65,8 @@ describe('OutfitRecommendation', () => {
       probability: 0,
       type: 'none' as const,
       rainAmount: 0,
-      snowAmount: 0
-    }
+      snowAmount: 0,
+    },
   };
   const mockWeatherData = {
     currentWeather: {
@@ -110,12 +110,14 @@ describe('OutfitRecommendation', () => {
     expect(screen.getByTestId('icon-tshirt')).toBeInTheDocument();
 
     // Confirm the recommendation text is displayed
-    expect(screen.getByText(mockOutfitRecommendation.recommendation)).toBeInTheDocument();
+    expect(
+      screen.getByText(mockOutfitRecommendation.recommendation)
+    ).toBeInTheDocument();
   });
 
   it('maintains proper layout structure', () => {
     renderWithProviders(<OutfitRecommendation {...mockProps} />);
-    
+
     // Check main container has proper structure
     const container = screen.getByTestId('outfit-recommendation');
     expect(container).toHaveClass(
@@ -132,21 +134,25 @@ describe('OutfitRecommendation', () => {
     (useOutfitRecommendationQuery as jest.Mock).mockReturnValue({
       data: null,
       isLoading: true,
-      error: null
+      error: null,
     });
 
     renderWithProviders(<OutfitRecommendation {...mockProps} />);
-    expect(screen.getByTestId('outfit-recommendation-skeleton')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('outfit-recommendation-skeleton')
+    ).toBeInTheDocument();
   });
 
   it('renders error state correctly', () => {
     (useOutfitRecommendationQuery as jest.Mock).mockReturnValue({
       data: null,
       isLoading: false,
-      error: new Error('Failed to fetch')
+      error: new Error('Failed to fetch'),
     });
 
     renderWithProviders(<OutfitRecommendation {...mockProps} />);
-    expect(screen.getByText('Unable to load clothing recommendation')).toBeInTheDocument();
+    expect(
+      screen.getByText('Unable to load clothing recommendation')
+    ).toBeInTheDocument();
   });
 });

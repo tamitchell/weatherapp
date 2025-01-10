@@ -67,7 +67,7 @@ describe('WeatherSummary - Data Flow', () => {
       expect.objectContaining({
         feelsLike: 70,
         units: 'imperial',
-        className: expect.any(String)
+        className: expect.any(String),
       })
     );
   });
@@ -77,7 +77,7 @@ describe('WeatherSummary - Data Flow', () => {
     expect(mockWeatherDescription).toHaveBeenCalledWith(
       expect.objectContaining({
         description: 'clear sky',
-        className: expect.any(String)
+        className: expect.any(String),
       })
     );
   });

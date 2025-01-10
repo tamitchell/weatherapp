@@ -14,10 +14,10 @@ const getSystemTheme = (): Theme => {
   try {
     // Check if window is defined (for SSR)
     if (typeof window === 'undefined') return 'light';
-    
+
     // Check if matchMedia is available
     if (!window.matchMedia) return 'light';
-    
+
     return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
       : 'light';
@@ -30,7 +30,7 @@ const getSystemTheme = (): Theme => {
 export const themeStorage = {
   get: (): Theme => {
     if (typeof window === 'undefined') return 'light';
-    
+
     // First check localStorage
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme === 'light' || storedTheme === 'dark') {
@@ -40,7 +40,7 @@ export const themeStorage = {
     // If no, Fallback
     return getSystemTheme();
   },
-  
+
   set: (theme: Theme) => {
     if (typeof window === 'undefined') return;
     localStorage.setItem('theme', theme);
