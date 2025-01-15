@@ -1162,11 +1162,6 @@ body {
   border-color: hsl(var(--primary));
 }
 
-.border-black {
-  --tw-border-opacity: 1;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity, 1));
-}
-
 .bg-background {
   background-color: hsl(var(--background));
 }
@@ -1197,11 +1192,6 @@ body {
 
 .bg-muted {
   background-color: hsl(var(--muted));
-}
-
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
 .p-1 {
@@ -1406,6 +1396,20 @@ body {
     fill 0.1s ease-in-out,
     stroke 0.1s ease-in-out,
     opacity 0.1s ease-in-out;
+}
+
+/* Transition for theme changes */
+
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    fill 0.3s ease-in-out,
+    stroke 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
 }
 
 .custom-place-picker {
