@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ThemeToggle from './ThemeToggle';
 import { ThemeProvider } from 'src/context/ThemeProvider/ThemeProvider';
 import {
@@ -8,6 +8,20 @@ import {
   PropsWithChildren,
 } from 'react';
 import { HTMLMotionProps } from 'framer-motion';
+
+const mockMatchMedia = (matches: boolean) => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches,
+      media: query,
+      onchange: null,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+};
 
 // Mock icon
 jest.mock('../Icon/Icon', () => ({
@@ -56,31 +70,80 @@ jest.mock('framer-motion', () => ({
 }));
 
 describe('ThemeToggle', () => {
-  it('shows correct icon for current theme', () => {
-    render(
-      <ThemeProvider>
-        <ThemeToggle />
-      </ThemeProvider>
-    );
+  beforeEach(() => {
+    // Clear localStorage and DOM classes before each test
+    localStorage.clear();
+    document.documentElement.classList.remove('light', 'dark');
 
-    // Default to light theme, should show moon icon
-    expect(screen.getByTestId('icon-theme_moon')).toBeInTheDocument();
-    expect(screen.queryByTestId('icon-theme_sun')).not.toBeInTheDocument();
+    // Default to light theme preference
+    mockMatchMedia(false);
   });
 
-  it('toggles theme when clicked', async () => {
+  it('shows sun icon when in dark mode', () => {
+    // Set dark theme preference
+    localStorage.setItem('theme', 'dark');
+
     render(
       <ThemeProvider>
         <ThemeToggle />
       </ThemeProvider>
     );
 
-    const button = screen.getByRole('button');
-    await button.click();
-
-    // Should now show sun icon for dark theme
     expect(screen.getByTestId('icon-theme_sun')).toBeInTheDocument();
     expect(screen.queryByTestId('icon-theme_moon')).not.toBeInTheDocument();
+  });
+
+  it('toggles theme when clicked', () => {
+    render(
+      <ThemeProvider>
+        <ThemeToggle />
+      </ThemeProvider>
+    );
+
+    // Should start with moon icon (light theme)
+    expect(screen.getByTestId('icon-theme_moon')).toBeInTheDocument();
+
+    // Click the toggle
+    const toggle = screen.getByRole('button');
+    fireEvent.click(toggle);
+
+    // Should now show sun icon (dark theme)
+    expect(screen.getByTestId('icon-theme_sun')).toBeInTheDocument();
+    expect(screen.queryByTestId('icon-theme_moon')).not.toBeInTheDocument();
+  });
+
+  it('respects system dark mode preference', () => {
+    // Mock system dark mode preference
+    mockMatchMedia(true);
+
+    render(
+      <ThemeProvider>
+        <ThemeToggle />
+      </ThemeProvider>
+    );
+
+    // Should show sun icon for dark mode
+    expect(screen.getByTestId('icon-theme_sun')).toBeInTheDocument();
+    expect(screen.queryByTestId('icon-theme_moon')).not.toBeInTheDocument();
+  });
+
+  it('persists theme preference to localStorage', () => {
+    render(
+      <ThemeProvider>
+        <ThemeToggle />
+      </ThemeProvider>
+    );
+
+    // Click the toggle to switch to dark mode
+    const toggle = screen.getByRole('button');
+    fireEvent.click(toggle);
+
+    // Check localStorage
+    expect(localStorage.getItem('theme')).toBe('dark');
+
+    // Click again to switch back to light mode
+    fireEvent.click(toggle);
+    expect(localStorage.getItem('theme')).toBe('light');
   });
 
   it('has correct aria-label', () => {

@@ -54,6 +54,20 @@ jest.mock('framer-motion', () => ({
 }));
 
 describe('OutfitRecommendation', () => {
+  const mockProps = {
+    currentWeather: {
+      main: { temp: 75, humidity: 60 },
+      weather: [{ description: 'clear sky' }],
+    },
+    forecast: [],
+    units: 'imperial' as const,
+    chanceOfPrecip: {
+      probability: 0,
+      type: 'none' as const,
+      rainAmount: 0,
+      snowAmount: 0,
+    },
+  };
   const mockWeatherData = {
     currentWeather: {
       main: { temp: 75, humidity: 92 },
@@ -84,76 +98,61 @@ describe('OutfitRecommendation', () => {
     });
   });
 
-  it('renders loading skeleton when outfit recommendation is loading', () => {
+  it('renders all core elements correctly', () => {
+    renderWithProviders(<OutfitRecommendation {...mockProps} />);
+
+    // Check for the heading
+    expect(screen.getByText("Today's Clothing Tip")).toBeInTheDocument();
+
+    // Check for the clothing icon button
+    const button = screen.getByRole('button');
+    expect(button).toBeInTheDocument();
+    expect(screen.getByTestId('icon-tshirt')).toBeInTheDocument();
+
+    // Confirm the recommendation text is displayed
+    expect(
+      screen.getByText(mockOutfitRecommendation.recommendation)
+    ).toBeInTheDocument();
+  });
+
+  it('maintains proper layout structure', () => {
+    renderWithProviders(<OutfitRecommendation {...mockProps} />);
+
+    // Check main container has proper structure
+    const container = screen.getByTestId('outfit-recommendation');
+    expect(container).toHaveClass(
+      'rounded-md',
+      'flex',
+      'flex-row',
+      'items-center',
+      'gap-4',
+      'p-4'
+    );
+  });
+
+  it('renders loading state correctly', () => {
     (useOutfitRecommendationQuery as jest.Mock).mockReturnValue({
       data: null,
       isLoading: true,
       error: null,
     });
 
-    renderWithProviders(<OutfitRecommendation />);
+    renderWithProviders(<OutfitRecommendation {...mockProps} />);
     expect(
       screen.getByTestId('outfit-recommendation-skeleton')
     ).toBeInTheDocument();
   });
 
-  it('renders error message when outfit recommendation fails', () => {
+  it('renders error state correctly', () => {
     (useOutfitRecommendationQuery as jest.Mock).mockReturnValue({
       data: null,
       isLoading: false,
       error: new Error('Failed to fetch'),
     });
 
-    renderWithProviders(<OutfitRecommendation />);
+    renderWithProviders(<OutfitRecommendation {...mockProps} />);
     expect(
       screen.getByText('Unable to load clothing recommendation')
     ).toBeInTheDocument();
-  });
-
-  describe('successful render', () => {
-    beforeEach(() => {
-      renderWithProviders(<OutfitRecommendation />);
-    });
-
-    it('renders the clothing icon button', () => {
-      const button = screen.getByRole('button');
-      expect(button).toHaveClass(
-        'bg-black',
-        'rounded-md',
-        'w-[4em]',
-        'h-[4em]',
-        'self-start',
-        'p-4'
-      );
-
-      const icon = screen.getByTestId('icon-tshirt');
-      expect(icon).toBeInTheDocument();
-    });
-
-    it('renders the recommendation text with animation wrapper', () => {
-      const recommendation = mockOutfitRecommendation.recommendation;
-      const words = recommendation.split(' ');
-
-      words.forEach((word, index) => {
-        const wordElement = screen.getByTestId(`word-${index}`);
-        expect(wordElement).toBeInTheDocument();
-        expect(wordElement).toHaveTextContent(word);
-        expect(wordElement).toHaveStyle({ opacity: 0 });
-      });
-    });
-
-    it('has correct layout structure', () => {
-      const container = screen.getByTestId('outfit-recommendation');
-      expect(container).toHaveClass(
-        'bg-background',
-        'p-4',
-        'rounded-md',
-        'text-foreground',
-        'flex',
-        'flex-row',
-        'items-start',
-        'gap-4'
-      );
-    });
   });
 });

@@ -23,6 +23,7 @@ export default function ThemeToggle() {
       whileTap={{ scale: 0.95 }}
       data-testid="theme-toggle"
     >
+      <span className="sr-only">Auto theme</span>
       <motion.span
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
