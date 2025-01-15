@@ -7,6 +7,7 @@ export default function Humidity({ size, color, className = '' }: IconProps) {
       size={size}
       color={color}
       className={`humidity-icon ${className}`}
+      data-testid="humidity-icon"
     >
       <title>Humidity icon</title>
 

@@ -15,7 +15,9 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test-pre-push": "jest --watchAll=false",
+    "test-and-build": "yarn test-pre-push && yarn build"
   },
   "dependencies": {
     "@googlemaps/extended-component-library": "^0.6.11",

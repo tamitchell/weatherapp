@@ -1,1 +1,1 @@
-yarn type-check
+yarn test-and-build && yarn type-check

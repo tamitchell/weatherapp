@@ -31,7 +31,7 @@ export const buttonStyles = {
 
 export const inputStyles = {
   searchInput:
-    'border border-whitesmoke text-whitesmoke bg-transparent p-2 w-full h-12 pr-6 bg-no-repeat bg-right focus:outline-none',
+    'border border-whitesmoke text-primary-foregroundsmoke bg-transparent p-2 w-full h-12 pr-6 bg-no-repeat bg-right focus:outline-none',
 };
 
 export const imageStyles = {
@@ -50,4 +50,25 @@ export const weatherStyles = {
   summary:
     'absolute top-[85%] left-1/2 transform -translate-x-1/2 -translate-y-1/2',
   weatherDetails: clsx(baseStyles.flexRow, baseStyles.scroll),
+};
+
+export const themeStyles = {
+  complementaryOffset:
+    'bg-background-secondary text-foreground dark:bg-background-secondary dark:text-primary',
+  text: 'text-foreground dark:text-primary',
+  card: 'bg-background text-foreground dark:bg-background dark:text-primary text-foreground dark:text-primary dark:gradient-border',
+  gridCard:
+    'bg-background-tertiary text-foreground dark:bg-background-secondary dark:text-primary',
+};
+
+export const glassStyles = {
+  card: 'glass-panel glass-panel-hover p-4 rounded-sm',
+  complementaryOffset: 'glass-panel backdrop-blur-lg p-2 rounded-sm',
+  interactiveCard: 'glass-panel glass-panel-hover glass-shimmer rounded-sm',
+  text: 'text-foreground/90 dark:text-primary/90',
+  gridCard:
+    'glass-panel p-4 rounded-sm h-[clamp(130px,20vw,140px)] glass-panel-hover',
+  detailsPanel:
+    'glass-panel backdrop-blur-2xl rounded-2xl p-4 glass-panel-hover',
+  contentPanel: 'glass-panel backdrop-blur-md p-6 rounded-xl',
 };

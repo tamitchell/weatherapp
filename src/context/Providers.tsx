@@ -7,10 +7,28 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { ThemeProvider } from './ThemeProvider/ThemeProvider';
+import { DEFAULT_NY_LAT, DEFAULT_NY_LNG } from 'src/data/defaultData';
+import { useGeolocationQuery } from 'src/hooks/queries/useGeolocationQuery';
+import useWeatherQuery from 'src/hooks/queries/useWeatherQuery';
+import { useWeather } from 'src/hooks/useWeather';
 
-// This component wraps all client-side providers
+function WeatherDataProvider({ children }: { children: ReactNode }) {
+  const { units } = useWeather();
+  const { data: location } = useGeolocationQuery();
+
+  const { currentWeather } = useWeatherQuery({
+    lat: location?.lat ?? DEFAULT_NY_LAT,
+    lng: location?.lng ?? DEFAULT_NY_LNG,
+    units,
+  });
+
+  return <ThemeProvider weatherData={currentWeather}>{children}</ThemeProvider>;
+}
+
+// This component wraps all clientside providers
 export default function Providers({ children }: { children: ReactNode }) {
-  //OpenWeather updates their states every 10 minutes
+  //OpenWeather updates every 10 minutes
   const queryClient = useMemo(
     () =>
       new QueryClient({
@@ -49,8 +67,9 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>
-        {' '}
-        <WeatherProvider>{children}</WeatherProvider>{' '}
+        <WeatherProvider>
+          <WeatherDataProvider>{children}</WeatherDataProvider>
+        </WeatherProvider>
       </SnackbarProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

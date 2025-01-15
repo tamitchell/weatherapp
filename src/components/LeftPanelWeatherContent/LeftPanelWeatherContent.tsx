@@ -9,7 +9,7 @@ import getAirQualityDescription from 'src/util/getAQIDescription/getAQIDescripti
 import DateDisplay from '../DateDisplay/DateDisplay';
 import { SkeletonLeftPanelLoader } from '../Skeletons/SkeletalLeftPanel';
 import TemperatureRange from '../TemperatureRange/TemperatureRange';
-import WeatherDetailsGrid from '../WeatherDetailsGrid';
+import WeatherDetailsGrid from '../WeatherDetailsGrid/WeatherDetailsGrid';
 import WeatherSummary from '../WeatherSummary/WeatherSummary';
 import { memo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
