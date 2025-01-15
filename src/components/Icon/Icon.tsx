@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { iconMap, IconName } from '../../data/iconMap';
 
 interface IconProps {
@@ -8,7 +9,7 @@ interface IconProps {
   className?: string;
 }
 
-export default function Icon({
+export default memo(function Icon({
   name,
   size = 24,
   stroke,
@@ -17,16 +18,16 @@ export default function Icon({
   ...props
 }: IconProps) {
   const SVGIcon = iconMap[name];
-
+  const testId = `icon-${name}`;
   return (
     <SVGIcon
       width={size}
       height={size}
       className={className}
       fill={fill}
-      data-testid={`icon-${name}`}
+      data-testid={testId}
       stroke={stroke}
       {...props}
     />
   );
-}
+})
