@@ -7,6 +7,7 @@ import {
 import { createWeatherDetails } from '../../util/createWeatherDetails/createWeatherDetails';
 import { themeStyles } from 'src/styles/styles';
 
+
 interface WeatherDetailsGridProps {
   chanceOfPrecip: PrecipitationForecast;
   humidity: number;
