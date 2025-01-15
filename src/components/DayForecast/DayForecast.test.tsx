@@ -9,13 +9,13 @@ jest.mock('../WeatherIcon/WeatherIcon', () => ({
   default: ({
     name,
     size,
-    fill,
-    stroke,
+    fill = 'currentColor',
+    stroke = 'currentColor',
   }: {
     name: string;
     size: number;
-    fill: string;
-    stroke: string;
+    fill?: string;
+    stroke?: string;
   }) => (
     <div data-testid="weather-icon">
       Icon: {name}, Size: {size}, Fill: {fill}, Stroke: {stroke}
@@ -89,7 +89,7 @@ describe('DayForecast', () => {
       '0.2-65-5-imperial-rain'
     );
     expect(screen.getByTestId('weather-icon')).toHaveTextContent(
-      'Icon: 01d, Size: 56, Fill: transparent, Stroke: black'
+      'Icon: 01d, Size: 56, Fill: currentColor, Stroke: currentColor'
     );
   });
 

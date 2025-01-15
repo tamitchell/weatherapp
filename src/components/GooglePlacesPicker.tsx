@@ -8,11 +8,12 @@ export default memo(function GooglePlacesPicker({
   handlePlaceChange: (e: Event) => void;
 }): JSX.Element {
   return (
-    <div className="custom-place-picker">
+    <div className="custom-place-picker w-full">
       <PlacePicker
         className={clsx(
-          'w-full h-full border-gray-300 text-gray-700 bg-gray-100 custom-place-picker',
-          'text-base leading-normal'
+          'w-full h-full',
+          'transition-colors duration-200',
+          'focus:outline-none focus:ring-2 focus:ring-ring'
         )}
         style={{
           fontSize: '16px', //prevent autozoom on ios/safari devices
