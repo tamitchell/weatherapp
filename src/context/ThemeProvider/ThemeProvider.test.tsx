@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, waitFor } from '@testing-library/react';
 import { ThemeProvider, useTheme } from './ThemeProvider';
 import { WeatherData } from 'src/types/types';
 
@@ -186,35 +186,76 @@ describe('ThemeProvider', () => {
       expect(screen.getByTestId('theme-value')).toHaveTextContent('light');
     });
 
-    it('schedules theme switch for next sunrise', () => {
+    it('schedules theme switch for next sunrise', async () => {
       const currentTime = 1700000000; // Night time
       const sunrise = 1699950000; // Prev sunrise
       const sunset = 1699990000; // Prev sunset
       const nextSunrise = sunrise + 24 * 60 * 60; // Next day sunrise
-
+    
+      // Add time debugging
+      console.log('Initial setup:', {
+        currentTime: new Date(currentTime * 1000),
+        sunrise: new Date(sunrise * 1000),
+        sunset: new Date(sunset * 1000),
+        nextSunrise: new Date(nextSunrise * 1000)
+      });
+    
       mockTime(currentTime);
-
+    
       const mockWeather = createMockWeatherData(currentTime, sunrise, sunset);
-
+    
       render(
         <ThemeProvider weatherData={mockWeather}>
           <TestComponent />
         </ThemeProvider>
       );
-
+    
       // Initially dark
       expect(screen.getByTestId('theme-value')).toHaveTextContent('dark');
-
-      // Advance time to next sunrise
+    
+      // Log before time advance
+      console.log('Before time advance - Current theme:', screen.getByTestId('theme-value').textContent);
+    
+      // Advance time to next sunrise with smaller increments to see state changes
       act(() => {
         mockTime(nextSunrise + 1);
-        jest.advanceTimersByTime((nextSunrise - currentTime) * 1000);
+        // Advance in smaller chunks to see transitions
+        const totalDelay = (nextSunrise - currentTime) * 1000;
+        const chunks = 4;
+        const chunkSize = totalDelay / chunks;
+        
+        for (let i = 1; i <= chunks; i++) {
+          jest.advanceTimersByTime(chunkSize);
+          console.log(
+            `After chunk ${i}/${chunks}:`,
+            new Date(Date.now()),
+            'Theme:',
+            screen.getByTestId('theme-value').textContent
+          );
+        }
       });
-
-      // Should switch to light theme
-      expect(screen.getByTestId('theme-value')).toHaveTextContent('light');
+    
+      console.log('After time advance - Current time:', new Date(Date.now()));
+      console.log('After time advance - Current theme:', screen.getByTestId('theme-value').textContent);
+    
+      // Wait for the theme to update with more debugging
+      try {
+        await waitFor(
+          () => {
+            const currentTheme = screen.getByTestId('theme-value').textContent;
+            console.log('Checking theme:', currentTheme);
+            expect(currentTheme).toBe('light');
+          },
+          { timeout: 3000, interval: 500 }
+        );
+      } catch (error) {
+        console.log('Final theme state:', screen.getByTestId('theme-value').textContent);
+        console.log('HTML state:', document.documentElement.className);
+        throw error;
+      }
     });
 
+    
     it('handles timezone offsets correctly', () => {
       const currentTime = 1699970000;
       const sunrise = 1699950000;

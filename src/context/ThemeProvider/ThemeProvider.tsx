@@ -5,7 +5,6 @@ import {
   useEffect,
   useState,
   useCallback,
-  useRef,
 } from 'react';
 import { Theme, WeatherData } from 'src/types/types';
 import { themeStorage } from 'src/util/localStorageUtil';
@@ -16,140 +15,97 @@ interface ThemeContextType {
   autoTheme: boolean;
 }
 
-const calculateLocalTime = (
-  timestamp: number,
-  timezone: number = 0
-): number => {
-  return timestamp + timezone;
-};
-
 const isNighttime = (weatherData?: WeatherData | null): boolean => {
-  if (!weatherData?.sys) {
-    console.log('No weather data available');
-    return false;
+  if (!weatherData) {
+    // Fallback to time-based check if no weather data
+    const hour = new Date().getHours();
+    return hour < 6 || hour >= 18;
   }
 
-  const currentTime = Math.floor(Date.now() / 1000);
-  const { sunrise, sunset } = weatherData.sys;
-  const timezone = weatherData.timezone || 0;
-
-  // Adjust times for local timezone
-  const localCurrentTime = currentTime + timezone;
-  const localSunrise = sunrise + timezone;
-  const localSunset = sunset + timezone;
-
-  const isDaytime =
-    localCurrentTime >= localSunrise && localCurrentTime <= localSunset;
-  return !isDaytime;
+  const currentTime = Date.now() / 1000; // Convert to seconds
+  const localTime = currentTime + (weatherData.timezone || 0);
+  
+  return localTime >= weatherData.sys.sunset || localTime < weatherData.sys.sunrise;
 };
 
-const getNextTransitionTime = (weatherData: WeatherData): number | null => {
-  if (!weatherData?.sys) {
-    console.log('getNextTransitionTime: No weather data available');
-    return null;
+const getInitialTheme = (weatherData?: WeatherData | null): Theme => {
+  // Check if we're on the client side
+  if (typeof window === 'undefined') return 'light';
+  
+  // Check for stored preference first
+  const storedTheme = localStorage.getItem('theme') as Theme | null;
+  if (storedTheme === 'light' || storedTheme === 'dark') {
+    return storedTheme;
   }
-
-  const currentTime = Math.floor(Date.now() / 1000);
-  const { sunrise, sunset } = weatherData.sys;
-  const timezone = weatherData.timezone || 0;
-  const dayLength = 24 * 60 * 60;
-
-  console.log(
-    `getNextTransitionTime: currentTime=${currentTime}, sunrise=${sunrise}, sunset=${sunset}, timezone=${timezone}`
-  );
-
-  const localCurrentTime = calculateLocalTime(currentTime, timezone);
-  const localSunrise = calculateLocalTime(sunrise, timezone);
-  const localSunset = calculateLocalTime(sunset, timezone);
-
-  // Calculate next sunrise and sunset times
-  let nextSunrise = localSunrise;
-  let nextSunset = localSunset;
-
-  // If we're past today's sunrise, get tomorrow's
-  if (localCurrentTime >= localSunrise) {
-    nextSunrise += dayLength;
-    console.log(
-      `Current time past sunrise, using tomorrow's sunrise: ${nextSunrise}`
-    );
+  
+  // Check system preference
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
   }
-
-  // If we're past today's sunset, get tomorrow's
-  if (localCurrentTime >= localSunset) {
-    nextSunset += dayLength;
-    console.log(
-      `Current time past sunset, using tomorrow's sunset: ${nextSunset}`
-    );
+  
+  // If auto theme is enabled and we have weather data, use that
+  if (localStorage.getItem('autoTheme') === 'true' && weatherData) {
+    return isNighttime(weatherData) ? 'dark' : 'light';
   }
-
-  const nextTransition =
-    localCurrentTime < localSunset ? localSunset : nextSunrise;
-  console.log(
-    `getNextTransitionTime: localCurrentTime=${localCurrentTime}, nextSunrise=${nextSunrise}, nextSunset=${nextSunset}, nextTransition=${nextTransition}`
-  );
-
-  return nextTransition;
+  
+  // Default to light theme
+  return 'light';
 };
 
-export const ThemeContext = createContext<ThemeContextType | undefined>(
-  undefined
-);
+export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({
-  children,
-  weatherData,
-}: {
+export function ThemeProvider({ 
+  children, 
+  weatherData 
+}: { 
   children: ReactNode;
   weatherData?: WeatherData | null;
 }) {
-  const [theme, setTheme] = useState<Theme>(() => themeStorage.get());
+  const [theme, setTheme] = useState<Theme>(() => getInitialTheme(weatherData));
   const [autoTheme, setAutoTheme] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return localStorage.getItem('autoTheme') === 'true';
   });
 
-  const timeoutRef = useRef<NodeJS.Timeout>();
-
-  const updateThemeBasedOnTime = useCallback(() => {
-    if (!weatherData || !autoTheme) return;
-
-    const shouldBeDark = isNighttime(weatherData);
-    setTheme(shouldBeDark ? 'dark' : 'light');
-
-    // Schedule next transition
-    const nextTransition = getNextTransitionTime(weatherData);
-    if (nextTransition) {
-      const currentTime = Math.floor(Date.now() / 1000);
-      const delay = (nextTransition - currentTime) * 1000;
-
-      // Clear any existing timeout
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      // Set new timeout
-      timeoutRef.current = setTimeout(updateThemeBasedOnTime, delay);
-    }
-  }, [weatherData, autoTheme]);
-
-  // Schedule initial theme update
+  // Schedule next theme update based on sunrise/sunset
   useEffect(() => {
-    if (!autoTheme || !weatherData) {
-      return () => {
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
-      };
+    if (!autoTheme || !weatherData) return;
+
+    const updateTheme = () => {
+      const shouldBeDark = isNighttime(weatherData);
+      setTheme(shouldBeDark ? 'dark' : 'light');
+    };
+
+    // Estimat time until next transition
+    const currentTime = Date.now() / 1000;
+    const localTime = currentTime + (weatherData.timezone || 0);
+    
+    let nextTransitionTime: number;
+    let nextTransitionIsSunrise = false;
+    
+    if (localTime < weatherData.sys.sunrise) {
+      // Before sunrise, schedule for sunrise
+      nextTransitionTime = (weatherData.sys.sunrise - localTime) * 1000;
+      nextTransitionIsSunrise = true;
+    } else if (localTime < weatherData.sys.sunset) {
+      // Before sunset, schedule for sunset
+      nextTransitionTime = (weatherData.sys.sunset - localTime) * 1000;
+    } else {
+      // After sunset, schedule for next sunrise (add 24 hours to previous sunrise)
+      const nextSunrise = weatherData.sys.sunrise + (24 * 60 * 60);
+      nextTransitionTime = (nextSunrise - localTime) * 1000;
+      nextTransitionIsSunrise = true;
     }
 
-    updateThemeBasedOnTime();
+    // Initial update
+    updateTheme();
 
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [autoTheme, weatherData, updateThemeBasedOnTime]);
+    const timeout = setTimeout(() => {
+      setTheme(nextTransitionIsSunrise ? 'light' : 'dark');
+    }, nextTransitionTime);
+    
+    return () => clearTimeout(timeout);
+  }, [weatherData, autoTheme]);
 
   // Update DOM and storage when theme changes
   useEffect(() => {
@@ -163,24 +119,21 @@ export function ThemeProvider({
     localStorage.setItem('autoTheme', String(autoTheme));
   }, [autoTheme]);
 
-  const toggleTheme = () => {
-    if (autoTheme) {
-      setAutoTheme(false);
-    }
-    setTheme((prevTheme) => {
+  const toggleTheme = useCallback(() => {
+    setAutoTheme(false);
+    setTheme(prevTheme => {
       const newTheme = prevTheme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
       return newTheme;
     });
-  };
+  }, []);
 
   return (
-    <ThemeContext.Provider
-      value={{
-        theme,
-        toggleTheme,
-        autoTheme,
-      }}
-    >
+    <ThemeContext.Provider value={{
+      theme,
+      toggleTheme,
+      autoTheme
+    }}>
       {children}
     </ThemeContext.Provider>
   );
