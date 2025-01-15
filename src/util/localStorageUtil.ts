@@ -1,36 +1,48 @@
-import {
-  Units,
-  LastLocation,
-  WeatherState,
-  WeatherCacheKey,
-} from 'src/types/types';
-import getFromLocalStorage from './getFromLocalStorage/getFromLocalStorage';
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { Theme } from 'src/types/types';
 
-// Specific getter functions for your use case
-export const getUnitsFromLocalStorage = (): Units =>
-  getFromLocalStorage<Units>('weatherUnits', 'imperial');
+export const createQueryPersister = () => {
+  if (typeof window === 'undefined') return null;
 
-export const getLastLocationFromLocalStorage = (): LastLocation | null =>
-  getFromLocalStorage<LastLocation | null>('lastLocation', null);
+  return createSyncStoragePersister({
+    storage: window.localStorage,
+    key: 'weather-cache',
+  });
+};
 
-export const getCachedWeatherData = (
-  lat: number,
-  lng: number,
-  units: Units
-): WeatherState | null => {
-  const cacheKey: WeatherCacheKey = `weather_${lat}_${lng}_${units}`;
-  const cachedData = getFromLocalStorage<{
-    data: WeatherState;
-    timestamp: number;
-  } | null>(cacheKey, null);
+const getSystemTheme = (): Theme => {
+  try {
+    // Check if window is defined (for SSR)
+    if (typeof window === 'undefined') return 'light';
 
-  if (cachedData) {
-    const cacheAge = Date.now() - cachedData.timestamp;
-    if (cacheAge < 30 * 60 * 1000) {
-      // 30 minutes
-      return cachedData.data;
-    }
+    // Check if matchMedia is available
+    if (!window.matchMedia) return 'light';
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  } catch (error) {
+    console.warn('Error detecting system theme:', error);
+    return 'light';
   }
+};
 
-  return null;
+export const themeStorage = {
+  get: (): Theme => {
+    if (typeof window === 'undefined') return 'light';
+
+    // First check localStorage
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      return storedTheme;
+    }
+
+    // If no, Fallback
+    return getSystemTheme();
+  },
+
+  set: (theme: Theme) => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('theme', theme);
+  },
 };

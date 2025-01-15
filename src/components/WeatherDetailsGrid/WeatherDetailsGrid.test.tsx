@@ -119,13 +119,13 @@ describe('WeatherDetailsGrid', () => {
 
   it('applies correct styling to grid items', () => {
     const { container } = render(<WeatherDetailsGrid {...defaultProps} />);
-    const gridItems = container.querySelectorAll('.bg-white');
+    const gridItems = container.querySelectorAll('.bg-background');
 
     gridItems.forEach((item) => {
       expect(item).toHaveClass(
         'rounded-lg',
-        'border-2',
-        'border-black',
+        'gradient-border',
+        'border-primary',
         'flex',
         'flex-col',
         'items-center',
